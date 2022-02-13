@@ -1,0 +1,13 @@
+version: '3.0'
+services:
+  user:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - usernet
+    ports:
+      - '3001:3001'
+networks:
+  usernet:
+    name: usernet
