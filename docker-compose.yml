@@ -1,0 +1,46 @@
+version: '3.0'
+services:
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+  api:
+    # depends_on:
+    #   - database
+    build:
+      context: ./server/api
+      dockerfile: Dockerfile
+    ports:
+      - 3001:3001
+    restart: always
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./server/api:/app
+      - /app/node_modules
+  # database:
+  #   build:
+  #     context: ./server/database
+  #     dockerfile: Dockerfile
+  #   environment:
+  #     POSTGRES_USER: admin
+  #     POSTGRES_PASSWORD: admin
+  #     POSTGRES_DB: database
+  #   restart: always
+  proxy:
+    depends_on:
+      - client
+      - api
+    build:
+      context: ./server/proxy
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    restart: always
