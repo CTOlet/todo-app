@@ -25,15 +25,15 @@ services:
     volumes:
       - ./server/api:/app
       - /app/node_modules
-  # database:
-  #   build:
-  #     context: ./server/database
-  #     dockerfile: Dockerfile
-  #   environment:
-  #     POSTGRES_USER: admin
-  #     POSTGRES_PASSWORD: admin
-  #     POSTGRES_DB: database
-  #   restart: always
+  database:
+    build:
+      context: ./server/database
+      dockerfile: Dockerfile
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: postgres
+    restart: always
   proxy:
     depends_on:
       - client

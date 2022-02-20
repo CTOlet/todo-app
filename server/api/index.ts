@@ -1,12 +1,28 @@
 import express from 'express';
-import pgp from 'pg-promise';
+import { Pool } from 'pg';
 
 const app = express();
-const db = pgp({})('postgres://admin:admin@http://database:5432/database');
 const port = 3001;
+
+const pool = new Pool({
+  user: 'admin',
+  password: 'admin',
+  host: 'database',
+  port: 5432,
+  database: 'postgres',
+});
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
+});
+
+app.get('/now', (req, res) => {
+  pool
+    .query('SELECT NOW()')
+    .then((val) => {
+      res.send(val);
+    })
+    .catch((err) => res.send(err));
 });
 
 app.listen(port, () => {
