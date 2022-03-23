@@ -25,6 +25,15 @@ app.get('/now', (req, res) => {
     .catch((err) => res.send(err));
 });
 
+app.get('/todos', (req, res) => {
+  pool
+    .query('SELECT * FROM todos')
+    .then((val) => {
+      res.send(val);
+    })
+    .catch((err) => res.send(err));
+});
+
 app.listen(port, () => {
   console.log(`api running on port ${port}`);
 });
