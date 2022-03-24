@@ -12,26 +12,76 @@ const pool = new Pool({
   database: 'postgres',
 });
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
+app.post('/todo', (request, response) => {
+  const { title, details } = request.body;
+  const query = `
+    INSERT INTO todos (title, details)
+    VALUES (${title}, ${details})
+  `;
+  pool
+    .query(query)
+    .then((result) => {
+      response.send(result);
+    })
+    .catch((error) => response.send(error));
 });
 
-app.get('/now', (req, res) => {
+app.get('/todos', (_, response) => {
+  const query = `
+    SELECT id, title, details
+    FROM todos
+  `;
   pool
-    .query('SELECT NOW()')
-    .then((val) => {
-      res.send(val);
+    .query(query)
+    .then((result) => {
+      response.send(result.rows);
     })
-    .catch((err) => res.send(err));
+    .catch((error) => response.send(error));
 });
 
-app.get('/todos', (req, res) => {
+app.get('/todo/:id', (request, response) => {
+  const id = request.params.id;
+  const query = `
+    SELECT id, title, details
+    FROM todos
+    WHERE id='${id}'
+  `;
   pool
-    .query('SELECT * FROM todos')
-    .then((val) => {
-      res.send(val);
+    .query(query)
+    .then((result) => {
+      response.send(result.rows[0]);
     })
-    .catch((err) => res.send(err));
+    .catch((error) => response.send(error));
+});
+
+app.put('/todo/:id', (request, response) => {
+  const id = request.params.id;
+  const { title, details } = request.body;
+  const query = `
+    UPDATE todos
+    SET title=${title}, details=${details}
+    WHERE id='${id}'
+  `;
+  pool
+    .query(query)
+    .then((result) => {
+      response.send(result);
+    })
+    .catch((error) => response.send(error));
+});
+
+app.delete('/todo/:id', (request, response) => {
+  const id = request.params.id;
+  const query = `
+    DELETE FROM todos
+    WHERE id='${id}'
+  `;
+  pool
+    .query(query)
+    .then((result) => {
+      response.send(result);
+    })
+    .catch((error) => response.send(error));
 });
 
 app.listen(port, () => {
