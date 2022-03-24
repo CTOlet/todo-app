@@ -2,6 +2,8 @@ import express from 'express';
 import { Pool } from 'pg';
 
 const app = express();
+app.use(express.json());
+
 const port = 3001;
 
 const pool = new Pool({
@@ -16,7 +18,7 @@ app.post('/todo', (request, response) => {
   const { title, details } = request.body;
   const query = `
     INSERT INTO todos (title, details)
-    VALUES (${title}, ${details})
+    VALUES ('${title}', '${details}')
   `;
   pool
     .query(query)
@@ -59,7 +61,7 @@ app.put('/todo/:id', (request, response) => {
   const { title, details } = request.body;
   const query = `
     UPDATE todos
-    SET title=${title}, details=${details}
+    SET title='${title}', details='${details}'
     WHERE id='${id}'
   `;
   pool
