@@ -1,19 +1,21 @@
 version: '3.0'
 services:
   client:
+    depends_on:
+      - api
     build:
       context: ./client
       dockerfile: Dockerfile
     ports:
       - 3000:3000
     environment:
-      - NODE_ENV=development
+      NODE_ENV: development
     volumes:
       - ./client:/app
       - /app/node_modules
   api:
-    # depends_on:
-    #   - database
+    depends_on:
+      - database
     build:
       context: ./server/api
       dockerfile: Dockerfile
@@ -21,7 +23,7 @@ services:
       - 3001:3001
     restart: always
     environment:
-      - NODE_ENV=development
+      NODE_ENV: development
     volumes:
       - ./server/api:/app
       - /app/node_modules
