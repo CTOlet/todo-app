@@ -1,4 +1,4 @@
-# Todo app example
+# todo-app
 
 - React / Vite
 - Docker
