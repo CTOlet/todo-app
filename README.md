@@ -1,6 +1,6 @@
 # todo-app
 
-Example todo app using React / Vite and Docker microservices. 👨‍💻
+Example Todo App using React / Vite and Docker Microservices. 👨‍💻
 
 - React / Vite
 - Docker
