@@ -1,26 +1,22 @@
-import { useRef } from 'react';
-import { useButton } from 'react-aria';
-import { AriaButtonProps } from '@react-types/button';
+import { MouseEvent, ReactNode } from 'react';
 
-type ButtonProps = AriaButtonProps & {
-  appearance: 'primary' | 'secondary';
+type ButtonProps = {
+  color: 'primary' | 'secondary';
+  onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
+  children: ReactNode;
 };
 
-const Button = (props: ButtonProps) => {
-  const ref = useRef<HTMLButtonElement>(null);
-  const { buttonProps } = useButton(props, ref);
-
+const Button = ({ color, onClick, children }: ButtonProps) => {
   return (
     <button
-      ref={ref}
-      {...buttonProps}
-      className={`flex items-center justify-center h-12 px-4 mt-2 text-sm text-center transition-colors duration-300 transform border rounded-lg focus:outline-none ${
-        props.appearance === 'primary'
-          ? 'bg-slate-600 hover:bg-slate-500 text-slate-50'
-          : 'bg-slate-50 hover:bg-slate-200 text-slate-600'
-      }`}
+      className={
+        color === 'primary'
+          ? 'text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center'
+          : 'text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10'
+      }
+      onClick={onClick}
     >
-      {props.children}
+      {children}
     </button>
   );
 };
