@@ -3,17 +3,19 @@ import { initReactI18next } from 'react-i18next';
 import de from '../locales/de.json';
 import en from '../locales/en.json';
 
-i18n.use(initReactI18next).init({
-  resources: {
-    en: {
-      translation: en,
+const configureI18n = () => {
+  i18n.use(initReactI18next).init({
+    resources: {
+      en: {
+        translation: en,
+      },
+      de: {
+        translation: de,
+      },
     },
-    de: {
-      translation: de,
-    },
-  },
-  lng: 'en',
-  fallbackLng: 'en',
-});
+    lng: 'en',
+    fallbackLng: 'en',
+  });
+};
 
-export { i18n };
+export { configureI18n };

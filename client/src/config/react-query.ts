@@ -1,21 +1,17 @@
-import {
-  QueryClient as QueryClientInstance,
-  QueryCache,
-  MutationCache,
-} from 'react-query';
-import { Toast } from './react-hot-toast';
+import { QueryClient, QueryCache, MutationCache } from 'react-query';
+import { toast } from 'react-hot-toast';
 
-const QueryClient = new QueryClientInstance({
+const queryClient = new QueryClient({
   queryCache: new QueryCache({
     onError: (error) => {
-      Toast.error(JSON.stringify(error));
+      toast.error(JSON.stringify(error));
     },
   }),
   mutationCache: new MutationCache({
     onError: (error) => {
-      Toast.error(JSON.stringify(error));
+      toast.error(JSON.stringify(error));
     },
   }),
 });
 
-export { QueryClient };
+export { queryClient };

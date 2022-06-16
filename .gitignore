@@ -5,6 +5,12 @@ node_modules
 build
 dist
 
+# env
+.env
+.env.local
+.env.local.development
+.env.local.production
+
 # misc
 .DS_Store
 .vscode

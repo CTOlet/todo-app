@@ -1,9 +1,11 @@
-import { Axios as AxiosInstance } from 'axios';
+import axios from 'axios';
 
-const Axios = new AxiosInstance({});
+const configureAxios = () => {
+  // request interceptors
+  axios.interceptors.request.use((config) => {});
 
-Axios.interceptors.request.use((config) => {});
+  // response interceptors
+  axios.interceptors.response.use((config) => {});
+};
 
-Axios.interceptors.response.use((config) => {});
-
-export { Axios };
+export { configureAxios };

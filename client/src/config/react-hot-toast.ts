@@ -1,10 +1,8 @@
-import { ToastOptions, toast } from 'react-hot-toast';
+import { ToastOptions } from 'react-hot-toast';
 
-const Toast: typeof toast & { options?: ToastOptions } = toast;
-
-Toast.options = {
+const toastOptions: ToastOptions = {
   duration: 3000,
   position: 'top-right',
 };
 
-export { Toast };
+export { toastOptions };
