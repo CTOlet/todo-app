@@ -5,7 +5,7 @@ const routes: Route[] = [
     path: '/',
     element: () =>
       import('@tanstack/react-location').then(({ Navigate }) => (
-        <Navigate to='todos' />
+        <Navigate to='/todos' />
       )),
   },
   {
