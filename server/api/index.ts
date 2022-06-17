@@ -1,8 +1,9 @@
 import express from 'express';
+import cors from 'cors';
 import { Pool } from 'pg';
 
 const app = express();
-app.use(express.json());
+app.use(express.json(), cors());
 
 const port = 3001;
 
