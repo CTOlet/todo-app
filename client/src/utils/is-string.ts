@@ -1,10 +1,10 @@
 /**
  * Returns true if given value is a string otherwise false.
  *
- * @param x value
+ * @param value
  * @returns boolean
  */
-const isString = <T>(x: T | string): x is string =>
-  typeof x === 'string' || x instanceof String;
+const isString = <T>(value: T | string): value is string =>
+  typeof value === 'string' || value instanceof String;
 
 export { isString };

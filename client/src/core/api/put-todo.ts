@@ -1,3 +1,0 @@
-const putTodo = () => {};
-
-export { putTodo };

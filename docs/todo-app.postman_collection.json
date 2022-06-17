@@ -110,7 +110,7 @@
 			"response": []
 		},
 		{
-			"name": "Delete todo",
+			"name": "Remove todo",
 			"request": {
 				"method": "DELETE",
 				"header": [],

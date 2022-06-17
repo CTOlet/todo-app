@@ -1,11 +1,11 @@
 /**
  * Returns true if given value is null or undefined otherwise false.
  *
- * @param x value
+ * @param value
  * @returns boolean
  */
-const isNil = <T>(x: T | undefined | null): x is undefined | null => {
-  return x === undefined || x === null;
+const isNil = <T>(value: T | undefined | null): value is undefined | null => {
+  return value === undefined || value === null;
 };
 
 export { isNil };

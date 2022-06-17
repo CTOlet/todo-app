@@ -1,3 +1,0 @@
-const deleteTodo = () => {};
-
-export { deleteTodo };

@@ -4,15 +4,15 @@ import { IO } from 'moneo-ts';
 import { Todo } from '../../types';
 
 /**
- * Get todo from server.
+ * Update todo on server.
  *
- * @param id
+ * @param todo
  * @returns async io either axios response or throwable
  */
-const getTodo = (id: string) =>
+const updateTodo = ({ id, ...rest }: Todo) =>
   IO.async(async () => {
     const url = urlcat(import.meta.env.VITE_API_BASE_URL, `/todo/${id}`);
-    return axios.get<Todo>(url);
+    return axios.put(url, rest);
   }).either();
 
-export { getTodo };
+export { updateTodo };

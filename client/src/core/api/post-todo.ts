@@ -1,3 +1,0 @@
-const postTodo = () => {};
-
-export { postTodo };
