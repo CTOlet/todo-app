@@ -1,21 +1,30 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
 import de from '../locales/de.json';
 import en from '../locales/en.json';
 
+const languageDetector = new LanguageDetector();
+
 const configureI18n = () => {
-  i18n.use(initReactI18next).init({
-    resources: {
-      en: {
-        translation: en,
+  i18n
+    .use(languageDetector)
+    .use(initReactI18next)
+    .init({
+      detection: {
+        order: ['querystring'],
+        lookupQuerystring: 'lng',
       },
-      de: {
-        translation: de,
+      resources: {
+        en: {
+          translation: en,
+        },
+        de: {
+          translation: de,
+        },
       },
-    },
-    lng: 'en',
-    fallbackLng: 'en',
-  });
+      fallbackLng: 'en',
+    });
 };
 
 export { configureI18n };
