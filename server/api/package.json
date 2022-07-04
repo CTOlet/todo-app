@@ -16,6 +16,6 @@
   },
   "scripts": {
     "build": "tsc",
-    "start": "nodemon ./index.ts localhost 3001"
+    "start": "nodemon ./src/index.ts localhost 3001"
   }
 }

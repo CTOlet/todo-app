@@ -1,9 +1,12 @@
 import express from 'express';
 import cors from 'cors';
 import { Pool } from 'pg';
+import { Error } from './constants';
 
 const app = express();
 app.use(express.json(), cors());
+// TODO: use compression, helmet, json, cors middlewares
+// TODO: use i18n for error messages
 
 const port = 3001;
 
@@ -23,10 +26,8 @@ app.post('/todo', (request, response) => {
   `;
   pool
     .query(query)
-    .then((result) => {
-      response.send(result);
-    })
-    .catch((error) => response.send(error));
+    .then((result) => response.send(result))
+    .catch((error) => response.send(Error.COULD_NOT_POST_TODO));
 });
 
 app.get('/todos', (_, response) => {
@@ -36,10 +37,8 @@ app.get('/todos', (_, response) => {
   `;
   pool
     .query(query)
-    .then((result) => {
-      response.send(result.rows);
-    })
-    .catch((error) => response.send(error));
+    .then((result) => response.send(result.rows))
+    .catch((error) => response.send(Error.COULD_NOT_GET_TODOS));
 });
 
 app.get('/todo/:id', (request, response) => {
@@ -51,10 +50,8 @@ app.get('/todo/:id', (request, response) => {
   `;
   pool
     .query(query)
-    .then((result) => {
-      response.send(result.rows[0]);
-    })
-    .catch((error) => response.send(error));
+    .then((result) => response.send(result.rows[0]))
+    .catch((error) => response.send(Error.COULD_NOT_GET_TODO));
 });
 
 app.put('/todo/:id', (request, response) => {
@@ -67,10 +64,8 @@ app.put('/todo/:id', (request, response) => {
   `;
   pool
     .query(query)
-    .then((result) => {
-      response.send(result);
-    })
-    .catch((error) => response.send(error));
+    .then((result) => response.send(result))
+    .catch((error) => response.send(Error.COULD_NOT_PUT_TODO));
 });
 
 app.delete('/todo/:id', (request, response) => {
@@ -81,10 +76,8 @@ app.delete('/todo/:id', (request, response) => {
   `;
   pool
     .query(query)
-    .then((result) => {
-      response.send(result);
-    })
-    .catch((error) => response.send(error));
+    .then((result) => response.send(result))
+    .catch((error) => response.send(Error.COULD_NOT_DELETE_TODO));
 });
 
 app.listen(port, () => {
