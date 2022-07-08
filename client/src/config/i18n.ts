@@ -12,8 +12,7 @@ const configureI18n = () => {
     .use(initReactI18next)
     .init({
       detection: {
-        order: ['querystring'],
-        lookupQuerystring: 'lng',
+        order: ['navigator'],
       },
       resources: {
         en: {

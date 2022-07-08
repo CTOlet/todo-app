@@ -1,0 +1,8 @@
+{
+  "error_message": {
+    "could_not_post_todo": "Todo konnte nicht gepostet werden.",
+    "could_not_get_todo": "Todo konnte nicht geladen werden.",
+    "could_not_put_todo": "Todo konnte nicht aktualisiert werden.",
+    "could_not_delete_todo": "Todo konnte nicht gelöscht werden."
+  }
+}

@@ -1,12 +1,16 @@
 import express from 'express';
+import helmet from 'helmet';
 import cors from 'cors';
+import middleware from 'i18next-http-middleware';
 import { Pool } from 'pg';
-import { Error } from './constants';
+import { Error, ErrorType } from './models';
+import i18next from 'i18next';
+import { configureI18n } from './config/i18n';
+
+configureI18n();
 
 const app = express();
-app.use(express.json(), cors());
-// TODO: use compression, helmet, json, cors middlewares
-// TODO: use i18n for error messages
+app.use(express.json(), cors(), helmet(), middleware.handle(i18next));
 
 const port = 3001;
 
@@ -27,10 +31,12 @@ app.post('/todo', (request, response) => {
   pool
     .query(query)
     .then((result) => response.send(result))
-    .catch((error) => response.send(Error.COULD_NOT_POST_TODO));
+    .catch((error) =>
+      response.send(Error(ErrorType.POST_TODO_EXCEPTION, request)),
+    );
 });
 
-app.get('/todos', (_, response) => {
+app.get('/todos', (request, response) => {
   const query = `
     SELECT id, title, details
     FROM todos
@@ -38,7 +44,9 @@ app.get('/todos', (_, response) => {
   pool
     .query(query)
     .then((result) => response.send(result.rows))
-    .catch((error) => response.send(Error.COULD_NOT_GET_TODOS));
+    .catch((error) =>
+      response.send(Error(ErrorType.GET_TODO_EXCEPTION, request)),
+    );
 });
 
 app.get('/todo/:id', (request, response) => {
@@ -51,7 +59,9 @@ app.get('/todo/:id', (request, response) => {
   pool
     .query(query)
     .then((result) => response.send(result.rows[0]))
-    .catch((error) => response.send(Error.COULD_NOT_GET_TODO));
+    .catch((error) =>
+      response.send(Error(ErrorType.GET_TODO_EXCEPTION, request)),
+    );
 });
 
 app.put('/todo/:id', (request, response) => {
@@ -65,7 +75,9 @@ app.put('/todo/:id', (request, response) => {
   pool
     .query(query)
     .then((result) => response.send(result))
-    .catch((error) => response.send(Error.COULD_NOT_PUT_TODO));
+    .catch((error) =>
+      response.send(Error(ErrorType.PUT_TODO_EXCEPTION, request)),
+    );
 });
 
 app.delete('/todo/:id', (request, response) => {
@@ -77,7 +89,9 @@ app.delete('/todo/:id', (request, response) => {
   pool
     .query(query)
     .then((result) => response.send(result))
-    .catch((error) => response.send(Error.COULD_NOT_DELETE_TODO));
+    .catch((error) =>
+      response.send(Error(ErrorType.DELETE_TODO_EXCEPTION, request)),
+    );
 });
 
 app.listen(port, () => {

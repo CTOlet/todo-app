@@ -4,6 +4,9 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.2",
+    "helmet": "^5.1.0",
+    "i18next": "^21.8.9",
+    "i18next-http-middleware": "^3.2.1",
     "pg": "^8.7.3"
   },
   "devDependencies": {
