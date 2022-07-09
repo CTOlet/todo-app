@@ -9,8 +9,8 @@ import { configureAxios } from './config/axios';
 import { configureI18n } from './config/i18n';
 import {
   location,
-  authenticatedRoutes,
-  unauthenticatedRoutes,
+  publicRoutes,
+  protectedRoutes,
 } from './config/react-location';
 import { toastOptions } from './config/react-hot-toast';
 import { queryClient } from './config/react-query';
@@ -20,31 +20,21 @@ import { store } from './services';
 configureAxios();
 configureI18n();
 
-const AuthenticatedApp = () => {
-  return (
-    <Router location={location} routes={authenticatedRoutes}>
-      <Outlet />
-    </Router>
-  );
-};
-
-const UnauthenticatedApp = () => {
-  return (
-    <Router location={location} routes={unauthenticatedRoutes}>
-      <Outlet />
-    </Router>
-  );
-};
-
 const App = () => {
   const isHydrated = store.useState((s) => s.isHydrated);
   const isAuthenticated = store.useState((s) => s.isAuthenticated);
+
   return isHydrated ? (
-    isAuthenticated ? (
-      <AuthenticatedApp />
-    ) : (
-      <UnauthenticatedApp />
-    )
+    <Router
+      location={location}
+      routes={
+        isAuthenticated
+          ? [...publicRoutes, ...protectedRoutes]
+          : [...publicRoutes]
+      }
+    >
+      <Outlet />
+    </Router>
   ) : null;
 };
 
