@@ -2,15 +2,18 @@ import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { Button, Modal, Text } from '../components';
 import { useState } from 'react';
+import { useGetTodos } from '../hooks';
 
 type AddTodoForm = {
   title: string;
 };
 
 const Todos = () => {
-  const [showAddTodo, setShowAddTodo] = useState(false);
   const { t } = useTranslation();
+  const todos = useGetTodos();
   const { register, handleSubmit } = useForm<AddTodoForm>();
+
+  const [showAddTodo, setShowAddTodo] = useState(false);
 
   const onSubmit = (form: AddTodoForm) => {
     console.log(form);
@@ -21,6 +24,13 @@ const Todos = () => {
       <h1 className='font-bold text-2xl text-blue-900'>
         Todos {t('hello_world')}
       </h1>
+      {todos.data?.map((todo) => {
+        return (
+          <div key={todo.id}>
+            {todo.id} | {todo.title} | {todo.details}
+          </div>
+        );
+      })}
       <form onSubmit={handleSubmit(onSubmit)}>
         <input defaultValue='...' {...register('title', { required: true })} />
         <input type='submit' />

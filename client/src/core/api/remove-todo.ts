@@ -1,6 +1,7 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import urlcat from 'urlcat';
 import { IO } from 'moneo-ts';
+import { Error } from '../../types';
 
 /**
  * Remove todo from server.
@@ -11,7 +12,7 @@ import { IO } from 'moneo-ts';
 const removeTodo = (id: string) =>
   IO.async(async () => {
     const url = urlcat(import.meta.env.VITE_API_BASE_URL, `/todo/${id}`);
-    return axios.delete(url);
-  }).either();
+    return axios.delete<never, AxiosResponse<unknown, Error>>(url);
+  });
 
 export { removeTodo };

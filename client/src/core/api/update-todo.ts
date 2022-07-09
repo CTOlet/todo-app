@@ -1,7 +1,7 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import urlcat from 'urlcat';
 import { IO } from 'moneo-ts';
-import { Todo } from '../../types';
+import { Error, Todo } from '../../types';
 
 /**
  * Update todo on server.
@@ -12,7 +12,7 @@ import { Todo } from '../../types';
 const updateTodo = ({ id, ...rest }: Todo) =>
   IO.async(async () => {
     const url = urlcat(import.meta.env.VITE_API_BASE_URL, `/todo/${id}`);
-    return axios.put(url, rest);
-  }).either();
+    return axios.put<never, AxiosResponse<unknown, Error>>(url, rest);
+  });
 
 export { updateTodo };
