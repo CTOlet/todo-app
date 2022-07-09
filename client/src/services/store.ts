@@ -1,16 +1,30 @@
 import { Store } from 'pullstate';
 import { isNil } from '../utils';
 
-const store = new Store({
+type State = {
+  version: string;
+  isHydrated: boolean;
+  isAuthenticated: boolean;
+};
+
+const store = new Store<State>({
   version: '1.0.0',
   isHydrated: false,
+  isAuthenticated: true,
 });
+
+const persist: (keyof State)[] = ['version'];
 
 // persisting store state
 store.subscribe(
   (s) => s,
   (state) => {
-    localStorage.setItem('@store', JSON.stringify(state));
+    const persistState = Object.fromEntries(
+      Object.entries(state).map(([key, value]) => {
+        return persist.includes(key as keyof State) ? [key, value] : [];
+      }),
+    );
+    localStorage.setItem('@store', JSON.stringify(persistState));
   },
 );
 
@@ -22,7 +36,7 @@ try {
   const value = localStorage.getItem('@store');
   if (!isNil(value)) {
     const state = JSON.parse(value);
-    store.replace(state);
+    store.update((s) => ({ ...s, ...state }));
   }
 } catch (e) {
   console.log('rehydrating store failed');
@@ -33,3 +47,4 @@ try {
 }
 
 export { store };
+export type { State };

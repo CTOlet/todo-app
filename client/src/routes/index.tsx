@@ -1,6 +1,6 @@
 import { Route } from '@tanstack/react-location';
 
-const routes: Route[] = [
+const authenticatedRoutes: Route[] = [
   {
     path: '/',
     element: () =>
@@ -19,4 +19,6 @@ const routes: Route[] = [
   },
 ];
 
-export { routes };
+const unauthenticatedRoutes: Route[] = [];
+
+export { authenticatedRoutes, unauthenticatedRoutes };
