@@ -1,3 +1,6 @@
 {
-  "hello_world": "Hallo Welt"
+  "hello_world": "Hallo Welt",
+  "error_message": {
+    "unknown_error": "Es ist ein unerwarteter Fehler aufgetreten."
+  }
 }

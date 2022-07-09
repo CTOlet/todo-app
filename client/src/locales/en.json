@@ -1,3 +1,6 @@
 {
-  "hello_world": "Hello World"
+  "hello_world": "Hello World",
+  "error_message": {
+    "unknown_error": "An unknown error occurred."
+  }
 }
