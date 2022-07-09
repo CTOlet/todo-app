@@ -1,5 +1,10 @@
 {
-  "hello_world": "Hallo Welt",
+  "add_todo": {
+    "title": "Todo hinzufügen",
+    "description": "Fügen Sie ein neues Todo hinzu.",
+    "add_button": "Hinzufügen",
+    "cancel_button": "Abbrechen"
+  },
   "error_message": {
     "unknown_error": "Es ist ein unerwarteter Fehler aufgetreten."
   }

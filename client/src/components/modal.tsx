@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { Icon } from '.';
 import { isString } from '../utils';
+import { Title } from '../components';
 
 type ModalProps = {
   isOpen?: boolean;
@@ -20,13 +21,7 @@ const Modal = ({ isOpen, header, body, footer, onClose }: ModalProps) => {
       <div className='relative w-full max-w-2xl px-4 h-full md:h-auto'>
         <div className='bg-white rounded-lg shadow relative'>
           <div className='flex items-start justify-between p-5 border-b rounded-t'>
-            {isString(header) ? (
-              <h3 className='text-gray-900 text-xl lg:text-2xl font-semibold'>
-                {header}
-              </h3>
-            ) : (
-              header
-            )}
+            {isString(header) ? <Title>{header}</Title> : header}
             <Icon icon='close' onClick={onClose} />
           </div>
           <div className='p-6 space-y-6'> {body}</div>

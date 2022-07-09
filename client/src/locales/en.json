@@ -1,5 +1,10 @@
 {
-  "hello_world": "Hello World",
+  "add_todo": {
+    "title": "Add todo",
+    "description": "Add a new todo.",
+    "add_button": "Add",
+    "cancel_button": "Cancel"
+  },
   "error_message": {
     "unknown_error": "An unknown error occurred."
   }
