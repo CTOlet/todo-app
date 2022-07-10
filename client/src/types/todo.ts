@@ -1,7 +1,7 @@
 type Todo = {
   id: string;
   title: string;
-  details: string;
+  description: string;
 };
 
 export type { Todo };

@@ -6,7 +6,7 @@ import { useGetTodos } from '../hooks';
 
 type AddTodoForm = {
   title: string;
-  details: string;
+  description: string;
 };
 
 const Todos = () => {
@@ -27,7 +27,7 @@ const Todos = () => {
       {todos.data?.map((todo) => {
         return (
           <div key={todo.id}>
-            {todo.id} | {todo.title} | {todo.details}
+            {todo.id} | {todo.title} | {todo.description}
           </div>
         );
       })}
@@ -53,7 +53,7 @@ const Todos = () => {
               />
               <input
                 defaultValue='...'
-                {...register('details', { required: true })}
+                {...register('description', { required: true })}
               />
               <input type='submit' />
             </form>

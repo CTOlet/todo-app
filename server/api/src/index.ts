@@ -23,10 +23,10 @@ const pool = new Pool({
 });
 
 app.post('/todo', (request, response) => {
-  const { title, details } = request.body;
+  const { title, description } = request.body;
   const query = `
-    INSERT INTO todos (title, details)
-    VALUES ('${title}', '${details}')
+    INSERT INTO todos (title, description)
+    VALUES ('${title}', '${description}')
   `;
   pool
     .query(query)
@@ -38,7 +38,7 @@ app.post('/todo', (request, response) => {
 
 app.get('/todos', (request, response) => {
   const query = `
-    SELECT id, title, details
+    SELECT id, title, description
     FROM todos
   `;
   pool
@@ -52,7 +52,7 @@ app.get('/todos', (request, response) => {
 app.get('/todo/:id', (request, response) => {
   const id = request.params.id;
   const query = `
-    SELECT id, title, details
+    SELECT id, title, description
     FROM todos
     WHERE id='${id}'
   `;
@@ -66,10 +66,10 @@ app.get('/todo/:id', (request, response) => {
 
 app.put('/todo/:id', (request, response) => {
   const id = request.params.id;
-  const { title, details } = request.body;
+  const { title, description } = request.body;
   const query = `
     UPDATE todos
-    SET title='${title}', details='${details}'
+    SET title='${title}', description='${description}'
     WHERE id='${id}'
   `;
   pool
