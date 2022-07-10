@@ -25,17 +25,17 @@ const Modal = ({ isOpen, content, footer }: ModalProps) => {
             className={`relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg ${
               isOpen
                 ? 'translate-y-0 opacity-100 duration-300 ease-out sm:scale-100'
-                : 'translate-y-4 opacity-0 duration-200 ease-in sm:translate-y-0 sm:scale-95'
+                : 'translate-y-8 opacity-0 duration-200 ease-in sm:translate-y-0 sm:scale-95'
             }`}
           >
             <div className='bg-white px-4 pt-5 pb-4 sm:flex sm:items-start sm:p-6 sm:pb-4'>
-              <div className='mt-3 text-center sm:mt-0 sm:text-left w-full'>
+              <div className='mt-3 w-full text-center sm:mt-0 sm:text-left'>
                 {content}
               </div>
             </div>
 
             {footer ? (
-              <div className='bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 w-full'>
+              <div className='w-full bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6'>
                 {footer}
               </div>
             ) : null}

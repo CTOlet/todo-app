@@ -7,15 +7,15 @@ type ListProps = {
 
 const List = ({ entries }: ListProps) => {
   return (
-    <div className='overflow-hidden bg-white shadow sm:rounded-lg'>
+    <div className='overflow-hidden rounded-lg bg-white shadow'>
       {entries.map((entry, index) => {
         return (
           <div key={index} className='cursor-pointer'>
-            <div className='px-4 py-5 sm:px-6'>
+            <div className='px-6 py-4 sm:px-6'>
               <div>
                 <Title>{entry.title}</Title>
               </div>
-              <div className='mt-2'>
+              <div>
                 <Text>{entry.description}</Text>
               </div>
             </div>
