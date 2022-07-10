@@ -1,7 +1,9 @@
 {
   "add_todo": {
-    "title": "Add todo",
-    "description": "Add a new todo.",
+    "title_label": "Title",
+    "description_label": "Description",
+    "title_modal": "Add todo",
+    "text_modal": "Add a new todo.",
     "add_button": "Add",
     "cancel_button": "Cancel"
   },

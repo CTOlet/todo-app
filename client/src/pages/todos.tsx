@@ -1,8 +1,9 @@
-import { useTranslation } from 'react-i18next';
+import { Button, Input, List, Modal, Text, Title } from '../components';
+import { PlusSmIcon } from '@heroicons/react/outline';
 import { useForm } from 'react-hook-form';
-import { Button, Modal, Text, Title } from '../components';
-import { useState } from 'react';
 import { useGetTodos } from '../hooks';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 type AddTodoForm = {
   title: string;
@@ -24,48 +25,45 @@ const Todos = () => {
     <>
       <Title>Todo</Title>
 
-      {todos.data?.map((todo) => {
-        return (
-          <div key={todo.id}>
-            {todo.id} | {todo.title} | {todo.description}
-          </div>
-        );
-      })}
+      {todos.data ? <List entries={todos.data!} /> : null}
 
-      <Button color='primary' onClick={() => setShowAddTodo((s) => !s)}>
-        {t('add_todo.add_button')}
-      </Button>
+      <Button
+        color='default'
+        icon={<PlusSmIcon />}
+        onClick={() => setShowAddTodo((s) => !s)}
+      />
 
       <Modal
         isOpen={showAddTodo}
-        header={
+        content={
           <>
-            <Title>{t('add_todo.title')}</Title>
-          </>
-        }
-        body={
-          <>
-            <Text>{t('add_todo.description')}</Text>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <input
-                defaultValue='...'
-                {...register('title', { required: true })}
-              />
-              <input
-                defaultValue='...'
-                {...register('description', { required: true })}
-              />
-              <input type='submit' />
-            </form>
+            <div>
+              <Title>{t('add_todo.title_modal')}</Title>
+            </div>
+            <div className='mt-2'>
+              <Text>{t('add_todo.text_modal')}</Text>
+            </div>
+
+            <div className='mt-6'>
+              <Input label={t('add_todo.title_label')} />
+            </div>
+            <div className='mt-2'>
+              <Input label={t('add_todo.description_label')} />
+            </div>
           </>
         }
         footer={
           <>
-            <Button color='primary'>{t('add_todo.add_button')}</Button>
-            <Button color='secondary'>{t('add_todo.cancel_button')}</Button>
+            <div className='sm:ml-2'>
+              <Button color='blue'>{t('add_todo.add_button')}</Button>
+            </div>
+            <div className='mt-2 sm:mt-0'>
+              <Button color='default' onClick={() => setShowAddTodo((s) => !s)}>
+                {t('add_todo.cancel_button')}
+              </Button>
+            </div>
           </>
         }
-        onClose={() => setShowAddTodo((s) => !s)}
       />
     </>
   );

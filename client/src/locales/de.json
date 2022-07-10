@@ -1,7 +1,9 @@
 {
   "add_todo": {
-    "title": "Todo hinzufügen",
-    "description": "Fügen Sie ein neues Todo hinzu.",
+    "title_label": "Titel",
+    "description_label": "Beschreibung",
+    "title_modal": "Todo hinzufügen",
+    "text_modal": "Fügen Sie ein neues Todo hinzu.",
     "add_button": "Hinzufügen",
     "cancel_button": "Abbrechen"
   },

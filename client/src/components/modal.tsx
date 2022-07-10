@@ -1,35 +1,45 @@
 import { ReactNode } from 'react';
-import { Icon } from '.';
-import { isString } from '../utils';
-import { Title } from '../components';
 
 type ModalProps = {
   isOpen?: boolean;
-  header?: ReactNode | string;
-  body?: ReactNode;
+  content?: ReactNode;
   footer?: ReactNode;
-  onClose?: () => void;
 };
 
-const Modal = ({ isOpen, header, body, footer, onClose }: ModalProps) => {
+const Modal = ({ isOpen, content, footer }: ModalProps) => {
   return (
     <div
-      className={`${
-        isOpen ? '' : 'hidden'
-      } overflow-x-hidden overflow-y-auto fixed h-modal md:h-full top-4 left-0 right-0 md:inset-0 z-50 justify-center items-center`}
+      className={`relative z-10 ${
+        isOpen
+          ? 'visible opacity-100 duration-300 ease-out'
+          : 'invisible opacity-0 duration-200 ease-in'
+      }`}
     >
-      <div className='relative w-full max-w-2xl px-4 h-full md:h-auto'>
-        <div className='bg-white rounded-lg shadow relative'>
-          <div className='flex items-start justify-between p-5 border-b rounded-t'>
-            {isString(header) ? <Title>{header}</Title> : header}
-            <Icon icon='close' onClick={onClose} />
-          </div>
-          <div className='p-6 space-y-6'> {body}</div>
-          {footer ? (
-            <div className='flex space-x-2 items-center p-6 border-t border-gray-200 rounded-b'>
-              {footer}
+      <div
+        className={`fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity`}
+      />
+
+      <div className='fixed inset-0 z-10 overflow-y-auto'>
+        <div className='flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0'>
+          <div
+            className={`relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg ${
+              isOpen
+                ? 'translate-y-0 opacity-100 duration-300 ease-out sm:scale-100'
+                : 'translate-y-4 opacity-0 duration-200 ease-in sm:translate-y-0 sm:scale-95'
+            }`}
+          >
+            <div className='bg-white px-4 pt-5 pb-4 sm:flex sm:items-start sm:p-6 sm:pb-4'>
+              <div className='mt-3 text-center sm:mt-0 sm:text-left w-full'>
+                {content}
+              </div>
             </div>
-          ) : null}
+
+            {footer ? (
+              <div className='bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 w-full'>
+                {footer}
+              </div>
+            ) : null}
+          </div>
         </div>
       </div>
     </div>
