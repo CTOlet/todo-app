@@ -5,11 +5,4 @@
 body {
   background-color: rgb(242, 244, 248);
   padding: 1rem;
-  display: flex;
-  justify-content: center;
-}
-
-body div#root {
-  width: 100%;
-  max-width: 768px;
 }
