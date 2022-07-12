@@ -9,5 +9,9 @@
   },
   "error_message": {
     "unknown_error": "An unknown error occurred."
+  },
+  "modal": {
+    "accept": "Accept",
+    "deny": "Deny"
   }
 }

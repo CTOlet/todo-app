@@ -16,6 +16,7 @@ import { toastOptions } from './config/react-hot-toast';
 import { queryClient } from './config/react-query';
 import { Error } from './pages';
 import { store } from './services';
+import { Modal } from './components';
 
 configureAxios();
 configureI18n();
@@ -43,6 +44,7 @@ ReactDOM.render(
     <ErrorBoundary FallbackComponent={Error}>
       <QueryClientProvider client={queryClient}>
         <Toaster toastOptions={toastOptions} />
+        <Modal />
         <App />
       </QueryClientProvider>
     </ErrorBoundary>

@@ -1,50 +1,83 @@
-import { ReactNode } from 'react';
+import { useModal } from '../services';
+import { Button } from './button';
+import { useTransition, animated, easings } from 'react-spring';
+import { useTranslation } from 'react-i18next';
 
-type ModalProps = {
-  isOpen?: boolean;
-  content?: ReactNode;
-  footer?: ReactNode;
-};
+const Modal = () => {
+  const { t } = useTranslation();
+  const { getAll, close } = useModal();
+  const modals = getAll();
 
-const Modal = ({ isOpen, content, footer }: ModalProps) => {
-  return (
-    <div
-      className={`relative z-10 ${
-        isOpen
-          ? 'visible opacity-100 duration-300 ease-out'
-          : 'invisible opacity-0 duration-200 ease-in'
-      }`}
-    >
-      <div
-        className={`fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity`}
-      />
+  const transitions = useTransition(modals, {
+    from: {
+      opacity: 0,
+      translateY: 8,
+      scale: 0.95,
+      config: { duration: 200, easing: easings.easeInSine },
+    },
+    enter: {
+      opacity: 1,
+      translateY: 0,
+      scale: 1,
+      config: { duration: 300, easing: easings.easeOutSine },
+    },
+    leave: {
+      opacity: 0,
+      translateY: 8,
+      scale: 0.95,
+      config: { duration: 200, easing: easings.easeInSine },
+    },
+  });
 
-      <div className='fixed inset-0 z-10 overflow-y-auto'>
-        <div className='flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0'>
-          <div
-            className={`relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg ${
-              isOpen
-                ? 'translate-y-0 opacity-100 duration-300 ease-out sm:scale-100'
-                : 'translate-y-8 opacity-0 duration-200 ease-in sm:translate-y-0 sm:scale-95'
-            }`}
+  return transitions((style, modal, transition, index) =>
+    modal ? (
+      <div className='relative z-10'>
+        {index === 0 ? (
+          <animated.div
+            style={{ opacity: style.opacity }}
+            className='fixed inset-0 bg-gray-500 bg-opacity-75'
+          />
+        ) : null}
+
+        <div className='fixed inset-0 z-10 overflow-y-auto'>
+          <animated.div
+            style={style}
+            className='flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0'
           >
-            <div className='bg-white px-4 pt-5 pb-4 sm:flex sm:items-start sm:p-6 sm:pb-4'>
-              <div className='mt-3 w-full text-center sm:mt-0 sm:text-left'>
-                {content}
+            <div
+              className={`relative overflow-hidden rounded-lg bg-white text-left ${
+                index === 0 ? 'shadow-xl' : ''
+              } sm:my-8 sm:w-full sm:max-w-lg`}
+            >
+              <div className='bg-white px-4 pt-5 pb-4 sm:flex sm:items-start sm:p-6 sm:pb-4'>
+                <div className='mt-3 w-full text-center sm:mt-0 sm:text-left'>
+                  <>{modal.content}</>
+                </div>
+              </div>
+              <div className='w-full bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6'>
+                {modal.actions ? (
+                  <>{modal.actions}</>
+                ) : (
+                  <>
+                    <div className='sm:ml-2'>
+                      <Button color='blue' onClick={() => close(modal)}>
+                        {t('modal.accept')}
+                      </Button>
+                    </div>
+                    <div className='mt-2 sm:mt-0'>
+                      <Button color='default' onClick={() => close(modal)}>
+                        {t('modal.deny')}
+                      </Button>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
-
-            {footer ? (
-              <div className='w-full bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6'>
-                {footer}
-              </div>
-            ) : null}
-          </div>
+          </animated.div>
         </div>
       </div>
-    </div>
+    ) : null,
   );
 };
 
 export { Modal };
-export type { ModalProps };

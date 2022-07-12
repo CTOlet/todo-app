@@ -9,5 +9,9 @@
   },
   "error_message": {
     "unknown_error": "Es ist ein unerwarteter Fehler aufgetreten."
+  },
+  "modal": {
+    "accept": "Bestätigen",
+    "deny": "Abbrechen"
   }
 }
