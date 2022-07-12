@@ -61,12 +61,12 @@ const Modal = () => {
                   <>
                     <div className='sm:ml-2'>
                       <Button color='blue' onClick={() => close(modal)}>
-                        {t('modal.accept')}
+                        {t('actions.accept')}
                       </Button>
                     </div>
                     <div className='mt-2 sm:mt-0'>
                       <Button color='default' onClick={() => close(modal)}>
-                        {t('modal.deny')}
+                        {t('actions.cancel')}
                       </Button>
                     </div>
                   </>

@@ -1,17 +1,20 @@
 {
-  "add_todo": {
-    "title_label": "Titel",
-    "description_label": "Beschreibung",
-    "title_modal": "Todo hinzufügen",
-    "text_modal": "Fügen Sie ein neues Todo hinzu.",
-    "add_button": "Hinzufügen",
-    "cancel_button": "Abbrechen"
+  "title": "Todos",
+  "actions": {
+    "add": "Hinzufügen",
+    "accept": "Bestätigen",
+    "cancel": "Abbrechen",
+    "new_todo": "Neues Todo"
   },
   "error_message": {
     "unknown_error": "Es ist ein unerwarteter Fehler aufgetreten."
   },
-  "modal": {
-    "accept": "Bestätigen",
-    "deny": "Abbrechen"
+  "forms": {
+    "add_todo": {
+      "title": "Todo hinzufügen",
+      "text": "Fügen Sie ein neues Todo hinzu.",
+      "title_label": "Titel",
+      "description_label": "Beschreibung"
+    }
   }
 }

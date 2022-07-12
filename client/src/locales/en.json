@@ -1,17 +1,20 @@
 {
-  "add_todo": {
-    "title_label": "Title",
-    "description_label": "Description",
-    "title_modal": "Add todo",
-    "text_modal": "Add a new todo.",
-    "add_button": "Add",
-    "cancel_button": "Cancel"
+  "title": "Todos",
+  "actions": {
+    "add": "Add",
+    "accept": "Accept",
+    "cancel": "Cancel",
+    "new_todo": "New todo"
   },
   "error_message": {
     "unknown_error": "An unknown error occurred."
   },
-  "modal": {
-    "accept": "Accept",
-    "deny": "Deny"
+  "forms": {
+    "add_todo": {
+      "title": "Add todo",
+      "text": "Add a new todo.",
+      "title_label": "Title",
+      "description_label": "Description"
+    }
   }
 }

@@ -1,12 +1,27 @@
 import { ReactNode } from 'react';
 
 type TitleProps = {
+  size?: 1 | 2 | 3;
   children: ReactNode;
 };
 
-const Title = ({ children }: TitleProps) => {
+const Title = ({ size = 1, children }: TitleProps) => {
   return (
-    <h1 className='text-lg font-medium leading-6 text-gray-900'>{children}</h1>
+    <>
+      {size === 1 ? (
+        <h1 className='text-3xl font-bold leading-8 text-gray-700'>
+          {children}
+        </h1>
+      ) : size === 2 ? (
+        <h1 className='text-2xl font-semibold leading-6 text-gray-700'>
+          {children}
+        </h1>
+      ) : size === 3 ? (
+        <h1 className='text-base font-semibold leading-6 text-gray-700'>
+          {children}
+        </h1>
+      ) : null}
+    </>
   );
 };
 
