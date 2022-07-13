@@ -2,8 +2,9 @@
   "title": "Todos",
   "actions": {
     "add": "Add",
-    "accept": "Accept",
+    "confirm": "Confirm",
     "cancel": "Cancel",
+    "close": "Close",
     "new_todo": "New todo"
   },
   "error_message": {

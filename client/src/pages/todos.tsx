@@ -4,7 +4,7 @@ import { useAddTodo, useGetTodos } from '../hooks';
 import { useTranslation } from 'react-i18next';
 import { TrashIcon } from '@heroicons/react/outline';
 import { CheckCircleIcon } from '@heroicons/react/solid';
-import { modal } from '../services';
+import { dialog } from '../services';
 
 type AddTodoForm = {
   title: string;
@@ -20,7 +20,7 @@ const Todos = () => {
     {
       onSuccess: () => {
         todos.refetch();
-        modal.close();
+        dialog.close();
       },
     },
   );
@@ -39,8 +39,8 @@ const Todos = () => {
           href='#'
           className='text-indigo-500'
           onClick={() =>
-            modal.open({
-              content: (
+            dialog.info({
+              element: (
                 <>
                   <div>
                     <Title size={2}>{t('forms.add_todo.title')}</Title>
@@ -57,24 +57,6 @@ const Todos = () => {
                   </div>
                 </>
               ),
-              actions: (
-                <>
-                  <div className='sm:ml-2'>
-                    <Button
-                      color='blue'
-                      isLoading={addTodo.isLoading}
-                      onClick={() => addTodo.mutate()}
-                    >
-                      {t('actions.add')}
-                    </Button>
-                  </div>
-                  <div className='mt-2 sm:mt-0'>
-                    <Button color='default' onClick={() => modal.close()}>
-                      {t('actions.cancel')}
-                    </Button>
-                  </div>
-                </>
-              ),
             })
           }
         >
@@ -88,15 +70,11 @@ const Todos = () => {
             <div key={index}>
               <div className='flex px-6 py-4 sm:px-6'>
                 <div className='flex items-center p-2'>
-                  <Checkbox
-                    onChange={() =>
-                      modal.open({ content: 'TODO: remove todo' })
-                    }
-                  />
+                  <Checkbox onChange={() => {}} />
                 </div>
                 <div
                   className='flex-grow cursor-pointer px-2'
-                  onClick={() => modal.open({ content: 'TODO: edit todo' })}
+                  onClick={() => dialog.info({ element: 'TODO: edit todo' })}
                 >
                   <div>
                     <Title size={3}>{todo.title}</Title>
@@ -107,7 +85,11 @@ const Todos = () => {
                 </div>
                 <div
                   className='flex cursor-pointer items-center p-2'
-                  onClick={() => modal.open({ content: 'TODO: remove todo' })}
+                  onClick={() =>
+                    dialog.warn({
+                      element: 'TODO: remove todo',
+                    })
+                  }
                 >
                   <TrashIcon className='h-5 w-5 text-red-500' />
                 </div>

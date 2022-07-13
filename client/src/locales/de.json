@@ -2,8 +2,9 @@
   "title": "Todos",
   "actions": {
     "add": "Hinzufügen",
-    "accept": "Bestätigen",
+    "confirm": "Bestätigen",
     "cancel": "Abbrechen",
+    "close": "Schließen",
     "new_todo": "Neues Todo"
   },
   "error_message": {
