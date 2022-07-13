@@ -85,16 +85,19 @@ const Todos = () => {
       <div className='mt-8 divide-y divide-gray-100 overflow-hidden rounded-lg bg-white shadow'>
         {todos.data?.map((todo, index) => {
           return (
-            <div key={index} className='cursor-pointer'>
+            <div key={index}>
               <div className='flex px-6 py-4 sm:px-6'>
                 <div className='flex items-center p-2'>
-                  {index <= 3 ? (
-                    <Checkbox isChecked={true} />
-                  ) : (
-                    <Checkbox isChecked={false} />
-                  )}
+                  <Checkbox
+                    onChange={() =>
+                      modal.open({ content: 'TODO: remove todo' })
+                    }
+                  />
                 </div>
-                <div className='flex-grow px-2'>
+                <div
+                  className='flex-grow cursor-pointer px-2'
+                  onClick={() => modal.open({ content: 'TODO: edit todo' })}
+                >
                   <div>
                     <Title size={3}>{todo.title}</Title>
                   </div>
@@ -102,7 +105,10 @@ const Todos = () => {
                     <Text>{todo.description}</Text>
                   </div>
                 </div>
-                <div className='flex items-center p-2'>
+                <div
+                  className='flex cursor-pointer items-center p-2'
+                  onClick={() => modal.open({ content: 'TODO: remove todo' })}
+                >
                   <TrashIcon className='h-5 w-5 text-red-500' />
                 </div>
               </div>
