@@ -1,4 +1,4 @@
-import { Button, Input, Text, Title } from '../components';
+import { Button, Checkbox, Input, Text, Title } from '../components';
 import { useForm } from 'react-hook-form';
 import { useAddTodo, useGetTodos } from '../hooks';
 import { useTranslation } from 'react-i18next';
@@ -89,9 +89,9 @@ const Todos = () => {
               <div className='flex px-6 py-4 sm:px-6'>
                 <div className='flex items-center p-2'>
                   {index <= 3 ? (
-                    <CheckCircleIcon className='h-6 w-6 text-indigo-500' />
+                    <Checkbox isChecked={true} />
                   ) : (
-                    <CheckCircleIcon className='h-6 w-6 text-indigo-200' />
+                    <Checkbox isChecked={false} />
                   )}
                 </div>
                 <div className='flex-grow px-2'>
