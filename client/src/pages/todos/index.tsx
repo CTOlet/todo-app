@@ -1,15 +1,10 @@
-import { Button, Checkbox, Input, Text, Title } from '../components';
+import { Checkbox, Text, Title } from '../../components';
 import { useForm } from 'react-hook-form';
-import { useAddTodo, useGetTodos } from '../hooks';
+import { useAddTodo, useGetTodos } from '../../hooks';
 import { useTranslation } from 'react-i18next';
 import { TrashIcon } from '@heroicons/react/outline';
-import { CheckCircleIcon } from '@heroicons/react/solid';
-import { dialog } from '../services';
-
-type AddTodoForm = {
-  title: string;
-  description: string;
-};
+import { dialog } from '../../services';
+import { TodoForm, TodoFormFields } from './components';
 
 const Todos = () => {
   const { t } = useTranslation();
@@ -25,9 +20,9 @@ const Todos = () => {
     },
   );
 
-  const { register, handleSubmit } = useForm<AddTodoForm>();
+  const todoForm = useForm<TodoFormFields>();
 
-  const onSubmit = (form: AddTodoForm) => {
+  const onSubmit = (form: TodoFormFields) => {
     console.log(form);
   };
 
@@ -38,27 +33,10 @@ const Todos = () => {
         <a
           href='#'
           className='text-indigo-500'
-          onClick={() =>
-            dialog.info({
-              element: (
-                <>
-                  <div>
-                    <Title size={2}>{t('forms.add_todo.title')}</Title>
-                  </div>
-                  <div className='mt-2'>
-                    <Text>{t('forms.add_todo.text')}</Text>
-                  </div>
-
-                  <div className='mt-6'>
-                    <Input label={t('forms.add_todo.title_label')} />
-                  </div>
-                  <div className='mt-2'>
-                    <Input label={t('forms.add_todo.description_label')} />
-                  </div>
-                </>
-              ),
-            })
-          }
+          onClick={() => {
+            todoForm.reset({});
+            dialog.info({ element: <TodoForm form={todoForm} /> });
+          }}
         >
           {t('actions.new_todo')}
         </a>
@@ -74,7 +52,13 @@ const Todos = () => {
                 </div>
                 <div
                   className='flex-grow cursor-pointer px-2'
-                  onClick={() => dialog.info({ element: 'TODO: edit todo' })}
+                  onClick={() => {
+                    todoForm.reset({
+                      title: todo.title,
+                      description: todo.description,
+                    });
+                    dialog.info({ element: <TodoForm form={todoForm} /> });
+                  }}
                 >
                   <div>
                     <Title size={3}>{todo.title}</Title>
@@ -103,4 +87,3 @@ const Todos = () => {
 };
 
 export { Todos };
-export type { AddTodoForm };
