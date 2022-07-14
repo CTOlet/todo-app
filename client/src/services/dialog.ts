@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useReducer } from 'react';
+import { ReactNode } from 'react';
 import { DialogType } from '../constants';
 
 type DialogElement = {

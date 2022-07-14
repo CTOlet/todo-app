@@ -45,11 +45,7 @@ const Dialog = () => {
             style={style}
             className='flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0'
           >
-            <div
-              className={`relative overflow-hidden rounded-lg bg-white text-left ${
-                index === 0 ? 'shadow-xl' : ''
-              } sm:my-8 sm:w-full sm:max-w-lg`}
-            >
+            <div className='relative overflow-hidden rounded-lg bg-white text-left shadow-xl sm:my-8 sm:w-full sm:max-w-lg'>
               <div className='bg-white px-4 pt-5 pb-4 sm:flex sm:items-start sm:p-6 sm:pb-4'>
                 <div className='mt-3 w-full text-center sm:mt-0 sm:text-left'>
                   <>{dialog.element}</>
