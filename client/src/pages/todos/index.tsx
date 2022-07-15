@@ -125,8 +125,13 @@ const Todos = () => {
               <div className='flex px-6 py-4 sm:px-6'>
                 <div className='flex items-center p-2'>
                   <Checkbox
-                    onChange={() => {
-                      // TODO: complete todo
+                    onChange={(isChecked) => {
+                      // FIXME: should be controlled
+                      if (isChecked) {
+                        setTimeout(() => {
+                          removeTodo.mutate(todo.id);
+                        }, 300);
+                      }
                     }}
                   />
                 </div>

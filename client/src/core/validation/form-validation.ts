@@ -4,7 +4,7 @@ const FormValidation = {
   required: (value: any) => {
     return ['', null, undefined].includes(value)
       ? t('form.validation.required')
-      : false;
+      : true;
   },
 };
 
