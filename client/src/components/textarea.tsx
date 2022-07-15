@@ -18,7 +18,7 @@ const Textarea = forwardRef(
             <Text weight='medium'>{label}</Text>
           </div>
           <textarea
-            className={`relative mt-1 block h-16 w-full resize-none rounded-md border-gray-300 px-4 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm ${
+            className={`relative mt-1 block h-32 w-full resize-none rounded-md border-gray-300 px-4 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm ${
               error ? 'border-red-500' : 'border-gray-300'
             }`}
             ref={ref as ForwardedRef<HTMLTextAreaElement>}
