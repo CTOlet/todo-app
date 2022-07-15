@@ -1,21 +1,39 @@
 {
   "title": "Todos",
-  "actions": {
+  "action": {
     "add": "Hinzufügen",
     "confirm": "Bestätigen",
     "cancel": "Abbrechen",
     "close": "Schließen",
-    "new_todo": "Neues Todo"
+    "new_todo": "Neues Todo",
+    "remove": "Entfernen",
+    "save": "Speichern",
+    "update": "Aktualisieren"
   },
   "error_message": {
     "unknown_error": "Es ist ein unerwarteter Fehler aufgetreten."
   },
-  "forms": {
+  "form": {
+    "label": {
+      "title": "Titel",
+      "description": "Beschreibung"
+    },
+    "validation": {
+      "required": "Das ist ein Pflichtfeld."
+    }
+  },
+  "dialog": {
     "add_todo": {
       "title": "Todo hinzufügen",
-      "text": "Fügen Sie ein neues Todo hinzu.",
-      "title_label": "Titel",
-      "description_label": "Beschreibung"
+      "text": "Fügen Sie ein neues Todo hinzu."
+    },
+    "update_todo": {
+      "title": "Todo aktualisieren",
+      "text": "Aktualisieren Sie ein vorhandenes Todo."
+    },
+    "remove_todo": {
+      "title": "Todo entfernen?",
+      "text": "Dies kann nicht rückgängig gemacht werden."
     }
   }
 }

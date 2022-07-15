@@ -1,14 +1,20 @@
 import { ReactNode } from 'react';
 import { DialogType } from '../constants';
 
+type DialogActionEvent = {
+  type: keyof typeof DialogType | string;
+  element: ReactNode;
+  closeDialog: () => void;
+};
+
 type DialogElement = {
   type: keyof typeof DialogType | string;
   element: ReactNode;
   actions?: {
-    confirm?: { label?: string; onClick?: () => void };
-    cancel?: { label?: string; onClick?: () => void };
+    confirm?: { label?: string; onClick?: (event: DialogActionEvent) => void };
+    cancel?: { label?: string; onClick?: (event: DialogActionEvent) => void };
   };
-  closeOnAction?: boolean;
+  autoCloseAfterAction?: boolean;
 };
 
 const Dialog = () => {
@@ -19,7 +25,7 @@ const Dialog = () => {
     warn: (options: Omit<DialogElement, 'type'>) => {
       dialogs = [
         ...dialogs,
-        { closeOnAction: true, ...options, type: DialogType.WARN },
+        { autoCloseAfterAction: false, ...options, type: DialogType.WARN },
       ];
       subscriptions.forEach((subscriber) => subscriber(dialogs));
       return dialogs;
@@ -27,7 +33,7 @@ const Dialog = () => {
     info: (options: Omit<DialogElement, 'type'>) => {
       dialogs = [
         ...dialogs,
-        { closeOnAction: true, ...options, type: DialogType.INFO },
+        { autoCloseAfterAction: false, ...options, type: DialogType.INFO },
       ];
       subscriptions.forEach((subscriber) => subscriber(dialogs));
       return dialogs;
@@ -35,7 +41,7 @@ const Dialog = () => {
     open: (options: Omit<DialogElement, 'type' | 'actions'>) => {
       dialogs = [
         ...dialogs,
-        { closeOnAction: true, ...options, type: DialogType.CUSTOM },
+        { autoCloseAfterAction: false, ...options, type: DialogType.CUSTOM },
       ];
       subscriptions.forEach((subscriber) => subscriber(dialogs));
       return dialogs;
@@ -74,4 +80,4 @@ const Dialog = () => {
 const dialog = Dialog();
 
 export { dialog };
-export type { DialogElement };
+export type { DialogElement, DialogActionEvent };

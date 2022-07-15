@@ -22,7 +22,7 @@ const Textarea = forwardRef(
               error ? 'border-red-500' : 'border-gray-300'
             }`}
             ref={ref as ForwardedRef<HTMLTextAreaElement>}
-            value={value}
+            defaultValue={value}
             onChange={onChange}
             onBlur={onBlur}
           />

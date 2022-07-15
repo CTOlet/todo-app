@@ -4,12 +4,11 @@ import { removeTodo } from '../core/api';
 import { Error } from '../types';
 
 const useRemoveTodo = (
-  id: string,
-  options?: UseMutationOptions<unknown, Error>,
+  options?: UseMutationOptions<unknown, Error, string>,
 ) => {
-  const mutation = useMutation<unknown, Error>({
-    mutationKey: [MutationKey.REMOVE_TODO, id],
-    mutationFn: () =>
+  const mutation = useMutation<unknown, Error, string>({
+    mutationKey: [MutationKey.REMOVE_TODO],
+    mutationFn: (id: string) =>
       removeTodo(id)
         .either()
         .map((either) => either.map((response) => response.data))

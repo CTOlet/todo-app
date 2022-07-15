@@ -23,7 +23,7 @@ const Input = forwardRef(
             }`}
             ref={ref as ForwardedRef<HTMLInputElement>}
             type='text'
-            value={value}
+            defaultValue={value}
             onChange={onChange}
             onBlur={onBlur}
           />

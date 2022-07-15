@@ -1,21 +1,39 @@
 {
   "title": "Todos",
-  "actions": {
+  "action": {
     "add": "Add",
     "confirm": "Confirm",
     "cancel": "Cancel",
     "close": "Close",
-    "new_todo": "New todo"
+    "new_todo": "New todo",
+    "remove": "Remove",
+    "save": "Save",
+    "update": "Update"
   },
   "error_message": {
     "unknown_error": "An unknown error occurred."
   },
-  "forms": {
+  "form": {
+    "label": {
+      "title": "Title",
+      "description": "Description"
+    },
+    "validation": {
+      "required": "This is required."
+    }
+  },
+  "dialog": {
     "add_todo": {
       "title": "Add todo",
-      "text": "Add a new todo.",
-      "title_label": "Title",
-      "description_label": "Description"
+      "text": "Add a new todo."
+    },
+    "update_todo": {
+      "title": "Update todo",
+      "text": "Update an existing todo."
+    },
+    "remove_todo": {
+      "title": "Remove todo?",
+      "text": "This cannot be undone."
     }
   }
 }

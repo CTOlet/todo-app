@@ -8,29 +8,32 @@ type TodoFormFields = {
 };
 
 type TodoFormProps = {
+  title: string;
+  text: string;
   form: UseFormReturn<TodoFormFields>;
 };
 
-const TodoForm = ({ form }: TodoFormProps) => {
+const TodoForm = ({ title, text, form }: TodoFormProps) => {
   const { t } = useTranslation();
 
   return (
     <>
       <div>
-        <Title size={2}>{t('forms.add_todo.title')}</Title>
+        <Title size={2}>{title}</Title>
       </div>
       <div className='mt-2'>
-        <Text>{t('forms.add_todo.text')}</Text>
+        <Text>{text}</Text>
       </div>
 
       <div className='mt-6'>
         <Controller
           control={form.control}
           name='title'
+          rules={{ required: t('form.validation.required') }}
           render={({ field, fieldState }) => (
             <Input
               ref={field.ref}
-              label={t('forms.add_todo.title_label')}
+              label={t('form.label.title')}
               value={field.value}
               error={fieldState.error?.message}
               onChange={field.onChange}
@@ -43,10 +46,11 @@ const TodoForm = ({ form }: TodoFormProps) => {
         <Controller
           control={form.control}
           name='description'
+          rules={{ required: t('form.validation.required') }}
           render={({ field, fieldState }) => (
             <Textarea
               ref={field.ref}
-              label={t('forms.add_todo.description_label')}
+              label={t('form.label.description')}
               value={field.value}
               error={fieldState.error?.message}
               onChange={field.onChange}

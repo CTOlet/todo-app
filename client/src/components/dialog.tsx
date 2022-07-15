@@ -63,22 +63,38 @@ const Dialog = () => {
                           : 'default'
                       }
                       onClick={() => {
-                        dialog.actions?.confirm?.onClick?.();
-                        if (dialog.closeOnAction) close(dialog);
+                        dialog.actions?.confirm?.onClick?.({
+                          type: dialog.type,
+                          element: dialog.element,
+                          closeDialog: () => close(dialog),
+                        });
+                        if (
+                          dialog.autoCloseAfterAction ||
+                          !dialog.actions?.confirm
+                        )
+                          close(dialog);
                       }}
                     >
-                      {dialog.actions?.confirm?.label ?? t('actions.confirm')}
+                      {dialog.actions?.confirm?.label ?? t('action.confirm')}
                     </Button>
                   </div>
                   <div className='mt-2 sm:mt-0'>
                     <Button
                       color='default'
                       onClick={() => {
-                        dialog.actions?.cancel?.onClick?.();
-                        if (dialog.closeOnAction) close(dialog);
+                        dialog.actions?.cancel?.onClick?.({
+                          type: dialog.type,
+                          element: dialog.element,
+                          closeDialog: () => close(dialog),
+                        });
+                        if (
+                          dialog.autoCloseAfterAction ||
+                          !dialog.actions?.cancel
+                        )
+                          close(dialog);
                       }}
                     >
-                      {dialog.actions?.cancel?.label ?? t('actions.cancel')}
+                      {dialog.actions?.cancel?.label ?? t('action.cancel')}
                     </Button>
                   </div>
                 </div>

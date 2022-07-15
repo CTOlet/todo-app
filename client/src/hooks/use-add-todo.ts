@@ -4,12 +4,11 @@ import { addTodo } from '../core/api';
 import { Error, Todo } from '../types';
 
 const useAddTodo = (
-  todo: Omit<Todo, 'id'>,
-  options?: UseMutationOptions<unknown, Error>,
+  options?: UseMutationOptions<unknown, Error, Omit<Todo, 'id'>>,
 ) => {
-  const mutation = useMutation<unknown, Error>({
-    mutationKey: [MutationKey.ADD_TODO, todo],
-    mutationFn: () =>
+  const mutation = useMutation<unknown, Error, Omit<Todo, 'id'>>({
+    mutationKey: [MutationKey.ADD_TODO],
+    mutationFn: (todo: Omit<Todo, 'id'>) =>
       addTodo(todo)
         .either()
         .map((either) => either.map((response) => response.data))

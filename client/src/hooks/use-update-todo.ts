@@ -3,13 +3,10 @@ import { MutationKey } from '../constants';
 import { updateTodo } from '../core/api';
 import { Error, Todo } from '../types';
 
-const useUpdateTodo = (
-  todo: Todo,
-  options?: UseMutationOptions<unknown, Error>,
-) => {
-  const mutation = useMutation<unknown, Error>({
-    mutationKey: [MutationKey.UPDATE_TODO, todo],
-    mutationFn: () =>
+const useUpdateTodo = (options?: UseMutationOptions<unknown, Error, Todo>) => {
+  const mutation = useMutation<unknown, Error, Todo>({
+    mutationKey: [MutationKey.UPDATE_TODO],
+    mutationFn: (todo: Todo) =>
       updateTodo(todo)
         .either()
         .map((either) => either.map((response) => response.data))
