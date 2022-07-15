@@ -1,6 +1,6 @@
-import { UseFormReturn } from 'react-hook-form';
+import { Controller, UseFormReturn } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Title, Text, Input } from '../../../components';
+import { Title, Text, Input, Textarea } from '../../../components';
 
 type TodoFormFields = {
   title: string;
@@ -11,7 +11,7 @@ type TodoFormProps = {
   form: UseFormReturn<TodoFormFields>;
 };
 
-const TodoForm = (props: TodoFormProps) => {
+const TodoForm = ({ form }: TodoFormProps) => {
   const { t } = useTranslation();
 
   return (
@@ -24,17 +24,35 @@ const TodoForm = (props: TodoFormProps) => {
       </div>
 
       <div className='mt-6'>
-        <Input
-          label={t('forms.add_todo.title_label')}
-          value={props.form.getValues().title}
-          onChange={() => {}}
+        <Controller
+          control={form.control}
+          name='title'
+          render={({ field, fieldState }) => (
+            <Input
+              ref={field.ref}
+              label={t('forms.add_todo.title_label')}
+              value={field.value}
+              error={fieldState.error?.message}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+            />
+          )}
         />
       </div>
       <div className='mt-2'>
-        <Input
-          label={t('forms.add_todo.description_label')}
-          value={props.form.getValues().description}
-          onChange={() => {}}
+        <Controller
+          control={form.control}
+          name='description'
+          render={({ field, fieldState }) => (
+            <Textarea
+              ref={field.ref}
+              label={t('forms.add_todo.description_label')}
+              value={field.value}
+              error={fieldState.error?.message}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+            />
+          )}
         />
       </div>
     </>

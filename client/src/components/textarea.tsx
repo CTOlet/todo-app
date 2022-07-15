@@ -1,7 +1,7 @@
 import { ForwardedRef, forwardRef } from 'react';
 import { Text } from './text';
 
-type InputProps = {
+type TextareaProps = {
   label?: string;
   value?: string;
   error?: string;
@@ -9,20 +9,19 @@ type InputProps = {
   onBlur?: () => void;
 };
 
-const Input = forwardRef(
-  ({ label, value, error, onChange, onBlur }: InputProps, ref) => {
+const Textarea = forwardRef(
+  ({ label, value, error, onChange, onBlur }: TextareaProps, ref) => {
     return (
       <>
         <label>
           <div className='text-left'>
             <Text weight='medium'>{label}</Text>
           </div>
-          <input
-            className={`relative mt-1 block w-full rounded-md border-gray-300 px-4 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm ${
+          <textarea
+            className={`relative mt-1 block h-16 w-full resize-none rounded-md border-gray-300 px-4 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm ${
               error ? 'border-red-500' : 'border-gray-300'
             }`}
-            ref={ref as ForwardedRef<HTMLInputElement>}
-            type='text'
+            ref={ref as ForwardedRef<HTMLTextAreaElement>}
             value={value}
             onChange={onChange}
             onBlur={onBlur}
@@ -34,5 +33,5 @@ const Input = forwardRef(
   },
 );
 
-export { Input };
-export type { InputProps };
+export { Textarea };
+export type { TextareaProps };
