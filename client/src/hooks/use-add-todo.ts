@@ -35,7 +35,7 @@ const useAddTodo = (
         QueryKey.GET_TODOS,
       );
       queryClient.setQueryData<Todo[]>(QueryKey.GET_TODOS, (todos) => {
-        return [...(todos ?? []), { ...newTodo, id: '', created_at: '' }];
+        return [newTodo as Todo, ...(todos ?? [])];
       });
       return { previousTodos };
     },

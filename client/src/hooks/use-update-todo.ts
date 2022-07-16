@@ -1,4 +1,5 @@
 import { useMutation, UseMutationOptions } from 'react-query';
+import { replaceAt } from '../utils';
 import { queryClient } from '../config/react-query';
 import { MutationKey, QueryKey } from '../constants';
 import { updateTodo } from '../core/api';
@@ -33,10 +34,8 @@ const useUpdateTodo = (options?: UseMutationOptions<unknown, Error, Todo>) => {
         QueryKey.GET_TODOS,
       );
       queryClient.setQueryData<Todo[]>(QueryKey.GET_TODOS, (todos) => {
-        return [
-          ...(todos?.filter((todo) => todo.id !== newTodo.id) ?? []),
-          newTodo,
-        ];
+        const index = todos?.findIndex((todo) => todo.id === newTodo.id);
+        return replaceAt(todos!, index!, newTodo);
       });
       return { previousTodos };
     },
