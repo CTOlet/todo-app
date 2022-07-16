@@ -10,12 +10,12 @@ import { TodoStatus } from '../../constants';
  * @param todo
  * @returns async io either axios response or throwable
  */
-const addTodo = (todo: Omit<Todo, 'id' | 'status'>) =>
+const addTodo = (todo: Omit<Todo, 'id'>) =>
   IO.async(async () => {
     const url = urlcat(import.meta.env.VITE_API_BASE_URL, '/todo');
     return axios.post<never, AxiosResponse<unknown, Error>, Omit<Todo, 'id'>>(
       url,
-      { ...todo, status: TodoStatus.OPEN },
+      todo,
     );
   });
 

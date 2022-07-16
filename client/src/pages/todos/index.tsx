@@ -37,9 +37,11 @@ const Todos = () => {
           label: t('action.add'),
           onClick: () => {
             todoForm.handleSubmit((todoForm) => {
-              addTodo.mutateAsync(todoForm).then(() => {
-                dialog.close();
-              });
+              addTodo
+                .mutateAsync({ ...todoForm, status: TodoStatus.OPEN })
+                .then(() => {
+                  dialog.close();
+                });
             })();
           },
         },
