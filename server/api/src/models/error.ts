@@ -1,13 +1,8 @@
 import { Request } from 'express';
+import { ErrorType } from '../constants';
+import { ValueOf } from '../types';
 
-enum ErrorType {
-  POST_TODO_EXCEPTION,
-  GET_TODO_EXCEPTION,
-  PUT_TODO_EXCEPTION,
-  DELETE_TODO_EXCEPTION,
-}
-
-const Error = (type: ErrorType, request: Request) => {
+const Error = (type: ValueOf<typeof ErrorType>, request: Request) => {
   const errors = {
     [ErrorType.POST_TODO_EXCEPTION]: {
       code: 600,
@@ -29,4 +24,4 @@ const Error = (type: ErrorType, request: Request) => {
   return errors[type];
 };
 
-export { ErrorType, Error };
+export { Error };

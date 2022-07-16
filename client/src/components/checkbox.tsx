@@ -3,11 +3,11 @@ import { useState } from 'react';
 
 type CheckboxProps = {
   label?: string;
+  isChecked?: boolean;
   onChange?: (isChecked: boolean) => void;
 };
 
-const Checkbox = ({ label, onChange }: CheckboxProps) => {
-  const [isChecked, setIsChecked] = useState(false);
+const Checkbox = ({ label, isChecked, onChange }: CheckboxProps) => {
   return (
     <div>
       <label className='group inline-block'>
@@ -16,7 +16,6 @@ const Checkbox = ({ label, onChange }: CheckboxProps) => {
           <div
             className='flex h-5 w-5 cursor-pointer items-center justify-center rounded-full bg-indigo-500 align-middle'
             onClick={() => {
-              setIsChecked(false);
               onChange?.(false);
             }}
           >
@@ -26,7 +25,6 @@ const Checkbox = ({ label, onChange }: CheckboxProps) => {
           <div
             className='h-5 w-5 cursor-pointer rounded-full border text-indigo-200'
             onClick={() => {
-              setIsChecked(true);
               onChange?.(true);
             }}
           ></div>

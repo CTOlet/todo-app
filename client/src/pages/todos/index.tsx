@@ -11,6 +11,7 @@ import { TrashIcon } from '@heroicons/react/outline';
 import { dialog } from '../../services';
 import { TodoForm, TodoFormFields } from './components';
 import { Todo } from '../../types';
+import { TodoStatus } from '../../constants';
 
 const Todos = () => {
   const { t } = useTranslation();
@@ -67,7 +68,7 @@ const Todos = () => {
             todoForm.handleSubmit((todoForm) => {
               updateTodo
                 .mutateAsync({
-                  id: todo.id,
+                  ...todo,
                   ...todoForm,
                 })
                 .then(() => {
@@ -125,13 +126,12 @@ const Todos = () => {
               <div className='flex px-6 py-4 sm:px-6'>
                 <div className='flex items-center p-2'>
                   <Checkbox
+                    isChecked={todo.status === TodoStatus.CLOSED}
                     onChange={(isChecked) => {
-                      // FIXME: should be controlled
-                      if (isChecked) {
-                        setTimeout(() => {
-                          removeTodo.mutate(todo.id);
-                        }, 300);
-                      }
+                      updateTodo.mutate({
+                        ...todo,
+                        status: isChecked ? TodoStatus.CLOSED : TodoStatus.OPEN,
+                      });
                     }}
                   />
                 </div>

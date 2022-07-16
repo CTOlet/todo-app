@@ -1,12 +1,14 @@
 CREATE TABLE public.todos (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  title varchar(255),
-  "description" varchar(255)
+  "status" TEXT NOT NULL,
+  title TEXT NOT NULL,
+  "description" TEXT NOT NULL,
+  CONSTRAINT "status" CHECK ("status" IN ('open', 'closed'))
 );
 
 INSERT INTO public.todos 
-  (title, "description")
+  ("status", title, "description")
 VALUES
-  ('Title 1', 'Description 1'),
-  ('Title 2', 'Description 2'),
-  ('Title 3', 'Description 3');
+  ('open', 'Task 1', 'Description of task 1.'),
+  ('closed', 'Task 2', 'Description of task 2.'),
+  ('open', 'Task 3', 'Description of task 3.');

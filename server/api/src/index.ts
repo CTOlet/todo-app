@@ -3,9 +3,10 @@ import helmet from 'helmet';
 import cors from 'cors';
 import middleware from 'i18next-http-middleware';
 import { Pool } from 'pg';
-import { Error, ErrorType } from './models';
+import { Error } from './models';
 import i18next from 'i18next';
 import { configureI18n } from './config/i18n';
+import { ErrorType } from './constants';
 
 configureI18n();
 
@@ -23,10 +24,10 @@ const pool = new Pool({
 });
 
 app.post('/todo', (request, response) => {
-  const { title, description } = request.body;
+  const { status, title, description } = request.body;
   const query = `
-    INSERT INTO todos (title, description)
-    VALUES ('${title}', '${description}')
+    INSERT INTO todos (status, title, description)
+    VALUES ('${status}', '${title}', '${description}')
   `;
   pool
     .query(query)
@@ -38,7 +39,7 @@ app.post('/todo', (request, response) => {
 
 app.get('/todos', (request, response) => {
   const query = `
-    SELECT id, title, description
+    SELECT id, status, title, description
     FROM todos
   `;
   pool
@@ -52,7 +53,7 @@ app.get('/todos', (request, response) => {
 app.get('/todo/:id', (request, response) => {
   const id = request.params.id;
   const query = `
-    SELECT id, title, description
+    SELECT id, status, title, description
     FROM todos
     WHERE id='${id}'
   `;
@@ -66,10 +67,10 @@ app.get('/todo/:id', (request, response) => {
 
 app.put('/todo/:id', (request, response) => {
   const id = request.params.id;
-  const { title, description } = request.body;
+  const { status, title, description } = request.body;
   const query = `
     UPDATE todos
-    SET title='${title}', description='${description}'
+    SET status='${status}', title='${title}', description='${description}'
     WHERE id='${id}'
   `;
   pool
