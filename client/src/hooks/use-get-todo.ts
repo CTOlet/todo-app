@@ -8,7 +8,7 @@ const useGetTodo = (id: string, options?: UseQueryOptions<Todo, Error>) => {
     ...options,
     queryKey: [QueryKey.GET_TODO, id],
     queryFn: () =>
-      getTodo(id)
+      getTodo
         .either()
         .map((either) => either.map((response) => response.data))
         .map((either) =>
@@ -17,7 +17,7 @@ const useGetTodo = (id: string, options?: UseQueryOptions<Todo, Error>) => {
             (error) => Promise.reject(error),
           ),
         )
-        .run(),
+        .run(id),
   });
 
   return query;

@@ -9,10 +9,9 @@ import { Error, Todo } from '../../types';
  * @param todo
  * @returns async io either axios response or throwable
  */
-const removeTodo = ({ id }: Todo) =>
-  IO.async(async () => {
-    const url = urlcat(import.meta.env.VITE_API_BASE_URL, `/todo/${id}`);
-    return axios.delete<never, AxiosResponse<unknown, Error>>(url);
-  });
+const removeTodo = IO.async(async ({ id }: Todo) => {
+  const url = urlcat(import.meta.env.VITE_API_BASE_URL, `/todo/${id}`);
+  return axios.delete<never, AxiosResponse<unknown, Error>>(url);
+});
 
 export { removeTodo };

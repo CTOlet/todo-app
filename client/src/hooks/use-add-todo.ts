@@ -16,7 +16,7 @@ const useAddTodo = (
     ...options,
     mutationKey: [MutationKey.ADD_TODO],
     mutationFn: (todo) =>
-      addTodo(todo)
+      addTodo
         .either()
         .map((either) => either.map((response) => response.data))
         .map((either) =>
@@ -25,7 +25,7 @@ const useAddTodo = (
             (error) => Promise.reject(error),
           ),
         )
-        .run(),
+        .run(todo),
 
     // optimistic update config
     onMutate: async (newTodo) => {

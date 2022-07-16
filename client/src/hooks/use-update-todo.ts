@@ -15,7 +15,7 @@ const useUpdateTodo = (options?: UseMutationOptions<unknown, Error, Todo>) => {
     ...options,
     mutationKey: [MutationKey.UPDATE_TODO],
     mutationFn: (todo) =>
-      updateTodo(todo)
+      updateTodo
         .either()
         .map((either) => either.map((response) => response.data))
         .map((either) =>
@@ -24,7 +24,7 @@ const useUpdateTodo = (options?: UseMutationOptions<unknown, Error, Todo>) => {
             (error) => Promise.reject(error),
           ),
         )
-        .run(),
+        .run(todo),
 
     // optimistic update config
     onMutate: async (newTodo) => {

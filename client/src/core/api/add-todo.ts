@@ -9,14 +9,13 @@ import { Error, Todo } from '../../types';
  * @param todo
  * @returns async io either axios response or throwable
  */
-const addTodo = (todo: Omit<Todo, 'id' | 'created_at'>) =>
-  IO.async(async () => {
-    const url = urlcat(import.meta.env.VITE_API_BASE_URL, '/todo');
-    return axios.post<
-      never,
-      AxiosResponse<unknown, Error>,
-      Omit<Todo, 'id' | 'created_at'>
-    >(url, todo);
-  });
+const addTodo = IO.async(async (todo: Omit<Todo, 'id' | 'created_at'>) => {
+  const url = urlcat(import.meta.env.VITE_API_BASE_URL, '/todo');
+  return axios.post<
+    never,
+    AxiosResponse<unknown, Error>,
+    Omit<Todo, 'id' | 'created_at'>
+  >(url, todo);
+});
 
 export { addTodo };

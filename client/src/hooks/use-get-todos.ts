@@ -8,7 +8,7 @@ const useGetTodos = (options?: UseQueryOptions<Todo[], Error>) => {
     ...options,
     queryKey: QueryKey.GET_TODOS,
     queryFn: () =>
-      getTodos()
+      getTodos
         .either()
         .map((either) => either.map((response) => response.data))
         .map((either) =>
@@ -22,10 +22,5 @@ const useGetTodos = (options?: UseQueryOptions<Todo[], Error>) => {
 
   return query;
 };
-
-getTodos()
-  .either()
-  .map((e) => e.map((r) => r.data))
-  .map((e) => e.get());
 
 export { useGetTodos };

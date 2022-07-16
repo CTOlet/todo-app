@@ -14,7 +14,7 @@ const useRemoveTodo = (options?: UseMutationOptions<unknown, Error, Todo>) => {
     ...options,
     mutationKey: [MutationKey.REMOVE_TODO],
     mutationFn: (todo) =>
-      removeTodo(todo)
+      removeTodo
         .either()
         .map((either) => either.map((response) => response.data))
         .map((either) =>
@@ -23,7 +23,7 @@ const useRemoveTodo = (options?: UseMutationOptions<unknown, Error, Todo>) => {
             (error) => Promise.reject(error),
           ),
         )
-        .run(),
+        .run(todo),
 
     // optimistic update config
     onMutate: async (removeTodo) => {
