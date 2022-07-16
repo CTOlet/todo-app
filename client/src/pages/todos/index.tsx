@@ -122,7 +122,7 @@ const Todos = () => {
   return (
     <>
       <div className='flex items-center justify-between'>
-        <Title size={1}>{t('title')}</Title>
+        <Title size={1}>{t('page.todos.title')}</Title>
         <a
           href='#'
           className='text-indigo-500'

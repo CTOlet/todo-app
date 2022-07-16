@@ -1,5 +1,18 @@
 {
-  "title": "Todos",
+  "page": {
+    "todos": {
+      "title": "Todos"
+    },
+    "not_found": {
+      "title": "404",
+      "text": "Page not found."
+    },
+    "error": {
+      "title": "Error",
+      "text": "An unknown error occurred.",
+      "reload": "Seite neuladen"
+    }
+  },
   "action": {
     "add": "Add",
     "confirm": "Confirm",
@@ -8,7 +21,8 @@
     "new_todo": "New todo",
     "remove": "Remove",
     "save": "Save",
-    "update": "Update"
+    "update": "Update",
+    "reload_page": "Reload page"
   },
   "error_message": {
     "unknown_error": "An unknown error occurred."

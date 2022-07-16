@@ -1,5 +1,17 @@
 {
-  "title": "Todos",
+  "page": {
+    "todos": {
+      "title": "Todos"
+    },
+    "not_found": {
+      "title": "404",
+      "text": "Seite nicht gefunden."
+    },
+    "error": {
+      "title": "Fehler",
+      "text": "Es ist ein unerwarteter Fehler aufgetreten."
+    }
+  },
   "action": {
     "add": "Hinzufügen",
     "confirm": "Bestätigen",
@@ -8,7 +20,8 @@
     "new_todo": "Neues Todo",
     "remove": "Entfernen",
     "save": "Speichern",
-    "update": "Aktualisieren"
+    "update": "Aktualisieren",
+    "reload_page": "Seite neuladen"
   },
   "error_message": {
     "unknown_error": "Es ist ein unerwarteter Fehler aufgetreten."
