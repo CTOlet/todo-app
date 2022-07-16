@@ -99,7 +99,7 @@ const Todos = () => {
         confirm: {
           label: t('action.remove'),
           onClick: () => {
-            removeTodo.mutateAsync(todo.id).then(() => {
+            removeTodo.mutateAsync(todo).then(() => {
               dialog.close();
             });
           },
