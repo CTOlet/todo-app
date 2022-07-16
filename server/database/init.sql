@@ -1,9 +1,10 @@
 CREATE TABLE public.todos (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  "status" TEXT NOT NULL,
-  title TEXT NOT NULL,
-  "description" TEXT NOT NULL,
-  CONSTRAINT "status" CHECK ("status" IN ('open', 'closed'))
+  id UUID primary key default gen_random_uuid(),
+  created_at timestamp default now(),
+  "status" text not null,
+  title text not null,
+  "description" text not null,
+  constraint "status" check ("status" in ('open', 'closed'))
 );
 
 INSERT INTO public.todos 

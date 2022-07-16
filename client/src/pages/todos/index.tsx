@@ -38,7 +38,10 @@ const Todos = () => {
           onClick: () => {
             todoForm.handleSubmit((todoForm) => {
               addTodo
-                .mutateAsync({ ...todoForm, status: TodoStatus.OPEN })
+                .mutateAsync({
+                  ...todoForm,
+                  status: TodoStatus.OPEN,
+                })
                 .then(() => {
                   dialog.close();
                 });
@@ -108,6 +111,14 @@ const Todos = () => {
     });
   };
 
+  const toggleTodoStatus = (todo: Todo) => {
+    updateTodo.mutate({
+      ...todo,
+      status:
+        todo.status === TodoStatus.CLOSED ? TodoStatus.OPEN : TodoStatus.CLOSED,
+    });
+  };
+
   return (
     <>
       <div className='flex items-center justify-between'>
@@ -129,12 +140,7 @@ const Todos = () => {
                 <div className='flex items-center p-2'>
                   <Checkbox
                     isChecked={todo.status === TodoStatus.CLOSED}
-                    onChange={(isChecked) => {
-                      updateTodo.mutate({
-                        ...todo,
-                        status: isChecked ? TodoStatus.CLOSED : TodoStatus.OPEN,
-                      });
-                    }}
+                    onChange={() => toggleTodoStatus(todo)}
                   />
                 </div>
                 <div

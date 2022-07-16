@@ -9,13 +9,10 @@ import { Error, Todo } from '../../types';
  * @param todo
  * @returns async io either axios response or throwable
  */
-const updateTodo = ({ id, ...rest }: Todo) =>
+const updateTodo = (todo: Todo) =>
   IO.async(async () => {
-    const url = urlcat(import.meta.env.VITE_API_BASE_URL, `/todo/${id}`);
-    return axios.put<never, AxiosResponse<unknown, Error>, Omit<Todo, 'id'>>(
-      url,
-      rest,
-    );
+    const url = urlcat(import.meta.env.VITE_API_BASE_URL, `/todo/${todo.id}`);
+    return axios.put<never, AxiosResponse<unknown, Error>, Todo>(url, todo);
   });
 
 export { updateTodo };

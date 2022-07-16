@@ -5,17 +5,17 @@ import { addTodo } from '../core/api';
 import { Error, Todo } from '../types';
 
 const useAddTodo = (
-  options?: UseMutationOptions<unknown, Error, Omit<Todo, 'id'>>,
+  options?: UseMutationOptions<unknown, Error, Omit<Todo, 'id' | 'created_at'>>,
 ) => {
   const mutation = useMutation<
     unknown,
     Error,
-    Omit<Todo, 'id'>,
+    Omit<Todo, 'id' | 'created_at'>,
     { previousTodos?: Todo[] }
   >({
     ...options,
     mutationKey: [MutationKey.ADD_TODO],
-    mutationFn: (todo: Omit<Todo, 'id'>) =>
+    mutationFn: (todo) =>
       addTodo(todo)
         .either()
         .map((either) => either.map((response) => response.data))
@@ -35,7 +35,7 @@ const useAddTodo = (
         QueryKey.GET_TODOS,
       );
       queryClient.setQueryData<Todo[]>(QueryKey.GET_TODOS, (todos) => {
-        return [...(todos ?? []), { ...newTodo, id: '' }];
+        return [...(todos ?? []), { ...newTodo, id: '', created_at: '' }];
       });
       return { previousTodos };
     },

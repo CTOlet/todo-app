@@ -13,7 +13,7 @@ const useUpdateTodo = (options?: UseMutationOptions<unknown, Error, Todo>) => {
   >({
     ...options,
     mutationKey: [MutationKey.UPDATE_TODO],
-    mutationFn: (todo: Todo) =>
+    mutationFn: (todo) =>
       updateTodo(todo)
         .either()
         .map((either) => either.map((response) => response.data))
