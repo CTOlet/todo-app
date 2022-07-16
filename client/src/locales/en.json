@@ -1,7 +1,8 @@
 {
   "page": {
     "todos": {
-      "title": "Todos"
+      "title": "Todos",
+      "empty": "No todos"
     },
     "not_found": {
       "title": "404",
