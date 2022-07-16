@@ -23,11 +23,13 @@ const Checkbox = ({ label, isChecked, onChange }: CheckboxProps) => {
           </div>
         ) : (
           <div
-            className='h-5 w-5 cursor-pointer rounded-full border text-indigo-200'
+            className='flex h-5 w-5 cursor-pointer items-center justify-center rounded-full border align-middle text-indigo-200'
             onClick={() => {
               onChange?.(true);
             }}
-          ></div>
+          >
+            <div className='invisible h-3 w-3' />
+          </div>
         )}
       </label>
     </div>
