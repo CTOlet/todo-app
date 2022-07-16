@@ -16,7 +16,7 @@ import { toastOptions } from './config/react-hot-toast';
 import { queryClient } from './config/react-query';
 import { Error } from './pages';
 import { store } from './services';
-import { Dialog } from './components';
+import { Container, Dialog } from './components';
 
 configureAxios();
 configureI18n();
@@ -45,7 +45,9 @@ ReactDOM.render(
       <QueryClientProvider client={queryClient}>
         <Toaster toastOptions={toastOptions} />
         <Dialog />
-        <App />
+        <Container width='2xl'>
+          <App />
+        </Container>
       </QueryClientProvider>
     </ErrorBoundary>
   </React.StrictMode>,
