@@ -5,6 +5,7 @@ import { Error, Todo } from '../types';
 
 const useGetTodo = (id: string, options?: UseQueryOptions<Todo, Error>) => {
   const query = useQuery<Todo, Error>({
+    ...options,
     queryKey: [QueryKey.GET_TODO, id],
     queryFn: () =>
       getTodo(id)
@@ -17,7 +18,6 @@ const useGetTodo = (id: string, options?: UseQueryOptions<Todo, Error>) => {
           ),
         )
         .run(),
-    ...options,
   });
 
   return query;

@@ -7,6 +7,7 @@ const useRemoveTodo = (
   options?: UseMutationOptions<unknown, Error, string>,
 ) => {
   const mutation = useMutation<unknown, Error, string>({
+    ...options,
     mutationKey: [MutationKey.REMOVE_TODO],
     mutationFn: (id: string) =>
       removeTodo(id)
@@ -19,7 +20,6 @@ const useRemoveTodo = (
           ),
         )
         .run(),
-    ...options,
   });
 
   return mutation;

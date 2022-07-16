@@ -7,6 +7,7 @@ const useAddTodo = (
   options?: UseMutationOptions<unknown, Error, Omit<Todo, 'id' | 'status'>>,
 ) => {
   const mutation = useMutation<unknown, Error, Omit<Todo, 'id' | 'status'>>({
+    ...options,
     mutationKey: [MutationKey.ADD_TODO],
     mutationFn: (todo: Omit<Todo, 'id' | 'status'>) =>
       addTodo(todo)
@@ -19,7 +20,6 @@ const useAddTodo = (
           ),
         )
         .run(),
-    ...options,
   });
 
   return mutation;

@@ -5,6 +5,7 @@ import { Error, Todo } from '../types';
 
 const useUpdateTodo = (options?: UseMutationOptions<unknown, Error, Todo>) => {
   const mutation = useMutation<unknown, Error, Todo>({
+    ...options,
     mutationKey: [MutationKey.UPDATE_TODO],
     mutationFn: (todo: Todo) =>
       updateTodo(todo)
@@ -17,7 +18,6 @@ const useUpdateTodo = (options?: UseMutationOptions<unknown, Error, Todo>) => {
           ),
         )
         .run(),
-    ...options,
   });
 
   return mutation;
