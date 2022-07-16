@@ -33,7 +33,7 @@ app.post('/todo', (request, response) => {
     .query(query)
     .then((result) => response.send(result))
     .catch((error) =>
-      response.send(Error(ErrorType.POST_TODO_EXCEPTION, request)),
+      response.status(500).send(Error(ErrorType.POST_TODO_EXCEPTION, request)),
     );
 });
 
@@ -46,7 +46,7 @@ app.get('/todos', (request, response) => {
     .query(query)
     .then((result) => response.send(result.rows))
     .catch((error) =>
-      response.send(Error(ErrorType.GET_TODO_EXCEPTION, request)),
+      response.status(500).send(Error(ErrorType.GET_TODO_EXCEPTION, request)),
     );
 });
 
@@ -61,7 +61,7 @@ app.get('/todo/:id', (request, response) => {
     .query(query)
     .then((result) => response.send(result.rows[0]))
     .catch((error) =>
-      response.send(Error(ErrorType.GET_TODO_EXCEPTION, request)),
+      response.status(500).send(Error(ErrorType.GET_TODO_EXCEPTION, request)),
     );
 });
 
@@ -77,7 +77,7 @@ app.put('/todo/:id', (request, response) => {
     .query(query)
     .then((result) => response.send(result))
     .catch((error) =>
-      response.send(Error(ErrorType.PUT_TODO_EXCEPTION, request)),
+      response.status(500).send(Error(ErrorType.PUT_TODO_EXCEPTION, request)),
     );
 });
 
@@ -91,7 +91,9 @@ app.delete('/todo/:id', (request, response) => {
     .query(query)
     .then((result) => response.send(result))
     .catch((error) =>
-      response.send(Error(ErrorType.DELETE_TODO_EXCEPTION, request)),
+      response
+        .status(500)
+        .send(Error(ErrorType.DELETE_TODO_EXCEPTION, request)),
     );
 });
 
