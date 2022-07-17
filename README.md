@@ -2,5 +2,6 @@
 
 Example Todo App using React / Vite and Docker Microservices. 👨‍💻
 
-- React / Vite
-- Docker
+## Getting started
+
+Run `docker-compose up`

@@ -5,12 +5,16 @@ import { addTodo } from '../core/api';
 import { Error, Todo } from '../types';
 
 const useAddTodo = (
-  options?: UseMutationOptions<unknown, Error, Omit<Todo, 'id' | 'created_at'>>,
+  options?: UseMutationOptions<
+    unknown,
+    Error,
+    Omit<Todo, 'id' | 'createdAt' | 'updatedAt'>
+  >,
 ) => {
   const mutation = useMutation<
     unknown,
     Error,
-    Omit<Todo, 'id' | 'created_at'>,
+    Omit<Todo, 'id' | 'createdAt' | 'updatedAt'>,
     { previousTodos?: Todo[] }
   >({
     ...options,

@@ -39,8 +39,15 @@ app.post('/todo', (request, response) => {
 
 app.get('/todos', (request, response) => {
   const query = `
-    SELECT *
-    FROM todos ORDER BY created_at DESC
+    SELECT
+      id,
+      created_at AS "createdAt",
+      updated_at AS "updatedAt",
+      status,
+      title,
+      description
+    FROM todos
+    ORDER BY created_at DESC
   `;
   pool
     .query(query)
@@ -53,7 +60,13 @@ app.get('/todos', (request, response) => {
 app.get('/todo/:id', (request, response) => {
   const id = request.params.id;
   const query = `
-    SELECT *
+    SELECT
+      id,
+      created_at AS "createdAt",
+      updated_at AS "updatedAt",
+      status,
+      title,
+      description
     FROM todos
     WHERE id='${id}'
   `;

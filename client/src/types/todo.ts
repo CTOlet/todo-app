@@ -3,7 +3,8 @@ import { ValueOf } from './value-of';
 
 type Todo = {
   id: string;
-  created_at: string;
+  createdAt: string;
+  updatedAt: string;
   status: ValueOf<typeof TodoStatus>;
   title: string;
   description: string;
