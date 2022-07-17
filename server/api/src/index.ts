@@ -27,10 +27,10 @@ app.post('/todo', (request, response) => {
   const { status, title, description } = request.body;
   const query = `
     INSERT INTO todos (status, title, description)
-    VALUES ('${status}', '${title}', '${description}')
+    VALUES ($1, $2, $3)
   `;
   pool
-    .query(query)
+    .query(query, [status, title, description])
     .then((result) => response.send(result))
     .catch((error) =>
       response.status(500).send(Error(ErrorType.POST_TODO_EXCEPTION, request)),
@@ -68,10 +68,10 @@ app.get('/todo/:id', (request, response) => {
       title,
       description
     FROM todos
-    WHERE id='${id}'
+    WHERE id=$1
   `;
   pool
-    .query(query)
+    .query(query, [id])
     .then((result) => response.send(result.rows[0]))
     .catch((error) =>
       response.status(500).send(Error(ErrorType.GET_TODO_EXCEPTION, request)),
@@ -83,11 +83,11 @@ app.put('/todo/:id', (request, response) => {
   const { status, title, description } = request.body;
   const query = `
     UPDATE todos
-    SET status='${status}', title='${title}', description='${description}'
-    WHERE id='${id}'
+    SET status=$2, title=$3, description=$4
+    WHERE id=$1
   `;
   pool
-    .query(query)
+    .query(query, [id, status, title, description])
     .then((result) => response.send(result))
     .catch((error) =>
       response.status(500).send(Error(ErrorType.PUT_TODO_EXCEPTION, request)),
@@ -98,10 +98,10 @@ app.delete('/todo/:id', (request, response) => {
   const id = request.params.id;
   const query = `
     DELETE FROM todos
-    WHERE id='${id}'
+    WHERE id=$1
   `;
   pool
-    .query(query)
+    .query(query, [id])
     .then((result) => response.send(result))
     .catch((error) =>
       response
