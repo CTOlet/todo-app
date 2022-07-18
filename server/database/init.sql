@@ -10,8 +10,17 @@ $$
 LANGUAGE 'plpgsql';
 
 -- tables
-CREATE TABLE public.todos (
+CREATE TABLE users (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  created_at timestamp DEFAULT now() NOT NULL,
+  updated_at timestamp DEFAULT now() NOT NULL,
+  username text NOT NULL UNIQUE,
+  password text NOT NULL
+);
+
+CREATE TABLE todos (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES users NOT NULL,
   created_at timestamp DEFAULT now() NOT NULL,
   updated_at timestamp DEFAULT now() NOT NULL,
   status text NOT NULL,
@@ -21,16 +30,14 @@ CREATE TABLE public.todos (
 );
 
 -- triggers
-CREATE TRIGGER modify_updated_at_trigger
+CREATE TRIGGER modify_updated_at_trigger_users
   BEFORE UPDATE
-  ON public.todos
+  ON users
   FOR EACH ROW
 EXECUTE PROCEDURE modify_updated_at();
 
--- initial data
-INSERT INTO public.todos 
-  (status, title, description)
-VALUES
-  ('open', 'Task 1', 'Description of task 1.'),
-  ('closed', 'Task 2', 'Description of task 2.'),
-  ('open', 'Task 3', 'Description of task 3.');
+CREATE TRIGGER modify_updated_at_trigger_todos
+  BEFORE UPDATE
+  ON todos
+  FOR EACH ROW
+EXECUTE PROCEDURE modify_updated_at();

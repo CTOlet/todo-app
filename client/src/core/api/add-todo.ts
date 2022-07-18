@@ -11,7 +11,7 @@ import { Error, Todo } from '../../types';
  */
 const addTodo = IO.async(
   async (todo: Omit<Todo, 'id' | 'createdAt' | 'updatedAt'>) => {
-    const url = urlcat(import.meta.env.VITE_API_BASE_URL, '/todo');
+    const url = urlcat(import.meta.env.VITE_API_BASE_URL, '/todos');
     return axios.post<
       never,
       AxiosResponse<unknown, Error>,

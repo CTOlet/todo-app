@@ -3,6 +3,9 @@
     "could_not_post_todo": "Todo konnte nicht gepostet werden.",
     "could_not_get_todo": "Todo konnte nicht geladen werden.",
     "could_not_put_todo": "Todo konnte nicht aktualisiert werden.",
-    "could_not_delete_todo": "Todo konnte nicht gelöscht werden."
+    "could_not_delete_todo": "Todo konnte nicht gelöscht werden.",
+    "could_not_sign_up_user": "User konnte nicht erstellt werden.",
+    "could_not_sign_in_user": "User konnte nicht angemeldet werden.",
+    "could_not_check_auth_user": "User konnte nicht authentifiziert werden."
   }
 }

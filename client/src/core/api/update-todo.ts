@@ -10,7 +10,7 @@ import { Error, Todo } from '../../types';
  * @returns async io either axios response or throwable
  */
 const updateTodo = IO.async(async (todo: Todo) => {
-  const url = urlcat(import.meta.env.VITE_API_BASE_URL, `/todo/${todo.id}`);
+  const url = urlcat(import.meta.env.VITE_API_BASE_URL, `/todos/${todo.id}`);
   return axios.put<never, AxiosResponse<unknown, Error>, Todo>(url, todo);
 });
 

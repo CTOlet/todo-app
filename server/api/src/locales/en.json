@@ -3,6 +3,9 @@
     "could_not_post_todo": "Could not post todo.",
     "could_not_get_todo": "Could not get todo.",
     "could_not_put_todo": "Could not put todo.",
-    "could_not_delete_todo": "Could not delete todo."
+    "could_not_delete_todo": "Could not delete todo.",
+    "could_not_sign_up_user": "Could not sign up user.",
+    "could_not_sign_in_user": "Could not sign in user.",
+    "could_not_check_auth_user": "Could not check auth user."
   }
 }
