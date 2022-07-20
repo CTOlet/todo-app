@@ -18,6 +18,15 @@ CREATE TABLE users (
   password text NOT NULL
 );
 
+CREATE TABLE tokens (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES users NOT NULL,
+  created_at timestamp DEFAULT now() NOT NULL,
+  updated_at timestamp DEFAULT now() NOT NULL,
+  token text NOT NULL UNIQUE,
+  expires_in timestamp NOT NULL
+);
+
 CREATE TABLE todos (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID REFERENCES users NOT NULL,
@@ -33,6 +42,12 @@ CREATE TABLE todos (
 CREATE TRIGGER modify_updated_at_trigger_users
   BEFORE UPDATE
   ON users
+  FOR EACH ROW
+EXECUTE PROCEDURE modify_updated_at();
+
+CREATE TRIGGER modify_updated_at_trigger_tokens
+  BEFORE UPDATE
+  ON tokens
   FOR EACH ROW
 EXECUTE PROCEDURE modify_updated_at();
 

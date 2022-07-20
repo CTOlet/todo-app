@@ -1,6 +1,7 @@
 import { pg } from '../services/postgresql';
 import { Request, Response } from 'express';
 import { ServerResponse } from '../models';
+import { Todo } from '../types';
 
 const postTodo = async (request: Request, response: Response) => {
   const { error, success } = new ServerResponse(request, response);
@@ -22,7 +23,7 @@ const postTodo = async (request: Request, response: Response) => {
 const getTodos = async (request: Request, response: Response) => {
   const { error, success } = new ServerResponse(request, response);
   try {
-    const todos = await pg.query(
+    const todos = await pg.query<Todo>(
       `
         SELECT
           id,
@@ -46,7 +47,7 @@ const getTodo = async (request: Request, response: Response) => {
   const { error, success } = new ServerResponse(request, response);
   try {
     const id = request.params.id;
-    const todos = await pg.query(
+    const todos = await pg.query<Todo>(
       `
         SELECT
           id,
