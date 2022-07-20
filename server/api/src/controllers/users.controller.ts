@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
-import { ErrorType } from '../constants';
 import { pg } from '../services';
-import { Error } from '../models';
+import { ServerResponse } from '../models';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 const signUp = async (request: Request, response: Response) => {
+  const { error, success } = new ServerResponse(request, response);
   try {
     const { username, password } = request.body;
     const users = await pg.query(`SELECT * FROM users WHERE username=$1`, [
@@ -24,18 +24,17 @@ const signUp = async (request: Request, response: Response) => {
         [username, passwordHash],
       );
       // const token = jwt.sign({ username }, 'TODO:SECRET_KEY');
-      response.send();
+      success.default();
     } else {
-      response
-        .status(500)
-        .send(Error(ErrorType.SIGN_UP_USER_EXCEPTION, request));
+      error.usernameAlreadyTaken();
     }
-  } catch (error) {
-    response.status(500).send(Error(ErrorType.SIGN_UP_USER_EXCEPTION, request));
+  } catch (e) {
+    error.couldNotSignUp();
   }
 };
 
 const signIn = async (request: Request, response: Response) => {
+  const { error, success } = new ServerResponse(request, response);
   try {
     const { username, password } = request.body;
     const users = await pg.query(`SELECT * FROM users WHERE username=$1`, [
@@ -50,29 +49,26 @@ const signIn = async (request: Request, response: Response) => {
 
       if (isSamePassword) {
         const token = jwt.sign({ username }, 'TODO:SECRET_KEY');
-        response.send({ token });
+        success.default({ token });
       } else {
-        response
-          .status(500)
-          .send(Error(ErrorType.SIGN_UP_USER_EXCEPTION, request));
+        error.wrongCredentials();
       }
     } else {
-      response
-        .status(500)
-        .send(Error(ErrorType.SIGN_UP_USER_EXCEPTION, request));
+      error.userNotFound();
     }
-  } catch (error) {
-    response.status(500).send(Error(ErrorType.SIGN_UP_USER_EXCEPTION, request));
+  } catch (e) {
+    error.couldNotSignIn();
   }
 };
 
 const me = async (request: Request, response: Response) => {
+  const { error, success } = new ServerResponse(request, response);
   try {
     const JWT = request.headers.authorization?.split(' ')[1];
     const result = jwt.verify(JWT!, 'TODO:SECRET_KEY');
-    response.send(result);
-  } catch (error) {
-    response.status(500).send(Error(ErrorType.SIGN_UP_USER_EXCEPTION, request));
+    success.default({ result });
+  } catch (e) {
+    error.default();
   }
 };
 

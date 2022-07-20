@@ -1,9 +1,9 @@
 import { pg } from '../services/postgresql';
 import { Request, Response } from 'express';
-import { ErrorType } from '../constants';
-import { Error } from '../models/error.model';
+import { ServerResponse } from '../models';
 
 const postTodo = async (request: Request, response: Response) => {
+  const { error, success } = new ServerResponse(request, response);
   try {
     const { userId, status, title, description } = request.body;
     await pg.query(
@@ -13,13 +13,14 @@ const postTodo = async (request: Request, response: Response) => {
       `,
       [userId, status, title, description],
     );
-    response.send();
-  } catch (error) {
-    response.status(500).send(Error(ErrorType.POST_TODO_EXCEPTION, request));
+    success.default();
+  } catch (e) {
+    error.couldNotAddTodo();
   }
 };
 
 const getTodos = async (request: Request, response: Response) => {
+  const { error, success } = new ServerResponse(request, response);
   try {
     const todos = await pg.query(
       `
@@ -35,13 +36,14 @@ const getTodos = async (request: Request, response: Response) => {
         ORDER BY created_at DESC
       `,
     );
-    response.send(todos.rows);
-  } catch (error) {
-    response.status(500).send(Error(ErrorType.GET_TODO_EXCEPTION, request));
+    success.default(todos.rows);
+  } catch (e) {
+    error.couldNotGetTodo();
   }
 };
 
 const getTodo = async (request: Request, response: Response) => {
+  const { error, success } = new ServerResponse(request, response);
   try {
     const id = request.params.id;
     const todos = await pg.query(
@@ -59,13 +61,14 @@ const getTodo = async (request: Request, response: Response) => {
       `,
       [id],
     );
-    response.send(todos.rows[0]);
-  } catch (error) {
-    response.status(500).send(Error(ErrorType.GET_TODO_EXCEPTION, request));
+    success.default(todos.rows[0]);
+  } catch (e) {
+    error.couldNotGetTodo();
   }
 };
 
 const putTodo = async (request: Request, response: Response) => {
+  const { error, success } = new ServerResponse(request, response);
   try {
     const id = request.params.id;
     const { status, title, description } = request.body;
@@ -77,13 +80,14 @@ const putTodo = async (request: Request, response: Response) => {
       `,
       [id, status, title, description],
     );
-    response.send();
-  } catch (error) {
-    response.status(500).send(Error(ErrorType.PUT_TODO_EXCEPTION, request));
+    success.default();
+  } catch (e) {
+    error.couldNotUpdateTodo();
   }
 };
 
 const deleteTodo = async (request: Request, response: Response) => {
+  const { error, success } = new ServerResponse(request, response);
   try {
     const id = request.params.id;
     await pg.query(
@@ -93,9 +97,9 @@ const deleteTodo = async (request: Request, response: Response) => {
       `,
       [id],
     );
-    response.send();
-  } catch (error) {
-    response.status(500).send(Error(ErrorType.DELETE_TODO_EXCEPTION, request));
+    success.default();
+  } catch (e) {
+    error.couldNotRemoveTodo();
   }
 };
 

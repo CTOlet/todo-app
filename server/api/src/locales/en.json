@@ -1,11 +1,17 @@
 {
   "error_message": {
-    "could_not_post_todo": "Could not post todo.",
+    "default": "An unexpected error occurred.",
+    "wrong_credentials": "Wrong credentials.",
+    "could_not_sign_up": "Could not sign up.",
+    "username_already_taken": "Username already taken.",
+    "user_not_found": "User not found.",
+    "could_not_sign_in": "Could not sign in.",
     "could_not_get_todo": "Could not get todo.",
-    "could_not_put_todo": "Could not put todo.",
-    "could_not_delete_todo": "Could not delete todo.",
-    "could_not_sign_up_user": "Could not sign up user.",
-    "could_not_sign_in_user": "Could not sign in user.",
-    "could_not_check_auth_user": "Could not check auth user."
+    "could_not_add_todo": "Could not add todo.",
+    "could_not_update_todo": "Could not update todo.",
+    "could_not_remove_todo": "Could not remove todo."
+  },
+  "success_message": {
+    "default": "Request successful."
   }
 }
