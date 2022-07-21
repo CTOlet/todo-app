@@ -41,6 +41,7 @@ const signUp = async (request: Request, response: Response) => {
 };
 
 const signIn = async (request: Request, response: Response) => {
+  // TODO: do not allow multiple calls if already signed in
   const { error, success } = new ServerResponse(request, response);
   try {
     const { username, password } = request.body;
