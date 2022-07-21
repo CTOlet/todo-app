@@ -1,11 +1,13 @@
 import jwt from 'jsonwebtoken';
 
 const generateAccessToken = <T extends Record<any, any>>(payload: T) => {
-  return jwt.sign(payload, 'TODO:SECRET_KEY');
+  // TODO: set global server secret key
+  return jwt.sign(payload, 'SECRET_KEY');
 };
 
 const verifyAccessToken = (token: string) => {
-  return jwt.verify(token, 'TODO:SECRET_KEY');
+  // TODO: set global server secret key
+  return jwt.verify(token, 'SECRET_KEY');
 };
 
 export { generateAccessToken, verifyAccessToken };

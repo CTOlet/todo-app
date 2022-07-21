@@ -21,6 +21,22 @@ class ErrorResponse {
     });
   }
 
+  tokenExpired() {
+    return this.send({
+      code: 602,
+      type: ErrorType.AUTH_ERROR,
+      message: this.request.t('error_message.token_expired'),
+    });
+  }
+
+  authenticationFailed() {
+    return this.send({
+      code: 603,
+      type: ErrorType.AUTH_ERROR,
+      message: this.request.t('error_message.authentication_failed'),
+    });
+  }
+
   couldNotSignUp() {
     return this.send({
       code: 701,

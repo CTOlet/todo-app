@@ -1,6 +1,8 @@
 {
   "error_message": {
     "default": "Es ist ein unerwarteter Fehler aufgetreten.",
+    "token_expired": "Token ist abgelaufen.",
+    "authentication_failed": "Authentifizierung fehlgeschlagen",
     "wrong_credentials": "Zugangsdaten ungültig.",
     "could_not_sign_up": "Registrierung fehlgeschlagen.",
     "username_already_taken": "Benutzername bereits vergeben.",

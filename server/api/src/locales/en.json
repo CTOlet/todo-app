@@ -1,6 +1,8 @@
 {
   "error_message": {
     "default": "An unexpected error occurred.",
+    "token_expired": "Token expired.",
+    "authentication_failed": "Authentication failed.",
     "wrong_credentials": "Wrong credentials.",
     "could_not_sign_up": "Could not sign up.",
     "username_already_taken": "Username already taken.",

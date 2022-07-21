@@ -6,29 +6,10 @@ const generateRefreshToken = () => {
   return crypto.randomBytes(48).toString('base64url');
 };
 
-const verifyRefreshToken = async (token: string, pg: Pool) => {
-  const tokens = await pg.query<RefreshToken>(
-    `
-      SELECT
-        id,
-        user_id AS "userId",
-        created_at AS "createdAt",
-        updated_at AS "updatedAt",
-        token,
-        expires_in AS "expiresIn",
-      FROM tokens WHERE token=$1
-    `,
-    [token],
-  );
-
-  const isSingleToken = tokens.rows.length === 1;
-  const isNotExpired = tokens.rows[0].expiresIn > Date.now();
-
-  if (isSingleToken && isNotExpired) {
-    return true;
-  } else {
-    return false;
-  }
+const verifyRefreshToken = (token: string, compareToken: RefreshToken) => {
+  const isSameToken = token === compareToken.token;
+  const isNotExpired = compareToken.expiresIn > Math.trunc(Date.now() / 1000);
+  return isSameToken && isNotExpired;
 };
 
 export { generateRefreshToken, verifyRefreshToken };
