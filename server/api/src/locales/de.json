@@ -8,6 +8,7 @@
     "username_already_taken": "Benutzername bereits vergeben.",
     "user_not_found": "Benutzer konnte nicht gefunden werden.",
     "could_not_sign_in": "Einloggen fehlgeschlagen.",
+    "already_signed_in": "Bereits angemeldet.",
     "could_not_get_todo": "Todo konnte nicht geladen werden.",
     "could_not_add_todo": "Todo konnte nicht hinzugefügt werden.",
     "could_not_update_todo": "Todo konnte nicht aktualisiert werden.",

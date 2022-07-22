@@ -69,6 +69,14 @@ class ErrorResponse {
     });
   }
 
+  alreadySignedIn() {
+    return this.send({
+      code: 705,
+      type: ErrorType.USER_ERROR,
+      message: this.request.t('error_message.already_signed_in'),
+    });
+  }
+
   couldNotGetTodo() {
     return this.send({
       code: 801,

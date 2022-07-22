@@ -8,6 +8,7 @@ import {
   generateRefreshToken,
   parseCookies,
   verifyRefreshToken,
+  parseAuthHeader,
 } from '../utils';
 import { RefreshToken, User } from '../types';
 
@@ -21,8 +22,8 @@ const signUp = async (request: Request, response: Response) => {
       [username],
     );
 
-    const isUsernameAvailable = !(users.rows.length != 0);
-    if (!isUsernameAvailable) {
+    const isUserFound = users.rows.length != 0;
+    if (isUserFound) {
       error.usernameAlreadyTaken();
       return;
     }
@@ -57,6 +58,15 @@ const signIn = async (request: Request, response: Response) => {
     const isUserFound = users.rows.length === 1;
     if (!isUserFound) {
       error.userNotFound();
+      return;
+    }
+
+    const isAccessTokenFound = parseAuthHeader(request.headers.authorization);
+    const { refreshToken: isRefreshTokenFound } = parseCookies(
+      request.headers.cookie,
+    );
+    if (isAccessTokenFound || isRefreshTokenFound) {
+      error.alreadySignedIn();
       return;
     }
 
