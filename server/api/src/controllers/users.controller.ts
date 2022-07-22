@@ -61,6 +61,7 @@ const signIn = async (request: Request, response: Response) => {
       return;
     }
 
+    // TODO: must check if token is from this current user -> this prevents changing user account if a token is still set ...
     const isAccessTokenFound = parseAuthHeader(request.headers.authorization);
     const { refreshToken: isRefreshTokenFound } = parseCookies(
       request.headers.cookie,
