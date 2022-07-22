@@ -22,7 +22,10 @@ const signUp = async (request: Request, response: Response) => {
     );
 
     const isUsernameAvailable = !(users.rows.length != 0);
-    if (!isUsernameAvailable) error.usernameAlreadyTaken();
+    if (!isUsernameAvailable) {
+      error.usernameAlreadyTaken();
+      return;
+    }
 
     const passwordHash = await generatePasswordHash(password);
 
@@ -51,14 +54,20 @@ const signIn = async (request: Request, response: Response) => {
       [username],
     );
 
-    const isUserFound = users.rows.length !== 1;
-    if (!isUserFound) error.userNotFound();
+    const isUserFound = users.rows.length === 1;
+    if (!isUserFound) {
+      error.userNotFound();
+      return;
+    }
 
     const [user] = users.rows;
     const passwordHash = user.password;
 
     const isValidPassword = await verifyPassword(password, passwordHash);
-    if (!isValidPassword) error.wrongCredentials();
+    if (!isValidPassword) {
+      error.wrongCredentials();
+      return;
+    }
 
     const accessToken = generateAccessToken({ id: user.id, username });
     const refreshToken = generateRefreshToken();
@@ -107,14 +116,20 @@ const refresh = async (request: Request, response: Response) => {
       refreshTokenClient,
       refreshTokenServer,
     );
-    if (!isValidRefreshToken) error.tokenExpired();
+    if (!isValidRefreshToken) {
+      error.tokenExpired();
+      return;
+    }
 
     const users = await pg.query<User>(`SELECT * FROM users WHERE id=$1`, [
       refreshTokenServer.userId,
     ]);
 
     const isUserFound = users.rows.length === 1;
-    if (!isUserFound) error.userNotFound();
+    if (!isUserFound) {
+      error.userNotFound();
+      return;
+    }
 
     const [user] = users.rows;
     const accessToken = generateAccessToken({
