@@ -15,26 +15,26 @@ const signUp = async (request: Request, response: Response) => {
   const { error, success } = new ServerResponse(request, response);
   try {
     const { username, password } = request.body;
+
     const users = await pg.query<User>(
       `SELECT * FROM users WHERE username=$1`,
       [username],
     );
 
     const isUsernameAvailable = !(users.rows.length != 0);
+    if (!isUsernameAvailable) error.usernameAlreadyTaken();
 
-    if (isUsernameAvailable) {
-      const passwordHash = await generatePasswordHash(password);
-      await pg.query(
-        `
-          INSERT INTO users (username, password)
-          VALUES ($1, $2)
-        `,
-        [username, passwordHash],
-      );
-      success.default();
-    } else {
-      error.usernameAlreadyTaken();
-    }
+    const passwordHash = await generatePasswordHash(password);
+
+    await pg.query(
+      `
+        INSERT INTO users (username, password)
+        VALUES ($1, $2)
+      `,
+      [username, passwordHash],
+    );
+
+    success.default();
   } catch (e) {
     error.couldNotSignUp();
   }
@@ -45,38 +45,36 @@ const signIn = async (request: Request, response: Response) => {
   const { error, success } = new ServerResponse(request, response);
   try {
     const { username, password } = request.body;
+
     const users = await pg.query<User>(
       `SELECT * FROM users WHERE username=$1`,
       [username],
     );
 
-    const isUserFound = users.rows.length === 1;
+    const isUserFound = users.rows.length !== 1;
+    if (!isUserFound) error.userNotFound();
 
-    if (isUserFound) {
-      const [user] = users.rows;
-      const passwordHash = user.password;
-      const isValidPassword = await verifyPassword(password, passwordHash);
+    const [user] = users.rows;
+    const passwordHash = user.password;
 
-      if (isValidPassword) {
-        const accessToken = generateAccessToken({ id: user.id, username });
-        const refreshToken = generateRefreshToken();
-        await pg.query(
-          `
-            INSERT INTO tokens (user_id, token, expires_in)
-            VALUES ($1, $2, $3)
-          `,
-          // TODO: set correct expiration
-          [user.id, refreshToken, Math.trunc((Date.now() + 86400000) / 1000)],
-        );
-        // TODO: set correct cookie options
-        response.cookie('refreshToken', refreshToken, { httpOnly: true });
-        success.default({ accessToken });
-      } else {
-        error.wrongCredentials();
-      }
-    } else {
-      error.userNotFound();
-    }
+    const isValidPassword = await verifyPassword(password, passwordHash);
+    if (!isValidPassword) error.wrongCredentials();
+
+    const accessToken = generateAccessToken({ id: user.id, username });
+    const refreshToken = generateRefreshToken();
+
+    await pg.query(
+      `
+        INSERT INTO tokens (user_id, token, expires_in)
+        VALUES ($1, $2, $3)
+      `,
+      // TODO: set correct expiration
+      [user.id, refreshToken, Math.trunc((Date.now() + 86400000) / 1000)],
+    );
+
+    // TODO: set correct cookie options
+    response.cookie('refreshToken', refreshToken, { httpOnly: true });
+    success.default({ accessToken });
   } catch (e) {
     error.couldNotSignIn();
   }
@@ -109,44 +107,39 @@ const refresh = async (request: Request, response: Response) => {
       refreshTokenClient,
       refreshTokenServer,
     );
+    if (!isValidRefreshToken) error.tokenExpired();
 
-    if (isValidRefreshToken) {
-      const users = await pg.query<User>(`SELECT * FROM users WHERE id=$1`, [
-        refreshTokenServer.userId,
-      ]);
+    const users = await pg.query<User>(`SELECT * FROM users WHERE id=$1`, [
+      refreshTokenServer.userId,
+    ]);
 
-      const isUserFound = users.rows.length === 1;
+    const isUserFound = users.rows.length === 1;
+    if (!isUserFound) error.userNotFound();
 
-      if (isUserFound) {
-        const [user] = users.rows;
-        const accessToken = generateAccessToken({
-          id: user.id,
-          username: user.username,
-        });
-        const refreshToken = generateRefreshToken();
+    const [user] = users.rows;
+    const accessToken = generateAccessToken({
+      id: user.id,
+      username: user.username,
+    });
+    const refreshToken = generateRefreshToken();
 
-        await pg.query<RefreshToken>(
-          `
-            UPDATE tokens
-            SET token=$1, expires_in=$2
-            WHERE token=$3
-          `,
-          // TODO: set correct expiration
-          [
-            refreshToken,
-            Math.trunc((Date.now() + 86400000) / 1000),
-            refreshTokenServer.token,
-          ],
-        );
-        // TODO: set correct cookie options
-        response.cookie('refreshToken', refreshToken, { httpOnly: true });
-        success.default({ accessToken });
-      } else {
-        error.tokenExpired();
-      }
-    } else {
-      error.tokenExpired();
-    }
+    await pg.query<RefreshToken>(
+      `
+        UPDATE tokens
+        SET token=$1, expires_in=$2
+        WHERE token=$3
+      `,
+      // TODO: set correct expiration
+      [
+        refreshToken,
+        Math.trunc((Date.now() + 86400000) / 1000),
+        refreshTokenServer.token,
+      ],
+    );
+
+    // TODO: set correct cookie options
+    response.cookie('refreshToken', refreshToken, { httpOnly: true });
+    success.default({ accessToken });
   } catch (e) {
     error.authenticationFailed();
   }
