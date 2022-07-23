@@ -9,34 +9,30 @@ import {
   parseCookies,
   verifyRefreshToken,
   parseAuthHeader,
+  verifyAccessToken,
 } from '../utils';
 import { RefreshToken, User } from '../types';
+import {
+  createTokenInDB,
+  createUserInDB,
+  getTokenFromDB,
+  getUserFromDB,
+  updateTokenInDB,
+} from '../core/database';
 
 const signUp = async (request: Request, response: Response) => {
   const { error, success } = new ServerResponse(request, response);
   try {
     const { username, password } = request.body;
 
-    const users = await db.query<User>(
-      `SELECT * FROM users WHERE username=$1`,
-      [username],
-    );
-
-    const isUserFound = users.rows.length != 0;
-    if (isUserFound) {
+    const user = await getUserFromDB({ username });
+    if (user) {
       error.usernameAlreadyTaken();
       return;
     }
 
     const passwordHash = await generatePasswordHash(password);
-
-    await db.query(
-      `
-        INSERT INTO users (username, password)
-        VALUES ($1, $2)
-      `,
-      [username, passwordHash],
-    );
+    await createUserInDB({ username, password: passwordHash });
 
     success.default();
   } catch (e) {
@@ -50,42 +46,56 @@ const signIn = async (request: Request, response: Response) => {
   try {
     const { username, password } = request.body;
 
-    const users = await db.query<User>(
-      `SELECT * FROM users WHERE username=$1`,
-      [username],
-    );
-
-    const isUserFound = users.rows.length === 1;
-
-    if (!isUserFound) {
+    const user = await getUserFromDB({ username });
+    if (!user) {
       error.userNotFound();
       return;
     }
 
-    const [user] = users.rows;
     const passwordHash = user.password;
     const isValidPassword = await verifyPassword(password, passwordHash);
-
     if (!isValidPassword) {
       error.wrongCredentials();
       return;
     }
 
+    // const { value: currentAccessToken } = parseAuthHeader(
+    //   request.headers.authorization,
+    // );
+    // const { refreshToken: currentRefreshToken } = parseCookies(
+    //   request.headers.cookie,
+    // );
+    // const {
+    //   rows: [refreshTokenServer],
+    // } = await db.query<RefreshToken>(
+    //   `
+    //     SELECT
+    //       id,
+    //       user_id AS "userId",
+    //       created_at AS "createdAt",
+    //       updated_at AS "updatedAt",
+    //       token,
+    //       expires_in AS "expiresIn"
+    //     FROM tokens WHERE token=$1
+    //   `,
+    //   [currentRefreshToken],
+    // );
+    // const isAccessTokenValid = verifyAccessToken(currentAccessToken!);
+    // const isRefreshTokenValid = verifyRefreshToken(
+    //   currentRefreshToken,
+    //   refreshTokenServer,
+    // );
+    // if (isAccessTokenValid || isRefreshTokenValid) {
+    //   error.alreadySignedIn();
+    //   return;
+    // }
+
     const accessToken = generateAccessToken({ id: user.id, username });
     const refreshToken = generateRefreshToken();
-
-    await db.query(
-      `
-        INSERT INTO tokens (user_id, token, expires_in)
-        VALUES ($1, $2, $3)
-      `,
-      // TODO: set correct expiration
-      [user.id, refreshToken, Math.trunc((Date.now() + 86400000) / 1000)],
-    );
+    await createTokenInDB({ userId: user.id, token: refreshToken });
 
     // TODO: set correct cookie options
     response.cookie('refreshToken', refreshToken, { httpOnly: true });
-
     success.default({ accessToken });
   } catch (e) {
     error.couldNotSignIn();
@@ -95,74 +105,41 @@ const signIn = async (request: Request, response: Response) => {
 const refresh = async (request: Request, response: Response) => {
   const { error, success } = new ServerResponse(request, response);
   try {
-    const { refreshToken: refreshTokenClient } = parseCookies(
+    const { refreshToken: currentRefreshTokenClient } = parseCookies(
       request.headers.cookie,
     );
-
-    const {
-      rows: [refreshTokenServer],
-    } = await db.query<RefreshToken>(
-      `
-        SELECT
-          id,
-          user_id AS "userId",
-          created_at AS "createdAt",
-          updated_at AS "updatedAt",
-          token,
-          expires_in AS "expiresIn"
-        FROM tokens WHERE token=$1
-      `,
-      [refreshTokenClient],
-    );
+    const currentRefreshTokenServer = await getTokenFromDB({
+      token: currentRefreshTokenClient,
+    });
 
     const isValidRefreshToken = verifyRefreshToken(
-      refreshTokenClient,
-      refreshTokenServer,
+      currentRefreshTokenClient,
+      currentRefreshTokenServer,
     );
-
     if (!isValidRefreshToken) {
       error.tokenExpired();
       return;
     }
 
-    const users = await db.query<User>(`SELECT * FROM users WHERE id=$1`, [
-      refreshTokenServer.userId,
-    ]);
-
-    const isUserFound = users.rows.length === 1;
-
-    if (!isUserFound) {
+    const user = await getUserFromDB({ id: currentRefreshTokenServer.userId });
+    if (!user) {
       error.userNotFound();
       return;
     }
 
-    const [user] = users.rows;
-
-    const accessToken = generateAccessToken({
+    const newAccessToken = generateAccessToken({
       id: user.id,
       username: user.username,
     });
-
-    const refreshToken = generateRefreshToken();
-
-    await db.query<RefreshToken>(
-      `
-        UPDATE tokens
-        SET token=$1, expires_in=$2
-        WHERE token=$3
-      `,
-      // TODO: set correct expiration
-      [
-        refreshToken,
-        Math.trunc((Date.now() + 86400000) / 1000),
-        refreshTokenServer.token,
-      ],
-    );
+    const newRefreshToken = generateRefreshToken();
+    await updateTokenInDB({
+      token: currentRefreshTokenServer.token,
+      newToken: newRefreshToken,
+    });
 
     // TODO: set correct cookie options
-    response.cookie('refreshToken', refreshToken, { httpOnly: true });
-
-    success.default({ accessToken });
+    response.cookie('refreshToken', newRefreshToken, { httpOnly: true });
+    success.default({ accessToken: newAccessToken });
   } catch (e) {
     error.authenticationFailed();
   }
