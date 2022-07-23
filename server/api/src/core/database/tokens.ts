@@ -49,4 +49,14 @@ const getTokenFromDB = async ({ token }: Pick<Token, 'token'>) => {
   return tokenDB;
 };
 
-export { createTokenInDB, updateTokenInDB, getTokenFromDB };
+const removeTokenFromDB = async ({ token }: Pick<Token, 'token'>) => {
+  return await db.query(
+    `
+      DELETE FROM tokens
+      WHERE token=$1
+    `,
+    [token],
+  );
+};
+
+export { createTokenInDB, updateTokenInDB, getTokenFromDB, removeTokenFromDB };

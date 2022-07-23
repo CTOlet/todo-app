@@ -13,6 +13,7 @@ import {
   createUserInDB,
   getTokenFromDB,
   getUserFromDB,
+  removeTokenFromDB,
   updateTokenInDB,
 } from '../core/database';
 
@@ -37,7 +38,6 @@ const signUp = async (request: Request, response: Response) => {
 };
 
 const signIn = async (request: Request, response: Response) => {
-  // TODO: do not allow multiple calls if already signed in
   const { error, success } = new ServerResponse(request, response);
   try {
     const { username, password } = request.body;
@@ -54,37 +54,6 @@ const signIn = async (request: Request, response: Response) => {
       error.wrongCredentials();
       return;
     }
-
-    // const { value: currentAccessToken } = parseAuthHeader(
-    //   request.headers.authorization,
-    // );
-    // const { refreshToken: currentRefreshToken } = parseCookies(
-    //   request.headers.cookie,
-    // );
-    // const {
-    //   rows: [refreshTokenServer],
-    // } = await db.query<RefreshToken>(
-    //   `
-    //     SELECT
-    //       id,
-    //       user_id AS "userId",
-    //       created_at AS "createdAt",
-    //       updated_at AS "updatedAt",
-    //       token,
-    //       expires_in AS "expiresIn"
-    //     FROM tokens WHERE token=$1
-    //   `,
-    //   [currentRefreshToken],
-    // );
-    // const isAccessTokenValid = verifyAccessToken(currentAccessToken!);
-    // const isRefreshTokenValid = verifyRefreshToken(
-    //   currentRefreshToken,
-    //   refreshTokenServer,
-    // );
-    // if (isAccessTokenValid || isRefreshTokenValid) {
-    //   error.alreadySignedIn();
-    //   return;
-    // }
 
     const accessToken = generateAccessToken({ id: user.id, username });
     const refreshToken = generateRefreshToken();
@@ -144,6 +113,10 @@ const refresh = async (request: Request, response: Response) => {
 const signOut = async (request: Request, response: Response) => {
   const { error, success } = new ServerResponse(request, response);
   try {
+    const { refreshToken } = parseCookies(request.headers.cookie);
+
+    await removeTokenFromDB({ token: refreshToken });
+
     response.cookie('refreshToken', null, {
       expires: new Date(0),
       maxAge: 0,
