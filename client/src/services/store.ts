@@ -10,7 +10,7 @@ type State = {
 const store = new Store<State>({
   version: '1.0.0',
   isHydrated: false,
-  isAuthenticated: true,
+  isAuthenticated: false,
 });
 
 const persist: (keyof State)[] = ['version'];

@@ -3,6 +3,7 @@ import axios from 'axios';
 const configureAxios = () => {
   // request interceptors
   axios.interceptors.request.use((config) => {
+    config.withCredentials = true;
     return config;
   });
   // response interceptors

@@ -28,11 +28,7 @@ const App = () => {
   return isHydrated ? (
     <Router
       location={location}
-      routes={
-        isAuthenticated
-          ? [...publicRoutes, ...protectedRoutes]
-          : [...publicRoutes]
-      }
+      routes={isAuthenticated ? protectedRoutes : publicRoutes}
     >
       <Outlet />
     </Router>

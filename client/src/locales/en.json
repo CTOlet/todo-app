@@ -11,7 +11,11 @@
     "error": {
       "title": "Error",
       "text": "An unknown error occurred.",
-      "reload": "Seite neuladen"
+      "reload": "Reload page"
+    },
+    "sign_in": {
+      "title": "Sign in",
+      "text": "Sign in to continue."
     }
   },
   "action": {
@@ -23,7 +27,8 @@
     "remove": "Remove",
     "save": "Save",
     "update": "Update",
-    "reload_page": "Reload page"
+    "reload_page": "Reload page",
+    "sign_in": "Sign in"
   },
   "error_message": {
     "unknown_error": "An unknown error occurred."
@@ -31,7 +36,9 @@
   "form": {
     "label": {
       "title": "Title",
-      "description": "Description"
+      "description": "Description",
+      "username": "Username",
+      "password": "Password"
     },
     "validation": {
       "required": "This is required."

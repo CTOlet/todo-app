@@ -10,7 +10,12 @@
     },
     "error": {
       "title": "Fehler",
-      "text": "Es ist ein unerwarteter Fehler aufgetreten."
+      "text": "Es ist ein unerwarteter Fehler aufgetreten.",
+      "reload": "Seite neuladen"
+    },
+    "sign_in": {
+      "title": "Anmelden",
+      "text": "Melden Sie sich an, um fortzufahren."
     }
   },
   "action": {
@@ -22,7 +27,8 @@
     "remove": "Entfernen",
     "save": "Speichern",
     "update": "Aktualisieren",
-    "reload_page": "Seite neuladen"
+    "reload_page": "Seite neuladen",
+    "sign_in": "Anmelden"
   },
   "error_message": {
     "unknown_error": "Es ist ein unerwarteter Fehler aufgetreten."
@@ -30,7 +36,9 @@
   "form": {
     "label": {
       "title": "Titel",
-      "description": "Beschreibung"
+      "description": "Beschreibung",
+      "username": "Benutzername",
+      "password": "Passwort"
     },
     "validation": {
       "required": "Das ist ein Pflichtfeld."
