@@ -141,4 +141,17 @@ const refresh = async (request: Request, response: Response) => {
   }
 };
 
-export { signUp, signIn, refresh };
+const signOut = async (request: Request, response: Response) => {
+  const { error, success } = new ServerResponse(request, response);
+  try {
+    response.cookie('refreshToken', null, {
+      expires: new Date(0),
+      maxAge: 0,
+    });
+    success.default();
+  } catch {
+    error.default();
+  }
+};
+
+export { signUp, signIn, refresh, signOut };
