@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { pg } from '../services';
+import { database as db } from '../services';
 import { ServerResponse } from '../models';
 import {
   verifyPassword,
@@ -17,7 +17,7 @@ const signUp = async (request: Request, response: Response) => {
   try {
     const { username, password } = request.body;
 
-    const users = await pg.query<User>(
+    const users = await db.query<User>(
       `SELECT * FROM users WHERE username=$1`,
       [username],
     );
@@ -30,7 +30,7 @@ const signUp = async (request: Request, response: Response) => {
 
     const passwordHash = await generatePasswordHash(password);
 
-    await pg.query(
+    await db.query(
       `
         INSERT INTO users (username, password)
         VALUES ($1, $2)
@@ -50,31 +50,22 @@ const signIn = async (request: Request, response: Response) => {
   try {
     const { username, password } = request.body;
 
-    const users = await pg.query<User>(
+    const users = await db.query<User>(
       `SELECT * FROM users WHERE username=$1`,
       [username],
     );
 
     const isUserFound = users.rows.length === 1;
+
     if (!isUserFound) {
       error.userNotFound();
       return;
     }
 
-    // TODO: must check if token is from this current user -> this prevents changing user account if a token is still set ...
-    const isAccessTokenFound = parseAuthHeader(request.headers.authorization);
-    const { refreshToken: isRefreshTokenFound } = parseCookies(
-      request.headers.cookie,
-    );
-    if (isAccessTokenFound || isRefreshTokenFound) {
-      error.alreadySignedIn();
-      return;
-    }
-
     const [user] = users.rows;
     const passwordHash = user.password;
-
     const isValidPassword = await verifyPassword(password, passwordHash);
+
     if (!isValidPassword) {
       error.wrongCredentials();
       return;
@@ -83,7 +74,7 @@ const signIn = async (request: Request, response: Response) => {
     const accessToken = generateAccessToken({ id: user.id, username });
     const refreshToken = generateRefreshToken();
 
-    await pg.query(
+    await db.query(
       `
         INSERT INTO tokens (user_id, token, expires_in)
         VALUES ($1, $2, $3)
@@ -94,6 +85,7 @@ const signIn = async (request: Request, response: Response) => {
 
     // TODO: set correct cookie options
     response.cookie('refreshToken', refreshToken, { httpOnly: true });
+
     success.default({ accessToken });
   } catch (e) {
     error.couldNotSignIn();
@@ -109,7 +101,7 @@ const refresh = async (request: Request, response: Response) => {
 
     const {
       rows: [refreshTokenServer],
-    } = await pg.query<RefreshToken>(
+    } = await db.query<RefreshToken>(
       `
         SELECT
           id,
@@ -127,29 +119,33 @@ const refresh = async (request: Request, response: Response) => {
       refreshTokenClient,
       refreshTokenServer,
     );
+
     if (!isValidRefreshToken) {
       error.tokenExpired();
       return;
     }
 
-    const users = await pg.query<User>(`SELECT * FROM users WHERE id=$1`, [
+    const users = await db.query<User>(`SELECT * FROM users WHERE id=$1`, [
       refreshTokenServer.userId,
     ]);
 
     const isUserFound = users.rows.length === 1;
+
     if (!isUserFound) {
       error.userNotFound();
       return;
     }
 
     const [user] = users.rows;
+
     const accessToken = generateAccessToken({
       id: user.id,
       username: user.username,
     });
+
     const refreshToken = generateRefreshToken();
 
-    await pg.query<RefreshToken>(
+    await db.query<RefreshToken>(
       `
         UPDATE tokens
         SET token=$1, expires_in=$2
@@ -165,6 +161,7 @@ const refresh = async (request: Request, response: Response) => {
 
     // TODO: set correct cookie options
     response.cookie('refreshToken', refreshToken, { httpOnly: true });
+
     success.default({ accessToken });
   } catch (e) {
     error.authenticationFailed();

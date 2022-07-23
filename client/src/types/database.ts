@@ -1,5 +1,5 @@
 import { TodoStatus } from '../constants';
-import { ValueOf } from './value-of';
+import { ValueOf } from './helper';
 
 type Todo = {
   id: string;
@@ -11,4 +11,11 @@ type Todo = {
   description: string;
 };
 
-export type { Todo };
+type User = {
+  id: string;
+  createdAt: number;
+  updatedAt: number;
+  username: string;
+};
+
+export type { Todo, User };

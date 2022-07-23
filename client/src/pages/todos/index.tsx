@@ -40,6 +40,8 @@ const Todos = () => {
               addTodo
                 .mutateAsync({
                   ...todoForm,
+                  // TODO: set correct userId
+                  userId: '',
                   status: TodoStatus.OPEN,
                 })
                 .then(() => {
@@ -136,13 +138,13 @@ const Todos = () => {
         <div className='absolute top-0 left-0 -z-10 flex h-screen w-screen items-center justify-center text-center text-gray-300'>
           <Spinner />
         </div>
-      ) : !todos.data || todos.data.length === 0 ? (
+      ) : !todos.data || todos.data.data?.length === 0 ? (
         <div className='absolute top-0 left-0 -z-10 flex h-screen w-screen items-center justify-center text-center text-gray-300'>
           {t('page.todos.empty')}
         </div>
       ) : (
         <div className='mt-8 divide-y divide-gray-100 overflow-hidden rounded-lg bg-white shadow'>
-          {todos.data?.map((todo, index) => {
+          {todos.data?.data?.map((todo, index) => {
             return (
               <div key={index}>
                 <div className='flex px-6 py-4 sm:px-6'>

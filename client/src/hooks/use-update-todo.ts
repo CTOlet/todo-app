@@ -3,12 +3,14 @@ import { replaceAt } from '../utils';
 import { queryClient } from '../config/react-query';
 import { MutationKey, QueryKey } from '../constants';
 import { updateTodo } from '../core/api';
-import { Error, Todo } from '../types';
+import { SuccessResponse, ErrorResponse, Todo } from '../types';
 
-const useUpdateTodo = (options?: UseMutationOptions<unknown, Error, Todo>) => {
+const useUpdateTodo = (
+  options?: UseMutationOptions<SuccessResponse, ErrorResponse, Todo>,
+) => {
   const mutation = useMutation<
-    unknown,
-    Error,
+    SuccessResponse,
+    ErrorResponse,
     Todo,
     { previousTodos?: Todo[] }
   >({

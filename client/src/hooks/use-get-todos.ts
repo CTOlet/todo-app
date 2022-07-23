@@ -1,10 +1,12 @@
 import { useQuery, UseQueryOptions } from 'react-query';
 import { QueryKey } from '../constants';
 import { getTodos } from '../core/api';
-import { Error, Todo } from '../types';
+import { SuccessResponse, ErrorResponse, Todo } from '../types';
 
-const useGetTodos = (options?: UseQueryOptions<Todo[], Error>) => {
-  const query = useQuery<Todo[], Error>({
+const useGetTodos = (
+  options?: UseQueryOptions<SuccessResponse<Todo[]>, ErrorResponse>,
+) => {
+  const query = useQuery<SuccessResponse<Todo[]>, ErrorResponse>({
     ...options,
     queryKey: QueryKey.GET_TODOS,
     queryFn: () =>

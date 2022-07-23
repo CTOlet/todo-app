@@ -1,4 +1,4 @@
-import { pg } from '../services/postgresql';
+import { database as db } from '../services/database';
 import { Request, Response } from 'express';
 import { ServerResponse } from '../models';
 import { Todo } from '../types';
@@ -7,7 +7,7 @@ const postTodo = async (request: Request, response: Response) => {
   const { error, success } = new ServerResponse(request, response);
   try {
     const { userId, status, title, description } = request.body;
-    await pg.query(
+    await db.query(
       `
         INSERT INTO todos (user_id, status, title, description)
         VALUES ($1, $2, $3, $4)
@@ -23,7 +23,7 @@ const postTodo = async (request: Request, response: Response) => {
 const getTodos = async (request: Request, response: Response) => {
   const { error, success } = new ServerResponse(request, response);
   try {
-    const todos = await pg.query<Todo>(
+    const todos = await db.query<Todo>(
       `
         SELECT
           id,
@@ -47,7 +47,7 @@ const getTodo = async (request: Request, response: Response) => {
   const { error, success } = new ServerResponse(request, response);
   try {
     const id = request.params.id;
-    const todos = await pg.query<Todo>(
+    const todos = await db.query<Todo>(
       `
         SELECT
           id,
@@ -73,7 +73,7 @@ const putTodo = async (request: Request, response: Response) => {
   try {
     const id = request.params.id;
     const { status, title, description } = request.body;
-    await pg.query(
+    await db.query(
       `
         UPDATE todos
         SET status=$2, title=$3, description=$4
@@ -91,7 +91,7 @@ const deleteTodo = async (request: Request, response: Response) => {
   const { error, success } = new ServerResponse(request, response);
   try {
     const id = request.params.id;
-    await pg.query(
+    await db.query(
       `
         DELETE FROM todos
         WHERE id=$1

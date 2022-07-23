@@ -1,7 +1,7 @@
 import { Controller, UseFormReturn } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Title, Text, Input, Textarea } from '../../../components';
-import { FormValidation } from '../../../core/validation';
+import { isRequired } from '../../../core/validation';
 
 type TodoFormFields = {
   title: string;
@@ -32,7 +32,7 @@ const TodoForm = ({ title, text, form }: TodoFormProps) => {
           name='title'
           rules={{
             validate: {
-              isRequired: FormValidation.required,
+              isRequired,
             },
           }}
           render={({ field, fieldState }) => (
@@ -53,7 +53,7 @@ const TodoForm = ({ title, text, form }: TodoFormProps) => {
           name='description'
           rules={{
             validate: {
-              isRequired: FormValidation.required,
+              isRequired,
             },
           }}
           render={({ field, fieldState }) => (

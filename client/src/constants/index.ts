@@ -1,4 +1,4 @@
 export * from './dialog-type';
-export * from './query-keys';
-export * from './mutation-keys';
+export * from './query-key';
+export * from './mutation-key';
 export * from './todo-status';

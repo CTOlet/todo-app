@@ -1,2 +1,1 @@
-export * from './error-types';
-export * from './success-types';
+export * from './server-response-type';

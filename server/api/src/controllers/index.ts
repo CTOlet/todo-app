@@ -1,2 +1,2 @@
-export * from './todos.controller';
-export * from './users.controller';
+export * from './todos-controller';
+export * from './users-controller';

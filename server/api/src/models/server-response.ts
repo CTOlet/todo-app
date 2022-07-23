@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { ErrorType, SuccessType } from '../constants';
+import { ServerResponseType } from '../constants';
 import { ValueOf } from '../types';
 
 class ErrorResponse {
@@ -8,7 +8,7 @@ class ErrorResponse {
   default() {
     return this.send({
       code: 500,
-      type: ErrorType.DEFAULT_ERROR,
+      type: ServerResponseType.ERROR.DEFAULT,
       message: this.request.t('error_message.default'),
     });
   }
@@ -16,7 +16,7 @@ class ErrorResponse {
   wrongCredentials() {
     return this.send({
       code: 601,
-      type: ErrorType.AUTH_ERROR,
+      type: ServerResponseType.ERROR.AUTH,
       message: this.request.t('error_message.wrong_credentials'),
     });
   }
@@ -24,7 +24,7 @@ class ErrorResponse {
   tokenExpired() {
     return this.send({
       code: 602,
-      type: ErrorType.AUTH_ERROR,
+      type: ServerResponseType.ERROR.AUTH,
       message: this.request.t('error_message.token_expired'),
     });
   }
@@ -32,7 +32,7 @@ class ErrorResponse {
   authenticationFailed() {
     return this.send({
       code: 603,
-      type: ErrorType.AUTH_ERROR,
+      type: ServerResponseType.ERROR.AUTH,
       message: this.request.t('error_message.authentication_failed'),
     });
   }
@@ -40,7 +40,7 @@ class ErrorResponse {
   couldNotSignUp() {
     return this.send({
       code: 701,
-      type: ErrorType.USER_ERROR,
+      type: ServerResponseType.ERROR.USER,
       message: this.request.t('error_message.could_not_sign_up'),
     });
   }
@@ -48,7 +48,7 @@ class ErrorResponse {
   usernameAlreadyTaken() {
     return this.send({
       code: 702,
-      type: ErrorType.USER_ERROR,
+      type: ServerResponseType.ERROR.USER,
       message: this.request.t('error_message.username_already_taken'),
     });
   }
@@ -56,7 +56,7 @@ class ErrorResponse {
   userNotFound() {
     return this.send({
       code: 703,
-      type: ErrorType.USER_ERROR,
+      type: ServerResponseType.ERROR.USER,
       message: this.request.t('error_message.user_not_found'),
     });
   }
@@ -64,7 +64,7 @@ class ErrorResponse {
   couldNotSignIn() {
     return this.send({
       code: 704,
-      type: ErrorType.USER_ERROR,
+      type: ServerResponseType.ERROR.USER,
       message: this.request.t('error_message.could_not_sign_in'),
     });
   }
@@ -72,7 +72,7 @@ class ErrorResponse {
   alreadySignedIn() {
     return this.send({
       code: 705,
-      type: ErrorType.USER_ERROR,
+      type: ServerResponseType.ERROR.USER,
       message: this.request.t('error_message.already_signed_in'),
     });
   }
@@ -80,7 +80,7 @@ class ErrorResponse {
   couldNotGetTodo() {
     return this.send({
       code: 801,
-      type: ErrorType.TODO_ERROR,
+      type: ServerResponseType.ERROR.TODO,
       message: this.request.t('error_message.could_not_get_todo'),
     });
   }
@@ -88,7 +88,7 @@ class ErrorResponse {
   couldNotAddTodo() {
     return this.send({
       code: 802,
-      type: ErrorType.TODO_ERROR,
+      type: ServerResponseType.ERROR.TODO,
       message: this.request.t('error_message.could_not_add_todo'),
     });
   }
@@ -96,7 +96,7 @@ class ErrorResponse {
   couldNotUpdateTodo() {
     return this.send({
       code: 803,
-      type: ErrorType.TODO_ERROR,
+      type: ServerResponseType.ERROR.TODO,
       message: this.request.t('error_message.could_not_update_todo'),
     });
   }
@@ -104,14 +104,14 @@ class ErrorResponse {
   couldNotRemoveTodo() {
     return this.send({
       code: 804,
-      type: ErrorType.TODO_ERROR,
+      type: ServerResponseType.ERROR.TODO,
       message: this.request.t('error_message.could_not_remove_todo'),
     });
   }
 
   private send(error: {
     code: number;
-    type: ValueOf<typeof ErrorType>;
+    type: ValueOf<typeof ServerResponseType.ERROR>;
     message: string;
   }) {
     return this.response.status(500).send(error);
@@ -124,7 +124,7 @@ class SuccessResponse {
   default(data?: { [key: string]: any }) {
     return this.send({
       code: 200,
-      type: SuccessType.DEFAULT_SUCCESS,
+      type: ServerResponseType.SUCCESS.DEFAULT,
       message: this.request.t('success_message.default'),
       data,
     });
@@ -132,7 +132,7 @@ class SuccessResponse {
 
   private send(success?: {
     code: number;
-    type: ValueOf<typeof SuccessType>;
+    type: ValueOf<typeof ServerResponseType.SUCCESS>;
     message: string;
     data?: { [key: string]: any };
   }) {

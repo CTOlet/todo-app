@@ -1,1 +1,1 @@
-export * from './form-validation';
+export * from './forms';
