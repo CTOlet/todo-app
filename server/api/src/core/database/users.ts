@@ -4,10 +4,7 @@ import { User } from '../../types';
 const createUserInDB = async ({
   username,
   password,
-}: {
-  username: string;
-  password: string;
-}) => {
+}: Pick<User, 'username' | 'password'>) => {
   return await db.query(
     `
       INSERT INTO users (username, password)
@@ -20,10 +17,7 @@ const createUserInDB = async ({
 const getUserFromDB = async ({
   id,
   username,
-}: {
-  id?: string;
-  username?: string;
-}) => {
+}: Partial<Pick<User, 'id' | 'username'>>) => {
   if (id) {
     const {
       rows: [user],

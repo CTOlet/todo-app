@@ -16,7 +16,7 @@ type Todo = {
   description: string;
 };
 
-type RefreshToken = {
+type Token = {
   id: string;
   userId: string;
   createdAt: number;
@@ -25,4 +25,4 @@ type RefreshToken = {
   expiresIn: number;
 };
 
-export type { User, Todo, RefreshToken };
+export type { User, Todo, Token };

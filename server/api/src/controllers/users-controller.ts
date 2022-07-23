@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { database as db } from '../services';
 import { ServerResponse } from '../models';
 import {
   verifyPassword,
@@ -8,10 +7,7 @@ import {
   generateRefreshToken,
   parseCookies,
   verifyRefreshToken,
-  parseAuthHeader,
-  verifyAccessToken,
 } from '../utils';
-import { RefreshToken, User } from '../types';
 import {
   createTokenInDB,
   createUserInDB,

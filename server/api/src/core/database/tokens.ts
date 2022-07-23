@@ -1,49 +1,39 @@
 import { database as db } from '../../services';
-import { RefreshToken } from '../../types';
+import { Token } from '../../types';
 
 const createTokenInDB = async ({
   userId,
   token,
-  // TODO: set correct expiration
-  expiresIn = Math.trunc((Date.now() + 86400000) / 1000),
-}: {
-  userId: string;
-  token: string;
-  expiresIn?: number;
-}) => {
+}: Pick<Token, 'userId' | 'token'>) => {
   return await db.query(
     `
       INSERT INTO tokens (user_id, token, expires_in)
       VALUES ($1, $2, $3)
     `,
-    [userId, token, expiresIn],
+    // TODO: set correct expiration or use database trigger
+    [userId, token, Math.trunc((Date.now() + 86400000) / 1000)],
   );
 };
 
 const updateTokenInDB = async ({
   token,
   newToken,
-  // TODO: set correct expiration
-  expiresIn = Math.trunc((Date.now() + 86400000) / 1000),
-}: {
-  token: string;
-  newToken: string;
-  expiresIn?: number;
-}) => {
-  return await db.query<RefreshToken>(
+}: Pick<Token, 'token'> & { newToken: string }) => {
+  return await db.query<Token>(
     `
       UPDATE tokens
       SET token=$1, expires_in=$2
       WHERE token=$3
     `,
-    [newToken, expiresIn, token],
+    // TODO: set correct expiration or use database trigger
+    [newToken, Math.trunc((Date.now() + 86400000) / 1000), token],
   );
 };
 
-const getTokenFromDB = async ({ token }: { token: string }) => {
+const getTokenFromDB = async ({ token }: Pick<Token, 'token'>) => {
   const {
     rows: [tokenDB],
-  } = await db.query<RefreshToken>(
+  } = await db.query<Token>(
     `
       SELECT
         id,
