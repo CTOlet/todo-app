@@ -61,7 +61,7 @@ const signIn = async (request: Request, response: Response) => {
     await createTokenInDB({ userId: user.id, token: refreshToken });
 
     response.cookie(
-      tokenOptions.name,
+      tokenOptions.tokenName,
       refreshToken,
       tokenOptions.cookieOptions,
     );
