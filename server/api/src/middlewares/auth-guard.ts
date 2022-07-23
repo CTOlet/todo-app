@@ -2,7 +2,7 @@ import { ServerResponse } from '../models';
 import { verifyAccessToken } from '../utils';
 import { Request, Response, NextFunction } from 'express';
 
-const verifyAuth = async (
+const authGuard = async (
   request: Request,
   response: Response,
   next: NextFunction,
@@ -21,4 +21,4 @@ const verifyAuth = async (
   }
 };
 
-export { verifyAuth };
+export { authGuard };
