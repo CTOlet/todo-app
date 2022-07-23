@@ -3,13 +3,11 @@ import crypto from 'crypto';
 import { Token, User } from '../types';
 
 const generateAccessToken = (payload: Pick<User, 'id' | 'username'>) => {
-  // TODO: set global server secret key
-  return jwt.sign(payload, 'SECRET_KEY');
+  return jwt.sign(payload, process.env.JWT_SECRET!);
 };
 
 const verifyAccessToken = (token: string) => {
-  // TODO: set global server secret key
-  return jwt.verify(token, 'SECRET_KEY');
+  return jwt.verify(token, process.env.JWT_SECRET!);
 };
 
 const generateRefreshToken = () => {

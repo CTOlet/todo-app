@@ -4,6 +4,7 @@
   "dependencies": {
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
     "express": "^4.17.2",
     "helmet": "^5.1.0",
     "i18next": "^21.8.9",

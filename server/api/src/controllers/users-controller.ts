@@ -16,6 +16,7 @@ import {
   removeTokenFromDB,
   updateTokenInDB,
 } from '../core/database';
+import { tokenOptions } from '../config';
 
 const signUp = async (request: Request, response: Response) => {
   const { error, success } = new ServerResponse(request, response);
@@ -59,8 +60,11 @@ const signIn = async (request: Request, response: Response) => {
     const refreshToken = generateRefreshToken();
     await createTokenInDB({ userId: user.id, token: refreshToken });
 
-    // TODO: set correct cookie options
-    response.cookie('refreshToken', refreshToken, { httpOnly: true });
+    response.cookie(
+      tokenOptions.name,
+      refreshToken,
+      tokenOptions.cookieOptions,
+    );
     success.default({ accessToken });
   } catch (e) {
     error.couldNotSignIn();
@@ -102,8 +106,11 @@ const refresh = async (request: Request, response: Response) => {
       newToken: newRefreshToken,
     });
 
-    // TODO: set correct cookie options
-    response.cookie('refreshToken', newRefreshToken, { httpOnly: true });
+    response.cookie(
+      tokenOptions.tokenName,
+      newRefreshToken,
+      tokenOptions.cookieOptions,
+    );
     success.default({ accessToken: newAccessToken });
   } catch (e) {
     error.authenticationFailed();
@@ -117,7 +124,7 @@ const signOut = async (request: Request, response: Response) => {
 
     await removeTokenFromDB({ token: refreshToken });
 
-    response.cookie('refreshToken', null, {
+    response.cookie(tokenOptions.tokenName, null, {
       expires: new Date(0),
       maxAge: 0,
     });

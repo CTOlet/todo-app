@@ -5,7 +5,9 @@ import middleware from 'i18next-http-middleware';
 import i18next from 'i18next';
 import { configureI18n } from './config/i18n';
 import { todosRoutes, usersRoutes } from './routes';
+import dotenv from 'dotenv';
 
+dotenv.config();
 configureI18n();
 
 const app = express();

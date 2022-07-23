@@ -1,3 +1,4 @@
+import { tokenOptions } from '../../config';
 import { database as db } from '../../services';
 import { Token } from '../../types';
 
@@ -10,8 +11,7 @@ const createTokenInDB = async ({
       INSERT INTO tokens (user_id, token, expires_in)
       VALUES ($1, $2, $3)
     `,
-    // TODO: set correct expiration or use database trigger
-    [userId, token, Math.trunc((Date.now() + 86400000) / 1000)],
+    [userId, token, tokenOptions.tokenExpiresIn],
   );
 };
 
@@ -25,8 +25,7 @@ const updateTokenInDB = async ({
       SET token=$1, expires_in=$2
       WHERE token=$3
     `,
-    // TODO: set correct expiration or use database trigger
-    [newToken, Math.trunc((Date.now() + 86400000) / 1000), token],
+    [newToken, tokenOptions.tokenExpiresIn, token],
   );
 };
 
