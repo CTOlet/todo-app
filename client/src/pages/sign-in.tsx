@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Button, Input, Link, Text, Title } from '../components';
 import { isRequired } from '../core/validation';
 import { useNavigate } from '@tanstack/react-location';
+import { useSignIn } from '../hooks';
 
 type SignInFormFields = {
   username: string;
@@ -13,6 +14,11 @@ const SignIn = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const signInForm = useForm<SignInFormFields>();
+  const signIn = useSignIn({
+    onSuccess: () => {
+      navigate({ to: '/todos' });
+    },
+  });
 
   return (
     <div className='flex h-5/6 items-center justify-center'>
@@ -75,7 +81,15 @@ const SignIn = () => {
         <div>
           <div className='mt-8 flex flex-col items-center justify-center'>
             <div className='w-full'>
-              <Button color='blue' isFullWidth={true}>
+              <Button
+                color='blue'
+                isFullWidth={true}
+                onClick={() =>
+                  signInForm.handleSubmit((signInForm) => {
+                    signIn.mutate(signInForm);
+                  })()
+                }
+              >
                 {t('action.sign_in')}
               </Button>
             </div>
