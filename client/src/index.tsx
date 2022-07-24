@@ -17,7 +17,9 @@ import { queryClient } from './config/react-query';
 import { Error } from './pages';
 import { store } from './services';
 import { Container, Dialog } from './components';
+import { configureTokenRefresh } from './config/token-refresh';
 
+configureTokenRefresh();
 configureAxios();
 configureI18n();
 
