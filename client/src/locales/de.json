@@ -15,7 +15,8 @@
     },
     "sign_in": {
       "title": "Anmelden",
-      "text": "Melden Sie sich an, um fortzufahren."
+      "text": "Melden Sie sich an, um fortzufahren.",
+      "sign_up_question": "Sie haben noch keinen Account?"
     }
   },
   "action": {
@@ -28,7 +29,8 @@
     "save": "Speichern",
     "update": "Aktualisieren",
     "reload_page": "Seite neuladen",
-    "sign_in": "Anmelden"
+    "sign_in": "Anmelden",
+    "sign_up": "Registrieren"
   },
   "error_message": {
     "unknown_error": "Es ist ein unerwarteter Fehler aufgetreten."

@@ -15,7 +15,8 @@
     },
     "sign_in": {
       "title": "Sign in",
-      "text": "Sign in to continue."
+      "text": "Sign in to continue.",
+      "sign_up_question": "Don't have an account yet?"
     }
   },
   "action": {
@@ -28,7 +29,8 @@
     "save": "Save",
     "update": "Update",
     "reload_page": "Reload page",
-    "sign_in": "Sign in"
+    "sign_in": "Sign in",
+    "sign_up": "Sign up"
   },
   "error_message": {
     "unknown_error": "An unknown error occurred."

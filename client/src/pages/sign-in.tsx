@@ -1,6 +1,6 @@
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Button, Input, Text, Title } from '../components';
+import { Button, Input, Link, Text, Title } from '../components';
 import { isRequired } from '../core/validation';
 import { dialog } from '../services';
 
@@ -16,14 +16,14 @@ const SignIn = () => {
   });
 
   return (
-    <div className='flex h-screen w-screen items-center justify-center'>
+    <div className='flex h-5/6 items-center justify-center'>
       <div className='w-full max-w-md'>
         <div>
           <div>
-            <Title>Sign in</Title>
+            <Title>{t('page.sign_in.title')}</Title>
           </div>
           <div className='mt-2'>
-            <Text>Sign in to your account</Text>
+            <Text>{t('page.sign_in.text')}</Text>
           </div>
         </div>
 
@@ -72,9 +72,18 @@ const SignIn = () => {
             />
           </div>
         </div>
+
         <div>
-          <div className='mt-2 flex justify-end'>
-            <Button color='blue'>{t('action.sign_in')}</Button>
+          <div className='mt-8 flex flex-col items-center justify-center'>
+            <div className='w-full'>
+              <Button color='blue' isFullWidth={true}>
+                {t('action.sign_in')}
+              </Button>
+            </div>
+            <div className='mt-2 text-sm'>
+              {t('page.sign_in.sign_up_question')}{' '}
+              <Link>{t('action.sign_up')}.</Link>
+            </div>
           </div>
         </div>
       </div>

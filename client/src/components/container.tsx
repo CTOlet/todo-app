@@ -6,7 +6,7 @@ type ContainerProps = {
 };
 const Container = ({ width, children }: ContainerProps) => {
   return (
-    <div className='flex justify-center p-4'>
+    <div className='box-border flex h-screen w-screen justify-center p-4'>
       <div
         className={`w-full ${
           width === 'sm'

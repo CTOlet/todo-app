@@ -6,6 +6,7 @@ type ButtonProps = {
   color?: 'default' | 'gray' | 'red' | 'yellow' | 'green' | 'blue';
   isLoading?: boolean;
   isDisabled?: boolean;
+  isFullWidth?: boolean;
   onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
   children?: ReactNode;
 };
@@ -15,15 +16,18 @@ const Button = ({
   color = 'default',
   isLoading,
   isDisabled,
+  isFullWidth,
   onClick,
   children,
 }: ButtonProps) => {
   return (
     <button
       disabled={isDisabled}
-      className={`inline-flex w-full justify-center rounded-md border text-base font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 sm:w-auto sm:text-sm ${
-        icon ? 'px-2 py-2' : 'px-4 py-2'
-      } ${isDisabled ? 'cursor-not-allowed' : ''} ${
+      className={`inline-flex justify-center rounded-md border text-base font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 sm:text-sm ${
+        isFullWidth ? 'w-full sm:w-full' : 'w-full sm:w-auto'
+      } ${icon ? 'px-2 py-2' : 'px-4 py-2'} ${
+        isDisabled ? 'cursor-not-allowed' : ''
+      } ${
         color === 'default'
           ? 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50 focus:ring-indigo-500'
           : color === 'gray'
