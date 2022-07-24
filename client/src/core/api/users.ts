@@ -4,7 +4,7 @@ import urlcat from 'urlcat';
 import { ErrorResponse, SuccessResponse, User } from '../../types';
 
 const signUp = IO.async(async (user: Pick<User, 'username' | 'password'>) => {
-  const url = urlcat(import.meta.env.VITE_API_BASE_URL, '/signup');
+  const url = urlcat(import.meta.env.VITE_API_BASE_URL, '/users/signup');
   return axios.post<
     never,
     AxiosResponse<SuccessResponse, ErrorResponse>,
@@ -13,7 +13,7 @@ const signUp = IO.async(async (user: Pick<User, 'username' | 'password'>) => {
 });
 
 const signIn = IO.async(async (user: Pick<User, 'username' | 'password'>) => {
-  const url = urlcat(import.meta.env.VITE_API_BASE_URL, '/signin');
+  const url = urlcat(import.meta.env.VITE_API_BASE_URL, '/users/signin');
   return axios.post<
     never,
     AxiosResponse<SuccessResponse, ErrorResponse>,
@@ -22,12 +22,12 @@ const signIn = IO.async(async (user: Pick<User, 'username' | 'password'>) => {
 });
 
 const refresh = IO.async(async () => {
-  const url = urlcat(import.meta.env.VITE_API_BASE_URL, '/refresh');
+  const url = urlcat(import.meta.env.VITE_API_BASE_URL, '/users/refresh');
   return axios.post<never, AxiosResponse<SuccessResponse, ErrorResponse>>(url);
 });
 
 const signOut = IO.async(async () => {
-  const url = urlcat(import.meta.env.VITE_API_BASE_URL, '/signout');
+  const url = urlcat(import.meta.env.VITE_API_BASE_URL, '/users/signout');
   return axios.post<never, AxiosResponse<SuccessResponse, ErrorResponse>>(url);
 });
 

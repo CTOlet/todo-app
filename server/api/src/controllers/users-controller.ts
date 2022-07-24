@@ -32,7 +32,7 @@ const signUp = async (request: Request, response: Response) => {
     const passwordHash = await generatePasswordHash(password);
     await createUserInDB({ username, password: passwordHash });
 
-    success.default();
+    success.signUpCompleted();
   } catch (e) {
     error.couldNotSignUp();
   }

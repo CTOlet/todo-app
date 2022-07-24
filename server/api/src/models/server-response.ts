@@ -130,6 +130,14 @@ class SuccessResponse {
     });
   }
 
+  signUpCompleted() {
+    return this.send({
+      code: 200,
+      type: ServerResponseType.SUCCESS.USER,
+      message: this.request.t('success_message.sign_up_completed'),
+    });
+  }
+
   private send(success?: {
     code: number;
     type: ValueOf<typeof ServerResponseType.SUCCESS>;

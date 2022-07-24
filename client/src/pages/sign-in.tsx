@@ -12,9 +12,7 @@ type SignInFormFields = {
 const SignIn = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const signInForm = useForm<SignInFormFields>({
-    defaultValues: { username: 'admin', password: 'admin' },
-  });
+  const signInForm = useForm<SignInFormFields>();
 
   return (
     <div className='flex h-5/6 items-center justify-center'>

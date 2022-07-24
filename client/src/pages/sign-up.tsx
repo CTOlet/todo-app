@@ -1,7 +1,10 @@
+import { useNavigate } from '@tanstack/react-location';
 import { Controller, useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 import { Button, Input, Text, Title } from '../components';
 import { isRequired } from '../core/validation';
+import { useSignUp } from '../hooks';
 
 type SignUpFormFields = {
   username: string;
@@ -10,7 +13,14 @@ type SignUpFormFields = {
 
 const SignUp = () => {
   const { t } = useTranslation();
-  const signUpForm = useForm<SignUpFormFields>({});
+  const navigate = useNavigate();
+  const signUpForm = useForm<SignUpFormFields>();
+  const signUp = useSignUp({
+    onSuccess: ({ message }) => {
+      if (message) toast.success(message);
+      navigate({ to: '/sign-in' });
+    },
+  });
 
   return (
     <div className='flex h-5/6 items-center justify-center'>
@@ -73,7 +83,16 @@ const SignUp = () => {
         <div>
           <div className='mt-8 flex flex-col items-center justify-center'>
             <div className='w-full'>
-              <Button color='blue' isFullWidth={true}>
+              <Button
+                color='blue'
+                isFullWidth={true}
+                isLoading={signUp.isLoading}
+                onClick={() =>
+                  signUpForm.handleSubmit((signUpForm) => {
+                    signUp.mutate(signUpForm);
+                  })()
+                }
+              >
                 {t('action.sign_up')}
               </Button>
             </div>

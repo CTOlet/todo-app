@@ -15,6 +15,7 @@
     "could_not_remove_todo": "Could not remove todo."
   },
   "success_message": {
-    "default": "Request successful."
+    "default": "Request successful.",
+    "sign_up_completed": "Sign up completed."
   }
 }

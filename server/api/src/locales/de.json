@@ -15,6 +15,7 @@
     "could_not_remove_todo": "Todo konnte nicht entfernt werden."
   },
   "success_message": {
-    "default": "Anfrage erfolgreich."
+    "default": "Anfrage erfolgreich.",
+    "sign_up_completed": "Registrierung abgeschlossen."
   }
 }

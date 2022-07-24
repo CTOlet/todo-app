@@ -7,6 +7,7 @@ const ServerResponseType = {
   },
   SUCCESS: {
     DEFAULT: 'SUCCESS',
+    USER: 'USER_SUCCESS',
   },
 } as const;
 
