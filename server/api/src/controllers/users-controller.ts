@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { ServerResponse } from '../models';
 import {
-  verifyPassword,
+  verifyPasswordHash,
   generateAccessToken,
   generatePasswordHash,
   generateRefreshToken,
@@ -50,7 +50,10 @@ const signIn = async (request: Request, response: Response) => {
     }
 
     const passwordHash = user.password;
-    const isValidPassword = await verifyPassword(password, passwordHash);
+    const isValidPassword = await verifyPasswordHash({
+      password,
+      passwordHash,
+    });
     if (!isValidPassword) {
       error.wrongCredentials();
       return;
