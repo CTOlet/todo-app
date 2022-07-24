@@ -17,6 +17,10 @@
       "title": "Anmelden",
       "text": "Melden Sie sich an, um fortzufahren.",
       "sign_up_question": "Sie haben noch keinen Account?"
+    },
+    "sign_up": {
+      "title": "Registrieren",
+      "text": "Registrieren Sie sich, um fortzufahren."
     }
   },
   "action": {

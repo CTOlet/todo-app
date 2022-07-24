@@ -1,37 +1,33 @@
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Button, Input, Link, Text, Title } from '../components';
+import { Button, Input, Text, Title } from '../components';
 import { isRequired } from '../core/validation';
-import { useNavigate } from '@tanstack/react-location';
 
-type SignInFormFields = {
+type SignUpFormFields = {
   username: string;
   password: string;
 };
 
-const SignIn = () => {
+const SignUp = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-  const signInForm = useForm<SignInFormFields>({
-    defaultValues: { username: 'admin', password: 'admin' },
-  });
+  const signUpForm = useForm<SignUpFormFields>({});
 
   return (
     <div className='flex h-5/6 items-center justify-center'>
       <div className='w-full max-w-md'>
         <div>
           <div>
-            <Title>{t('page.sign_in.title')}</Title>
+            <Title>{t('page.sign_up.title')}</Title>
           </div>
           <div className='mt-2'>
-            <Text>{t('page.sign_in.text')}</Text>
+            <Text>{t('page.sign_up.text')}</Text>
           </div>
         </div>
 
         <div>
           <div className='mt-6'>
             <Controller
-              control={signInForm.control}
+              control={signUpForm.control}
               name='username'
               rules={{
                 validate: {
@@ -52,7 +48,7 @@ const SignIn = () => {
           </div>
           <div className='mt-2'>
             <Controller
-              control={signInForm.control}
+              control={signUpForm.control}
               name='password'
               rules={{
                 validate: {
@@ -78,14 +74,8 @@ const SignIn = () => {
           <div className='mt-8 flex flex-col items-center justify-center'>
             <div className='w-full'>
               <Button color='blue' isFullWidth={true}>
-                {t('action.sign_in')}
+                {t('action.sign_up')}
               </Button>
-            </div>
-            <div className='mt-2 text-sm'>
-              {t('page.sign_in.sign_up_question')}{' '}
-              <Link onClick={() => navigate({ to: '/sign-up', replace: true })}>
-                {t('action.sign_up')}.
-              </Link>
             </div>
           </div>
         </div>
@@ -94,4 +84,4 @@ const SignIn = () => {
   );
 };
 
-export { SignIn };
+export { SignUp };

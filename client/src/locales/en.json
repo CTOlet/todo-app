@@ -17,6 +17,10 @@
       "title": "Sign in",
       "text": "Sign in to continue.",
       "sign_up_question": "Don't have an account yet?"
+    },
+    "sign_up": {
+      "title": "Sign up",
+      "text": "Sign up to continue."
     }
   },
   "action": {
