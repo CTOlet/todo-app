@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { createResponse } from '../services';
 import {
   createTodoInDB,
   getTodoFromDB,
@@ -9,7 +8,7 @@ import {
 } from '../core/database';
 
 const postTodo = async (request: Request, response: Response) => {
-  const { error, success } = createResponse({ request, response });
+  const { errorMessage: error, successMessage: success } = response;
   try {
     const { userId, status, title, description } = request.body;
     await createTodoInDB({ userId, status, title, description });
@@ -20,7 +19,7 @@ const postTodo = async (request: Request, response: Response) => {
 };
 
 const getTodos = async (request: Request, response: Response) => {
-  const { error, success } = createResponse({ request, response });
+  const { errorMessage: error, successMessage: success } = response;
   try {
     const todos = await getTodosFromDB();
     success.default(todos);
@@ -30,7 +29,7 @@ const getTodos = async (request: Request, response: Response) => {
 };
 
 const getTodo = async (request: Request, response: Response) => {
-  const { error, success } = createResponse({ request, response });
+  const { errorMessage: error, successMessage: success } = response;
   try {
     const id = request.params.id;
     const todo = await getTodoFromDB({ id });
@@ -41,7 +40,7 @@ const getTodo = async (request: Request, response: Response) => {
 };
 
 const putTodo = async (request: Request, response: Response) => {
-  const { error, success } = createResponse({ request, response });
+  const { errorMessage: error, successMessage: success } = response;
   try {
     const id = request.params.id;
     const { status, title, description } = request.body;
@@ -53,7 +52,7 @@ const putTodo = async (request: Request, response: Response) => {
 };
 
 const deleteTodo = async (request: Request, response: Response) => {
-  const { error, success } = createResponse({ request, response });
+  const { errorMessage: error, successMessage: success } = response;
   try {
     const id = request.params.id;
     await removeTodoFromDB({ id });

@@ -1,6 +1,3 @@
-import { CookieOptions } from 'express';
-import { Time } from '../constants';
-
 const parseCookies = (cookies?: string): Record<any, any> => {
   return cookies
     ? cookies?.split(';').reduce((acc, curr) => {

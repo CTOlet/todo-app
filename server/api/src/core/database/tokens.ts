@@ -5,7 +5,7 @@ import { Token } from '../../types';
 const createTokenInDB = async ({
   userId,
   token,
-  expiresIn = Time.ONE_DAY,
+  expiresIn = Time.SECONDS.ONE_DAY,
 }: Pick<Token, 'userId' | 'token'> & { expiresIn?: number }) => {
   return await db.query(
     `
@@ -19,7 +19,7 @@ const createTokenInDB = async ({
 const updateTokenInDB = async ({
   token,
   newToken,
-  expiresIn = Time.ONE_DAY,
+  expiresIn = Time.SECONDS.ONE_DAY,
 }: Pick<Token, 'token'> & { newToken: string; expiresIn?: number }) => {
   return await db.query<Token>(
     `

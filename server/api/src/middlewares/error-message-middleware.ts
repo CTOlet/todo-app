@@ -1,8 +1,8 @@
-import { Request, Response } from 'express';
-import { ErrorResponseType, SuccessResponseType } from '../constants';
+import { Request, Response, NextFunction } from 'express';
+import { ErrorMessageType } from '../constants';
 import { ValueOf } from '../types';
 
-const ErrorResponse = ({
+const ErrorResponseMessage = ({
   request,
   response,
 }: {
@@ -11,7 +11,7 @@ const ErrorResponse = ({
 }) => {
   const send = (error: {
     code: number;
-    type: ValueOf<typeof ErrorResponseType>;
+    type: ValueOf<typeof ErrorMessageType>;
     message: string;
   }) => {
     return response.status(500).send(error);
@@ -21,7 +21,7 @@ const ErrorResponse = ({
     default: () => {
       return send({
         code: 500,
-        type: ErrorResponseType.DEFAULT_ERROR,
+        type: ErrorMessageType.DEFAULT_ERROR,
         message: request.t('error_message.default'),
       });
     },
@@ -29,7 +29,7 @@ const ErrorResponse = ({
     wrongCredentials: () => {
       return send({
         code: 601,
-        type: ErrorResponseType.AUTH_ERROR,
+        type: ErrorMessageType.AUTH_ERROR,
         message: request.t('error_message.wrong_credentials'),
       });
     },
@@ -37,7 +37,7 @@ const ErrorResponse = ({
     tokenExpired: () => {
       return send({
         code: 602,
-        type: ErrorResponseType.AUTH_ERROR,
+        type: ErrorMessageType.AUTH_ERROR,
         message: request.t('error_message.token_expired'),
       });
     },
@@ -45,7 +45,7 @@ const ErrorResponse = ({
     authenticationFailed: () => {
       return send({
         code: 603,
-        type: ErrorResponseType.AUTH_ERROR,
+        type: ErrorMessageType.AUTH_ERROR,
         message: request.t('error_message.authentication_failed'),
       });
     },
@@ -53,7 +53,7 @@ const ErrorResponse = ({
     couldNotSignUp: () => {
       return send({
         code: 701,
-        type: ErrorResponseType.USER_ERROR,
+        type: ErrorMessageType.USER_ERROR,
         message: request.t('error_message.could_not_sign_up'),
       });
     },
@@ -61,7 +61,7 @@ const ErrorResponse = ({
     usernameAlreadyTaken: () => {
       return send({
         code: 702,
-        type: ErrorResponseType.USER_ERROR,
+        type: ErrorMessageType.USER_ERROR,
         message: request.t('error_message.username_already_taken'),
       });
     },
@@ -69,7 +69,7 @@ const ErrorResponse = ({
     userNotFound: () => {
       return send({
         code: 703,
-        type: ErrorResponseType.USER_ERROR,
+        type: ErrorMessageType.USER_ERROR,
         message: request.t('error_message.user_not_found'),
       });
     },
@@ -77,7 +77,7 @@ const ErrorResponse = ({
     couldNotSignIn: () => {
       return send({
         code: 704,
-        type: ErrorResponseType.USER_ERROR,
+        type: ErrorMessageType.USER_ERROR,
         message: request.t('error_message.could_not_sign_in'),
       });
     },
@@ -85,7 +85,7 @@ const ErrorResponse = ({
     alreadySignedIn: () => {
       return send({
         code: 705,
-        type: ErrorResponseType.USER_ERROR,
+        type: ErrorMessageType.USER_ERROR,
         message: request.t('error_message.already_signed_in'),
       });
     },
@@ -93,7 +93,7 @@ const ErrorResponse = ({
     couldNotGetTodo: () => {
       return send({
         code: 801,
-        type: ErrorResponseType.USER_ERROR,
+        type: ErrorMessageType.USER_ERROR,
         message: request.t('error_message.could_not_get_todo'),
       });
     },
@@ -101,7 +101,7 @@ const ErrorResponse = ({
     couldNotAddTodo: () => {
       return send({
         code: 802,
-        type: ErrorResponseType.TODO_ERROR,
+        type: ErrorMessageType.TODO_ERROR,
         message: request.t('error_message.could_not_add_todo'),
       });
     },
@@ -109,7 +109,7 @@ const ErrorResponse = ({
     couldNotUpdateTodo: () => {
       return send({
         code: 803,
-        type: ErrorResponseType.TODO_ERROR,
+        type: ErrorMessageType.TODO_ERROR,
         message: request.t('error_message.could_not_update_todo'),
       });
     },
@@ -117,64 +117,20 @@ const ErrorResponse = ({
     couldNotRemoveTodo: () => {
       return send({
         code: 804,
-        type: ErrorResponseType.TODO_ERROR,
+        type: ErrorMessageType.TODO_ERROR,
         message: request.t('error_message.could_not_remove_todo'),
       });
     },
   };
 };
 
-const SuccessResponse = ({
-  request,
-  response,
-}: {
-  request: Request;
-  response: Response;
-}) => {
-  const send = (success?: {
-    code: number;
-    type: ValueOf<typeof SuccessResponseType>;
-    message: string;
-    data?: { [key: string]: any };
-  }) => {
-    return response.status(200).send(success);
-  };
-
-  return {
-    default: (data?: { [key: string]: any }) => {
-      return send({
-        code: 200,
-        type: SuccessResponseType.DEFAULT_SUCCESS,
-        message: request.t('success_message.default'),
-        data,
-      });
-    },
-
-    signUpCompleted: () => {
-      return send({
-        code: 200,
-        type: SuccessResponseType.USER_SUCCESS,
-        message: request.t('success_message.sign_up_completed'),
-      });
-    },
-  };
+const errorMessage = async (
+  request: Request,
+  response: Response,
+  next: NextFunction,
+) => {
+  response.errorMessage = ErrorResponseMessage({ request, response });
+  next();
 };
 
-const createResponse = ({
-  request,
-  response,
-}: {
-  request: Request;
-  response: Response;
-}) => {
-  return {
-    get error() {
-      return ErrorResponse({ request, response });
-    },
-    get success() {
-      return SuccessResponse({ request, response });
-    },
-  };
-};
-
-export { createResponse };
+export { errorMessage, ErrorResponseMessage };

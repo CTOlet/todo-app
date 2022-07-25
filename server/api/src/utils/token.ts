@@ -2,11 +2,11 @@ import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import { Token, User } from '../types';
 import { Time } from '../constants';
-import { CookieOptions, Response } from 'express';
+import { Response } from 'express';
 
 const generateAccessToken = ({
   payload,
-  expiresIn = Time.ONE_HOUR,
+  expiresIn = Time.SECONDS.ONE_HOUR,
 }: {
   payload: Pick<User, 'id' | 'username'>;
   expiresIn?: number;
@@ -36,7 +36,7 @@ const verifyRefreshToken = ({
 
 const setRefreshTokenCookie = ({
   value,
-  expiresIn = Time.ONE_DAY,
+  expiresIn = Time.SECONDS.ONE_DAY,
   response,
 }: {
   value: string;

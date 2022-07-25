@@ -6,6 +6,7 @@ import i18next from 'i18next';
 import { configureI18n } from './config/i18n';
 import { todosRoutes, usersRoutes } from './routes';
 import dotenv from 'dotenv';
+import { errorMessage, successMessage } from './middlewares';
 
 dotenv.config();
 configureI18n();
@@ -17,6 +18,8 @@ app.use(express.json());
 app.use(cors());
 app.use(helmet());
 app.use(middleware.handle(i18next));
+app.use(errorMessage);
+app.use(successMessage);
 app.use('/users', usersRoutes);
 app.use('/todos', todosRoutes);
 

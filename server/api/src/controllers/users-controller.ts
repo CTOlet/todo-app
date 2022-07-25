@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { createResponse } from '../services';
 import {
   verifyPasswordHash,
   generateAccessToken,
@@ -20,7 +19,7 @@ import {
 import { Time } from '../constants';
 
 const signUp = async (request: Request, response: Response) => {
-  const { error, success } = createResponse({ request, response });
+  const { errorMessage: error, successMessage: success } = response;
   try {
     const { username, password } = request.body;
 
@@ -40,7 +39,7 @@ const signUp = async (request: Request, response: Response) => {
 };
 
 const signIn = async (request: Request, response: Response) => {
-  const { error, success } = createResponse({ request, response });
+  const { errorMessage: error, successMessage: success } = response;
   try {
     const { username, password } = request.body;
 
@@ -75,7 +74,7 @@ const signIn = async (request: Request, response: Response) => {
 };
 
 const refresh = async (request: Request, response: Response) => {
-  const { error, success } = createResponse({ request, response });
+  const { errorMessage: error, successMessage: success } = response;
   try {
     const { refreshToken: currentRefreshTokenClient } = parseCookies(
       request.headers.cookie,
@@ -117,7 +116,7 @@ const refresh = async (request: Request, response: Response) => {
 };
 
 const signOut = async (request: Request, response: Response) => {
-  const { error, success } = createResponse({ request, response });
+  const { errorMessage: error, successMessage: success } = response;
   try {
     const { refreshToken } = parseCookies(request.headers.cookie);
 
