@@ -9,7 +9,10 @@ const generateAccessToken = ({
   payload: Pick<User, 'id' | 'username'>;
   options?: typeof accessTokenOptions;
 }) => {
-  return jwt.sign(payload, process.env.JWT_SECRET!, options);
+  return {
+    value: jwt.sign(payload, process.env.JWT_SECRET!, options),
+    expiresIn: options.expiresIn,
+  };
 };
 
 const verifyAccessToken = (token: string) => {
