@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { ServerResponse } from '../models';
+import { createResponse } from '../services';
 import {
   verifyPasswordHash,
   generateAccessToken,
@@ -7,6 +7,7 @@ import {
   generateRefreshToken,
   parseCookies,
   verifyRefreshToken,
+  setRefreshTokenCookie,
 } from '../utils';
 import {
   createTokenInDB,
@@ -16,10 +17,10 @@ import {
   removeTokenFromDB,
   updateTokenInDB,
 } from '../core/database';
-import { tokenOptions } from '../config';
+import { Time } from '../constants';
 
 const signUp = async (request: Request, response: Response) => {
-  const { error, success } = new ServerResponse(request, response);
+  const { error, success } = createResponse({ request, response });
   try {
     const { username, password } = request.body;
 
@@ -39,7 +40,7 @@ const signUp = async (request: Request, response: Response) => {
 };
 
 const signIn = async (request: Request, response: Response) => {
-  const { error, success } = new ServerResponse(request, response);
+  const { error, success } = createResponse({ request, response });
   try {
     const { username, password } = request.body;
 
@@ -59,15 +60,14 @@ const signIn = async (request: Request, response: Response) => {
       return;
     }
 
-    const accessToken = generateAccessToken({ id: user.id, username });
+    const accessToken = generateAccessToken({
+      payload: { id: user.id, username },
+    });
     const refreshToken = generateRefreshToken();
     await createTokenInDB({ userId: user.id, token: refreshToken });
 
-    response.cookie(
-      tokenOptions.tokenName,
-      refreshToken,
-      tokenOptions.cookieOptions,
-    );
+    setRefreshTokenCookie({ value: refreshToken, response });
+
     success.default({ accessToken });
   } catch (e) {
     error.couldNotSignIn();
@@ -75,7 +75,7 @@ const signIn = async (request: Request, response: Response) => {
 };
 
 const refresh = async (request: Request, response: Response) => {
-  const { error, success } = new ServerResponse(request, response);
+  const { error, success } = createResponse({ request, response });
   try {
     const { refreshToken: currentRefreshTokenClient } = parseCookies(
       request.headers.cookie,
@@ -84,10 +84,10 @@ const refresh = async (request: Request, response: Response) => {
       token: currentRefreshTokenClient,
     });
 
-    const isValidRefreshToken = verifyRefreshToken(
-      currentRefreshTokenClient,
-      currentRefreshTokenServer,
-    );
+    const isValidRefreshToken = verifyRefreshToken({
+      token: currentRefreshTokenClient,
+      tokenFromDB: currentRefreshTokenServer,
+    });
     if (!isValidRefreshToken) {
       error.tokenExpired();
       return;
@@ -100,8 +100,7 @@ const refresh = async (request: Request, response: Response) => {
     }
 
     const newAccessToken = generateAccessToken({
-      id: user.id,
-      username: user.username,
+      payload: { id: user.id, username: user.username },
     });
     const newRefreshToken = generateRefreshToken();
     await updateTokenInDB({
@@ -109,11 +108,8 @@ const refresh = async (request: Request, response: Response) => {
       newToken: newRefreshToken,
     });
 
-    response.cookie(
-      tokenOptions.tokenName,
-      newRefreshToken,
-      tokenOptions.cookieOptions,
-    );
+    setRefreshTokenCookie({ value: newRefreshToken, response });
+
     success.default({ accessToken: newAccessToken });
   } catch (e) {
     error.authenticationFailed();
@@ -121,16 +117,14 @@ const refresh = async (request: Request, response: Response) => {
 };
 
 const signOut = async (request: Request, response: Response) => {
-  const { error, success } = new ServerResponse(request, response);
+  const { error, success } = createResponse({ request, response });
   try {
     const { refreshToken } = parseCookies(request.headers.cookie);
 
     await removeTokenFromDB({ token: refreshToken });
 
-    response.cookie(tokenOptions.tokenName, null, {
-      expires: new Date(0),
-      maxAge: 0,
-    });
+    setRefreshTokenCookie({ value: '', expiresIn: 0, response });
+
     success.default();
   } catch {
     error.default();

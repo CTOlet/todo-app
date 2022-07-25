@@ -1,4 +1,4 @@
-import { ServerResponse } from '../models';
+import { createResponse } from '../services';
 import { verifyAccessToken } from '../utils';
 import { Request, Response, NextFunction } from 'express';
 
@@ -7,7 +7,7 @@ const authGuard = async (
   response: Response,
   next: NextFunction,
 ) => {
-  const { error } = new ServerResponse(request, response);
+  const { error } = createResponse({ request, response });
   try {
     const JWT = request.headers.authorization?.split(' ')[1];
     const isAccessTokenValid = !!verifyAccessToken(JWT!);

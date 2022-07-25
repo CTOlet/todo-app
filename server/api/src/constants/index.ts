@@ -1,1 +1,2 @@
-export * from './server-response-type';
+export * from './response-type';
+export * from './time';

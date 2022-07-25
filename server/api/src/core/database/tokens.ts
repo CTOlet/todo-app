@@ -1,31 +1,33 @@
-import { tokenOptions } from '../../config';
+import { Time } from '../../constants';
 import { database as db } from '../../services';
 import { Token } from '../../types';
 
 const createTokenInDB = async ({
   userId,
   token,
-}: Pick<Token, 'userId' | 'token'>) => {
+  expiresIn = Time.ONE_DAY,
+}: Pick<Token, 'userId' | 'token'> & { expiresIn?: number }) => {
   return await db.query(
     `
       INSERT INTO tokens (user_id, token, expires_in)
       VALUES ($1, $2, $3)
     `,
-    [userId, token, tokenOptions.tokenExpiresIn],
+    [userId, token, expiresIn],
   );
 };
 
 const updateTokenInDB = async ({
   token,
   newToken,
-}: Pick<Token, 'token'> & { newToken: string }) => {
+  expiresIn = Time.ONE_DAY,
+}: Pick<Token, 'token'> & { newToken: string; expiresIn?: number }) => {
   return await db.query<Token>(
     `
       UPDATE tokens
       SET token=$1, expires_in=$2
       WHERE token=$3
     `,
-    [newToken, tokenOptions.tokenExpiresIn, token],
+    [newToken, expiresIn, token],
   );
 };
 
