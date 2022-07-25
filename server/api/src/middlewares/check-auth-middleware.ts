@@ -6,6 +6,7 @@ const checkAuth = async (
   response: Response,
   next: NextFunction,
 ) => {
+  const { error, success } = response;
   try {
     const JWT = request.headers.authorization?.split(' ')[1];
     const isAccessTokenValid = !!verifyAccessToken(JWT!);
