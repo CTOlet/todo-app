@@ -12,10 +12,10 @@ const checkAuth = async (
     if (isAccessTokenValid) {
       next();
     } else {
-      response.errorMessage.authenticationFailed();
+      error({ message: request.t('TODO') });
     }
   } catch (e) {
-    response.errorMessage.authenticationFailed();
+    error({ message: request.t('TODO') });
   }
 };
 

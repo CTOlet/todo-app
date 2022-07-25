@@ -1,11 +1,14 @@
-import { ErrorResponseMessage } from '../middlewares/error-message-middleware';
-import { SuccessResponseMessage } from '../middlewares/success-message-middleware';
+import { Response } from 'express';
 
 declare global {
   namespace Express {
     interface Response {
-      errorMessage: ReturnType<typeof ErrorResponseMessage>;
-      successMessage: ReturnType<typeof SuccessResponseMessage>;
+      error: (options?: { code?: number; message?: string }) => void;
+      success: <T>(options?: {
+        code?: number;
+        message?: string;
+        data?: T;
+      }) => void;
     }
   }
 }

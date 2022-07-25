@@ -19,33 +19,35 @@ import {
 import { Time } from '../constants';
 
 const signUp = async (request: Request, response: Response) => {
-  const { errorMessage: error, successMessage: success } = response;
+  const { t } = request;
+  const { error, success } = response;
   try {
     const { username, password } = request.body;
 
     const user = await getUserFromDB({ username });
     if (user) {
-      error.usernameAlreadyTaken();
+      error({ message: t('error_message.username_already_taken') });
       return;
     }
 
     const passwordHash = await generatePasswordHash(password);
     await createUserInDB({ username, password: passwordHash });
 
-    success.signUpCompleted();
+    success({ message: t('success_message.sign_up_completed') });
   } catch (e) {
-    error.couldNotSignUp();
+    error({ message: t('error_message.could_not_sign_up') });
   }
 };
 
 const signIn = async (request: Request, response: Response) => {
-  const { errorMessage: error, successMessage: success } = response;
+  const { t } = request;
+  const { error, success } = response;
   try {
     const { username, password } = request.body;
 
     const user = await getUserFromDB({ username });
     if (!user) {
-      error.userNotFound();
+      error({ message: t('error_message.user_not_found') });
       return;
     }
 
@@ -55,7 +57,7 @@ const signIn = async (request: Request, response: Response) => {
       passwordHash,
     });
     if (!isValidPassword) {
-      error.wrongCredentials();
+      error({ message: t('error_message.wrong_credentials') });
       return;
     }
 
@@ -67,14 +69,15 @@ const signIn = async (request: Request, response: Response) => {
 
     setRefreshTokenCookie({ value: refreshToken, response });
 
-    success.default({ accessToken });
+    success({ data: { accessToken } });
   } catch (e) {
-    error.couldNotSignIn();
+    error({ message: t('error_message.could_not_sign_in') });
   }
 };
 
 const refresh = async (request: Request, response: Response) => {
-  const { errorMessage: error, successMessage: success } = response;
+  const { t } = request;
+  const { error, success } = response;
   try {
     const { refreshToken: currentRefreshTokenClient } = parseCookies(
       request.headers.cookie,
@@ -88,13 +91,13 @@ const refresh = async (request: Request, response: Response) => {
       tokenFromDB: currentRefreshTokenServer,
     });
     if (!isValidRefreshToken) {
-      error.tokenExpired();
+      error({ message: t('error_message.token_expired') });
       return;
     }
 
     const user = await getUserFromDB({ id: currentRefreshTokenServer.userId });
     if (!user) {
-      error.userNotFound();
+      error({ message: t('error_message.user_not_found') });
       return;
     }
 
@@ -109,14 +112,15 @@ const refresh = async (request: Request, response: Response) => {
 
     setRefreshTokenCookie({ value: newRefreshToken, response });
 
-    success.default({ accessToken: newAccessToken });
+    success({ data: { accessToken: newAccessToken } });
   } catch (e) {
-    error.authenticationFailed();
+    error({ message: t('error_message.authentication_failed') });
   }
 };
 
 const signOut = async (request: Request, response: Response) => {
-  const { errorMessage: error, successMessage: success } = response;
+  const { t } = request;
+  const { error, success } = response;
   try {
     const { refreshToken } = parseCookies(request.headers.cookie);
 
@@ -124,9 +128,9 @@ const signOut = async (request: Request, response: Response) => {
 
     setRefreshTokenCookie({ value: '', expiresIn: 0, response });
 
-    success.default();
+    success();
   } catch {
-    error.default();
+    error();
   }
 };
 
