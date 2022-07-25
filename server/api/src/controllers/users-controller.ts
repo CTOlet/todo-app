@@ -6,7 +6,6 @@ import {
   generateRefreshToken,
   parseCookies,
   verifyRefreshToken,
-  setRefreshTokenCookie,
 } from '../utils';
 import {
   createTokenInDB,
@@ -16,7 +15,7 @@ import {
   removeTokenFromDB,
   updateTokenInDB,
 } from '../core/database';
-import { Time } from '../constants';
+import { refreshTokenCookieOptions } from '../config';
 
 const signUp = async (request: Request, response: Response) => {
   const { t } = request;
@@ -67,8 +66,7 @@ const signIn = async (request: Request, response: Response) => {
     const refreshToken = generateRefreshToken();
     await createTokenInDB({ userId: user.id, token: refreshToken });
 
-    setRefreshTokenCookie({ value: refreshToken, response });
-
+    response.cookie('refreshToken', refreshToken, refreshTokenCookieOptions);
     success({ data: { accessToken } });
   } catch (e) {
     error({ message: t('error_message.could_not_sign_in') });
@@ -110,8 +108,7 @@ const refresh = async (request: Request, response: Response) => {
       newToken: newRefreshToken,
     });
 
-    setRefreshTokenCookie({ value: newRefreshToken, response });
-
+    response.cookie('refreshToken', newRefreshToken, refreshTokenCookieOptions);
     success({ data: { accessToken: newAccessToken } });
   } catch (e) {
     error({ message: t('error_message.authentication_failed') });
@@ -126,8 +123,7 @@ const signOut = async (request: Request, response: Response) => {
 
     await removeTokenFromDB({ token: refreshToken });
 
-    setRefreshTokenCookie({ value: '', expiresIn: 0, response });
-
+    response.cookie('refreshToken', null, { maxAge: 0, expires: new Date(0) });
     success();
   } catch {
     error();
