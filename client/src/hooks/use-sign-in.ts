@@ -20,6 +20,11 @@ const useSignIn = (
     mutationKey: [MutationKey.SIGN_IN],
     mutationFn: (user) =>
       signIn
+        .forEach((response) => {
+          store.update((state) => {
+            state.accessToken = response.data.data?.accessToken;
+          });
+        })
         .either()
         .map((either) => either.map((response) => response.data))
         .map((either) =>

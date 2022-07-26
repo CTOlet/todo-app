@@ -20,10 +20,6 @@ const signIn = IO.async(async (user: Pick<User, 'username' | 'password'>) => {
     AxiosResponse<SuccessResponse<{ accessToken: string }>, ErrorResponse>,
     Pick<User, 'username' | 'password'>
   >(url, user);
-}).forEach((response) => {
-  store.update((state) => {
-    state.accessToken = response.data.data?.accessToken;
-  });
 });
 
 const refresh = IO.async(async () => {
@@ -32,10 +28,6 @@ const refresh = IO.async(async () => {
     never,
     AxiosResponse<SuccessResponse<{ accessToken: string }>, ErrorResponse>
   >(url);
-}).forEach((response) => {
-  store.update((state) => {
-    state.accessToken = response.data.data?.accessToken;
-  });
 });
 
 const signOut = IO.async(async () => {

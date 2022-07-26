@@ -26,7 +26,7 @@ configureI18n();
 
 const App = () => {
   const isHydrated = store.useState((s) => s.isHydrated);
-  const isAuthenticated = store.useState((s) => !!s.accessToken!);
+  const isAuthenticated = store.useState((s) => !!s.accessToken);
 
   return isHydrated ? (
     <Router
