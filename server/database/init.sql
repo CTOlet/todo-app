@@ -24,7 +24,7 @@ CREATE TABLE tokens (
   created_at timestamp DEFAULT now() NOT NULL,
   updated_at timestamp DEFAULT now() NOT NULL,
   token text NOT NULL UNIQUE,
-  expires_in integer NOT NULL
+  expires_on integer NOT NULL
 );
 
 CREATE TABLE todos (

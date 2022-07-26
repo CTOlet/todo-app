@@ -1,8 +1,9 @@
 import { SignOptions } from 'jsonwebtoken';
-import { Time } from '../constants';
+import { Duration } from '../constants';
+import { getTimeInSeconds } from '../utils';
 
 const accessTokenOptions = {
-  expiresIn: Time.SECONDS.ONE_HOUR,
+  expiresOn: getTimeInSeconds() + Duration.ONE_HOUR,
 } as SignOptions;
 
 export { accessTokenOptions };

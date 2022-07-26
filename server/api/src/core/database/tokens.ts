@@ -12,10 +12,10 @@ const createTokenInDB = async ({
 }) => {
   return await db.query(
     `
-      INSERT INTO tokens (user_id, token, expires_in)
+      INSERT INTO tokens (user_id, token, expires_on)
       VALUES ($1, $2, $3)
     `,
-    [userId, token, options.expiresIn],
+    [userId, token, options.expiresOn],
   );
 };
 
@@ -30,10 +30,10 @@ const updateTokenInDB = async ({
   return await db.query<Token>(
     `
       UPDATE tokens
-      SET token=$1, expires_in=$2
+      SET token=$1, expires_on=$2
       WHERE token=$3
     `,
-    [newToken, options.expiresIn, token],
+    [newToken, options.expiresOn, token],
   );
 };
 
@@ -48,7 +48,7 @@ const getTokenFromDB = async ({ token }: Pick<Token, 'token'>) => {
         created_at AS "createdAt",
         updated_at AS "updatedAt",
         token,
-        expires_in AS "expiresIn"
+        expires_on AS "expiresOn"
       FROM tokens WHERE token=$1
     `,
     [token],

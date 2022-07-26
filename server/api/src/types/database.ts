@@ -22,7 +22,7 @@ type Token = {
   createdAt: number;
   updatedAt: number;
   token: string;
-  expiresIn: number;
+  expiresOn: number;
 };
 
 export type { User, Todo, Token };

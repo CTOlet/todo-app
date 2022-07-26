@@ -123,7 +123,7 @@ const signOut = async (request: Request, response: Response) => {
 
     await removeTokenFromDB({ token: refreshToken });
 
-    response.cookie('refreshToken', null, { maxAge: 0, expires: new Date(0) });
+    response.cookie('refreshToken', null, { maxAge: 0 });
     success();
   } catch {
     error();

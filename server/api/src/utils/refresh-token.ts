@@ -1,5 +1,6 @@
 import { Token } from '../types';
 import crypto from 'crypto';
+import { getTimeInSeconds } from './timestamp';
 
 const generateRefreshToken = () => {
   return crypto.randomBytes(48).toString('base64url');
@@ -13,7 +14,7 @@ const verifyRefreshToken = ({
   tokenFromDB: Token;
 }) => {
   const isSameToken = token === tokenFromDB.token;
-  const isNotExpired = tokenFromDB.expiresIn > Math.trunc(Date.now() / 1000);
+  const isNotExpired = tokenFromDB.expiresOn > getTimeInSeconds();
   return isSameToken && isNotExpired;
 };
 
