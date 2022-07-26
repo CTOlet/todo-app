@@ -12,6 +12,7 @@
     "axios": "^0.27.2",
     "i18next": "^21.8.9",
     "i18next-browser-languagedetector": "^6.1.4",
+    "jsonwebtoken": "^8.5.1",
     "moneo-ts": "^1.5.0",
     "pullstate": "^1.24.0",
     "react": "^17.0.2",
@@ -26,6 +27,7 @@
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.2",
+    "@types/jsonwebtoken": "^8.5.8",
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
     "@vitejs/plugin-react": "^1.0.7",

@@ -18,6 +18,7 @@ import { Error } from './pages';
 import { store } from './services';
 import { Container, Dialog } from './components';
 import { configureTokenRefresh } from './config/token-refresh';
+import jwt from 'jsonwebtoken';
 
 configureTokenRefresh();
 configureAxios();
@@ -25,7 +26,7 @@ configureI18n();
 
 const App = () => {
   const isHydrated = store.useState((s) => s.isHydrated);
-  const isAuthenticated = store.useState((s) => !!s.accessToken);
+  const isAuthenticated = store.useState((s) => !!s.accessToken!);
 
   return isHydrated ? (
     <Router
