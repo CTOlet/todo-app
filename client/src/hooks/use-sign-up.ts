@@ -1,18 +1,18 @@
 import { useMutation, UseMutationOptions } from 'react-query';
 import { MutationKey } from '../constants';
 import { signUp } from '../core/api';
-import { SuccessResponse, ErrorResponse, User } from '../types';
+import { ResponseSuccess, ResponseError, User } from '../types';
 
 const useSignUp = (
   options?: UseMutationOptions<
-    SuccessResponse,
-    ErrorResponse,
+    ResponseSuccess,
+    ResponseError,
     Pick<User, 'username' | 'password'>
   >,
 ) => {
   const mutation = useMutation<
-    SuccessResponse,
-    ErrorResponse,
+    ResponseSuccess,
+    ResponseError,
     Pick<User, 'username' | 'password'>
   >({
     ...options,

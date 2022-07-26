@@ -1,12 +1,12 @@
 import { useMutation, UseMutationOptions } from 'react-query';
 import { MutationKey } from '../constants';
 import { signOut } from '../core/api';
-import { SuccessResponse, ErrorResponse } from '../types';
+import { ResponseSuccess, ResponseError } from '../types';
 
 const useSignOut = (
-  options?: UseMutationOptions<SuccessResponse, ErrorResponse>,
+  options?: UseMutationOptions<ResponseSuccess, ResponseError>,
 ) => {
-  const mutation = useMutation<SuccessResponse, ErrorResponse>({
+  const mutation = useMutation<ResponseSuccess, ResponseError>({
     ...options,
     mutationKey: [MutationKey.SIGN_OUT],
     mutationFn: (user) =>

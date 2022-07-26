@@ -18,7 +18,6 @@ import { Error } from './pages';
 import { store } from './services';
 import { Container, Dialog } from './components';
 import { configureTokenRefresh } from './config/token-refresh';
-import jwt from 'jsonwebtoken';
 
 configureTokenRefresh();
 configureAxios();

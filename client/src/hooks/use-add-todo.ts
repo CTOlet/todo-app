@@ -2,18 +2,18 @@ import { useMutation, UseMutationOptions } from 'react-query';
 import { queryClient } from '../config/react-query';
 import { MutationKey, QueryKey } from '../constants';
 import { addTodo } from '../core/api';
-import { SuccessResponse, ErrorResponse, Todo } from '../types';
+import { ResponseError, ResponseSuccess, Todo } from '../types';
 
 const useAddTodo = (
   options?: UseMutationOptions<
-    SuccessResponse,
-    ErrorResponse,
+    ResponseSuccess,
+    ResponseError,
     Omit<Todo, 'id' | 'createdAt' | 'updatedAt'>
   >,
 ) => {
   const mutation = useMutation<
-    SuccessResponse,
-    ErrorResponse,
+    ResponseSuccess,
+    ResponseError,
     Omit<Todo, 'id' | 'createdAt' | 'updatedAt'>,
     { previousTodos?: Todo[] }
   >({

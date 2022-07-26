@@ -2,18 +2,18 @@ import { useMutation, UseMutationOptions } from 'react-query';
 import { MutationKey } from '../constants';
 import { signIn } from '../core/api';
 import { store } from '../services';
-import { SuccessResponse, ErrorResponse, User } from '../types';
+import { ResponseError, ResponseSuccess, User } from '../types';
 
 const useSignIn = (
   options?: UseMutationOptions<
-    SuccessResponse<{ accessToken: string }>,
-    ErrorResponse,
+    ResponseSuccess<{ accessToken: string }>,
+    ResponseError,
     Pick<User, 'username' | 'password'>
   >,
 ) => {
   const mutation = useMutation<
-    SuccessResponse<{ accessToken: string }>,
-    ErrorResponse,
+    ResponseSuccess<{ accessToken: string }>,
+    ResponseError,
     Pick<User, 'username' | 'password'>
   >({
     ...options,
