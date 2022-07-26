@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { User } from '../types';
 import { accessTokenOptions } from '../config';
+import { getTimeInSeconds } from './timestamp';
 
 const generateAccessToken = ({
   payload,
@@ -10,7 +11,7 @@ const generateAccessToken = ({
   options?: typeof accessTokenOptions;
 }) => {
   return jwt.sign(payload, process.env.JWT_SECRET!, {
-    expiresIn: accessTokenOptions.expiresOn,
+    expiresIn: accessTokenOptions.expiresOn - getTimeInSeconds(),
   });
 };
 
