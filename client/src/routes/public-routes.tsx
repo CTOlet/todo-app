@@ -19,7 +19,9 @@ const publicRoutes: Route[] = [
   {
     path: '*',
     element: () =>
-      import('../pages/not-found').then(({ NotFound }) => <NotFound />),
+      import('@tanstack/react-location').then(({ Navigate }) => (
+        <Navigate to='/sign-in' />
+      )),
   },
 ];
 
