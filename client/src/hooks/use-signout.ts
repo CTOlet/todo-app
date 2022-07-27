@@ -1,6 +1,7 @@
 import { useMutation, UseMutationOptions } from 'react-query';
 import { MutationKey } from '../constants';
 import { signOut } from '../core/api';
+import { store } from '../services';
 import { ResponseSuccess, ResponseError } from '../types';
 
 const useSignOut = (
@@ -20,6 +21,14 @@ const useSignOut = (
           ),
         )
         .run(user),
+
+    onSettled: (data, error, variables, context) => {
+      options?.onSettled?.(data, error, variables, context);
+      store.update((s) => {
+        s.accessToken = undefined;
+        s.isAuthenticated = 'ERROR';
+      });
+    },
   });
 
   return mutation;

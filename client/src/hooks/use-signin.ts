@@ -20,11 +20,6 @@ const useSignIn = (
     mutationKey: [MutationKey.SIGN_IN],
     mutationFn: (user) =>
       signIn
-        .forEach((response) => {
-          store.update((state) => {
-            state.accessToken = response.data.data?.accessToken;
-          });
-        })
         .either()
         .map((either) => either.map((response) => response.data))
         .map((either) =>
@@ -34,6 +29,21 @@ const useSignIn = (
           ),
         )
         .run(user),
+
+    onSuccess: (data, variables, context) => {
+      options?.onSuccess?.(data, variables, context);
+      store.update((s) => {
+        s.accessToken = data.data?.accessToken;
+        s.isAuthenticated = 'SUCCESS';
+      });
+    },
+    onError: (error, variables, context) => {
+      options?.onSuccess?.(error, variables, context);
+      store.update((s) => {
+        s.accessToken = undefined;
+        s.isAuthenticated = 'ERROR';
+      });
+    },
   });
 
   return mutation;

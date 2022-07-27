@@ -8,3 +8,4 @@ export * from './spinner';
 export * from './text';
 export * from './textarea';
 export * from './title';
+export * from './with-auth';

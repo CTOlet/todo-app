@@ -4,37 +4,42 @@ import './index.css';
 import { QueryClientProvider } from 'react-query';
 import { Toaster } from 'react-hot-toast';
 import { ErrorBoundary } from 'react-error-boundary';
-import { Outlet, Router } from '@tanstack/react-location';
 import { configureAxios } from './config/axios';
 import { configureI18n } from './config/i18n';
-import {
-  location,
-  publicRoutes,
-  protectedRoutes,
-} from './config/react-location';
 import { toastOptions } from './config/react-hot-toast';
 import { queryClient } from './config/react-query';
-import { Error } from './pages';
+import { Error, NotFound, Todos } from './pages';
 import { store } from './services';
-import { Container, Dialog } from './components';
+import { Container, Dialog, withAuth } from './components';
 import { configureTokenRefresh } from './config/token-refresh';
+import {
+  useRoutes,
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from 'react-router-dom';
+import { SignIn, SignUp } from './pages';
 
 configureTokenRefresh();
 configureAxios();
 configureI18n();
 
 const App = () => {
-  const isHydrated = store.useState((s) => s.isHydrated);
-  const isAuthenticated = store.useState((s) => !!s.accessToken);
+  const isAuthenticated = store.useState((s) => s.isAuthenticated);
+  console.log(isAuthenticated);
 
-  return isHydrated ? (
-    <Router
-      location={location}
-      routes={isAuthenticated ? protectedRoutes : publicRoutes}
-    >
-      <Outlet />
+  return (
+    <Router>
+      <Routes>
+        <Route path='/' element={<Navigate to='/todos' />} />
+        <Route path='/todos' element={withAuth(<Todos />)} />
+        <Route path='/signup' element={<SignUp />} />
+        <Route path='/signin' element={<SignIn />} />
+        <Route path='*' element={<NotFound />} />
+      </Routes>
     </Router>
-  ) : null;
+  );
 };
 
 ReactDOM.render(

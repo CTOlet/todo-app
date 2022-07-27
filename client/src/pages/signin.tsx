@@ -1,24 +1,22 @@
-import { useNavigate } from '@tanstack/react-location';
 import { Controller, useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
-import { Button, Input, Text, Title } from '../components';
+import { Button, Input, Link, Text, Title } from '../components';
 import { isRequired } from '../core/validation';
-import { useSignUp } from '../hooks';
+import { useNavigate } from 'react-router-dom';
+import { useSignIn } from '../hooks';
 
-type SignUpFormFields = {
+type SignInFormFields = {
   username: string;
   password: string;
 };
 
-const SignUp = () => {
+const SignIn = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const signUpForm = useForm<SignUpFormFields>();
-  const signUp = useSignUp({
-    onSuccess: ({ message }) => {
-      if (message) toast.success(message);
-      navigate({ to: '/sign-in' });
+  const signInForm = useForm<SignInFormFields>();
+  const signIn = useSignIn({
+    onSuccess: () => {
+      navigate('/todos');
     },
   });
 
@@ -27,17 +25,17 @@ const SignUp = () => {
       <div className='w-full max-w-md'>
         <div>
           <div>
-            <Title>{t('page.sign_up.title')}</Title>
+            <Title>{t('page.sign_in.title')}</Title>
           </div>
           <div className='mt-2'>
-            <Text>{t('page.sign_up.text')}</Text>
+            <Text>{t('page.sign_in.text')}</Text>
           </div>
         </div>
 
         <div>
           <div className='mt-6'>
             <Controller
-              control={signUpForm.control}
+              control={signInForm.control}
               name='username'
               rules={{
                 validate: {
@@ -58,7 +56,7 @@ const SignUp = () => {
           </div>
           <div className='mt-2'>
             <Controller
-              control={signUpForm.control}
+              control={signInForm.control}
               name='password'
               rules={{
                 validate: {
@@ -86,15 +84,20 @@ const SignUp = () => {
               <Button
                 color='blue'
                 isFullWidth={true}
-                isLoading={signUp.isLoading}
                 onClick={() =>
-                  signUpForm.handleSubmit((signUpForm) => {
-                    signUp.mutate(signUpForm);
+                  signInForm.handleSubmit((signInForm) => {
+                    signIn.mutate(signInForm);
                   })()
                 }
               >
-                {t('action.sign_up')}
+                {t('action.sign_in')}
               </Button>
+            </div>
+            <div className='mt-2 text-sm'>
+              {t('page.sign_in.sign_up_question')}{' '}
+              <Link onClick={() => navigate('/signup', { replace: true })}>
+                {t('action.sign_up')}.
+              </Link>
             </div>
           </div>
         </div>
@@ -103,4 +106,4 @@ const SignUp = () => {
   );
 };
 
-export { SignUp };
+export { SignIn };
