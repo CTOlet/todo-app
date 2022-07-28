@@ -3,6 +3,7 @@ import { MutationKey } from '../constants';
 import { signIn } from '../core/api';
 import { store } from '../services';
 import { ResponseError, ResponseSuccess, User } from '../types';
+import { ioToPromise } from '../utils';
 
 const useSignIn = (
   options?: UseMutationOptions<
@@ -18,18 +19,7 @@ const useSignIn = (
   >({
     ...options,
     mutationKey: [MutationKey.SIGN_IN],
-    mutationFn: (user) =>
-      signIn
-        .either()
-        .map((either) => either.map((response) => response.data))
-        .map((either) =>
-          either.fold(
-            (data) => Promise.resolve(data),
-            (error) => Promise.reject(error),
-          ),
-        )
-        .run(user),
-
+    mutationFn: (user) => signIn.map((r) => r.data).run(user),
     onSuccess: (data, variables, context) => {
       options?.onSuccess?.(data, variables, context);
       store.update((s) => {

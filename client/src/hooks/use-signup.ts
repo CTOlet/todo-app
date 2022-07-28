@@ -17,17 +17,7 @@ const useSignUp = (
   >({
     ...options,
     mutationKey: [MutationKey.SIGN_UP],
-    mutationFn: (user) =>
-      signUp
-        .either()
-        .map((either) => either.map((response) => response.data))
-        .map((either) =>
-          either.fold(
-            (data) => Promise.resolve(data),
-            (error) => Promise.reject(error),
-          ),
-        )
-        .run(user),
+    mutationFn: (user) => signUp.map((r) => r.data).run(user),
   });
 
   return mutation;

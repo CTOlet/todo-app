@@ -1,3 +1,5 @@
+import { IOAsync } from 'moneo-ts';
+
 /**
  * Returns true if given value is null or undefined otherwise false.
  *
@@ -39,4 +41,16 @@ const decodeJWT = <T extends Record<string, any>>(token: string): T => {
   return JSON.parse(jsonPayload) as T;
 };
 
-export { isNil, isString, replaceAt, decodeJWT };
+const ioToPromise = <R, A>(io: IOAsync<R, A>, payload: R) => {
+  return io
+    .either()
+    .map((either) =>
+      either.fold(
+        (data) => Promise.resolve(data),
+        (error) => Promise.reject(error),
+      ),
+    )
+    .run(payload);
+};
+
+export { isNil, isString, replaceAt, decodeJWT, ioToPromise };

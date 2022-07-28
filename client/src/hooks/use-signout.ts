@@ -10,17 +10,7 @@ const useSignOut = (
   const mutation = useMutation<ResponseSuccess, ResponseError>({
     ...options,
     mutationKey: [MutationKey.SIGN_OUT],
-    mutationFn: (user) =>
-      signOut
-        .either()
-        .map((either) => either.map((response) => response.data))
-        .map((either) =>
-          either.fold(
-            (data) => Promise.resolve(data),
-            (error) => Promise.reject(error),
-          ),
-        )
-        .run(user),
+    mutationFn: (user) => signOut.map((r) => r.data).run(user),
 
     onSettled: (data, error, variables, context) => {
       options?.onSettled?.(data, error, variables, context);

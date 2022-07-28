@@ -10,17 +10,7 @@ const useGetTodo = (
   const query = useQuery<ResponseSuccess<Todo>, ResponseError>({
     ...options,
     queryKey: [QueryKey.GET_TODO, id],
-    queryFn: () =>
-      getTodo
-        .either()
-        .map((either) => either.map((response) => response.data))
-        .map((either) =>
-          either.fold(
-            (data) => Promise.resolve(data),
-            (error) => Promise.reject(error),
-          ),
-        )
-        .run(id),
+    queryFn: () => getTodo.map((r) => r.data).run(id),
   });
 
   return query;

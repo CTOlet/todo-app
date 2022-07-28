@@ -15,17 +15,7 @@ const useRemoveTodo = (
   >({
     ...options,
     mutationKey: [MutationKey.REMOVE_TODO],
-    mutationFn: (todo) =>
-      removeTodo
-        .either()
-        .map((either) => either.map((response) => response.data))
-        .map((either) =>
-          either.fold(
-            (data) => Promise.resolve(data),
-            (error) => Promise.reject(error),
-          ),
-        )
-        .run(todo),
+    mutationFn: (todo) => removeTodo.map((r) => r.data).run(todo),
 
     // optimistic update config
     onMutate: async (removeTodo) => {
