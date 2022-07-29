@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import { QueryClientProvider } from 'react-query';
@@ -9,50 +9,53 @@ import { configureI18n } from './config/i18n';
 import { toastOptions } from './config/react-hot-toast';
 import { queryClient } from './config/react-query';
 import { Error, NotFound, Todos } from './pages';
-import { store } from './services';
 import { Container, Dialog, withAuth } from './components';
-import { configureTokenRefresh } from './config/token-refresh';
 import {
-  useRoutes,
   BrowserRouter as Router,
   Route,
   Routes,
   Navigate,
 } from 'react-router-dom';
 import { SignIn, SignUp } from './pages';
+import { useAuth } from './hooks/use-auth/use-auth';
+import { AuthProvider } from './context';
 
-configureTokenRefresh();
 configureAxios();
 configureI18n();
 
 const App = () => {
-  const isAuthenticated = store.useState((s) => s.isAuthenticated);
-  console.log(isAuthenticated);
+  const { refresh } = useAuth();
+
+  useEffect(() => {
+    refresh?.mutate();
+  }, []);
 
   return (
-    <Router>
-      <Routes>
-        <Route path='/' element={<Navigate to='/todos' />} />
-        <Route path='/todos' element={withAuth(<Todos />)} />
-        <Route path='/signup' element={<SignUp />} />
-        <Route path='/signin' element={<SignIn />} />
-        <Route path='*' element={<NotFound />} />
-      </Routes>
-    </Router>
+    <ErrorBoundary FallbackComponent={Error}>
+      <Toaster toastOptions={toastOptions} />
+      <Dialog />
+      <Container width='2xl'>
+        <Router>
+          <Routes>
+            <Route path='/' element={<Navigate to='/todos' />} />
+            <Route path='/todos' element={withAuth(<Todos />)} />
+            <Route path='/signup' element={<SignUp />} />
+            <Route path='/signin' element={<SignIn />} />
+            <Route path='*' element={<NotFound />} />
+          </Routes>
+        </Router>
+      </Container>
+    </ErrorBoundary>
   );
 };
 
 ReactDOM.render(
   <React.StrictMode>
-    <ErrorBoundary FallbackComponent={Error}>
-      <QueryClientProvider client={queryClient}>
-        <Toaster toastOptions={toastOptions} />
-        <Dialog />
-        <Container width='2xl'>
-          <App />
-        </Container>
-      </QueryClientProvider>
-    </ErrorBoundary>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <App />
+      </AuthProvider>
+    </QueryClientProvider>
   </React.StrictMode>,
   document.getElementById('root'),
 );

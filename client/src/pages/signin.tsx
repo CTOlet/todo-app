@@ -1,9 +1,9 @@
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Button, Input, Link, Text, Title } from '../components';
-import { isRequired } from '../core/validation';
+import { isRequired } from '../validation';
 import { useNavigate } from 'react-router-dom';
-import { useSignIn } from '../hooks';
+import { useAuth } from '../hooks/use-auth/use-auth';
 
 type SignInFormFields = {
   username: string;
@@ -14,11 +14,7 @@ const SignIn = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const signInForm = useForm<SignInFormFields>();
-  const signIn = useSignIn({
-    onSuccess: () => {
-      navigate('/todos');
-    },
-  });
+  const { signIn } = useAuth();
 
   return (
     <div className='flex h-5/6 items-center justify-center'>
@@ -86,7 +82,7 @@ const SignIn = () => {
                 isFullWidth={true}
                 onClick={() =>
                   signInForm.handleSubmit((signInForm) => {
-                    signIn.mutate(signInForm);
+                    signIn?.mutate(signInForm);
                   })()
                 }
               >

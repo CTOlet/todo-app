@@ -1,10 +1,22 @@
 import axios from 'axios';
+import { MutationKey } from '../constants';
 import { store } from '../services';
+import { queryClient } from './react-query';
 
 const configureAxios = () => {
   // request interceptors
   axios.interceptors.request.use((config) => {
-    const accessToken = store.getRawState().accessToken;
+    const cache = queryClient.getMutationCache();
+    const signInCache = cache.find<{ accessToken?: string }>({
+      mutationKey: MutationKey.SIGN_IN,
+    });
+    const refreshCache = cache.find<{ accessToken?: string }>({
+      mutationKey: MutationKey.REFRESH,
+    });
+    const accessToken =
+      signInCache?.state.data?.accessToken ||
+      refreshCache?.state.data?.accessToken;
+
     config.withCredentials = true;
     config.headers = {
       ...config.headers,

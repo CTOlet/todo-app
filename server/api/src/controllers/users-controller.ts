@@ -6,6 +6,8 @@ import {
   generateRefreshToken,
   parseCookies,
   verifyRefreshToken,
+  parseAuthHeader,
+  verifyAccessToken,
 } from '../utils';
 import {
   createTokenInDB,

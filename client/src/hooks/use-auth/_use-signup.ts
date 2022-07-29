@@ -1,9 +1,9 @@
-import { useMutation, UseMutationOptions } from 'react-query';
-import { MutationKey } from '../constants';
-import { signUp } from '../core/api';
-import { ResponseSuccess, ResponseError, User } from '../types';
+import { UseMutationOptions, useMutation } from 'react-query';
+import { signUp } from '../../adapters';
+import { MutationKey } from '../../constants';
+import { ResponseSuccess, ResponseError, User } from '../../types';
 
-const useSignUp = (
+const _useSignUp = (
   options?: UseMutationOptions<
     ResponseSuccess,
     ResponseError,
@@ -23,4 +23,4 @@ const useSignUp = (
   return mutation;
 };
 
-export { useSignUp };
+export { _useSignUp };

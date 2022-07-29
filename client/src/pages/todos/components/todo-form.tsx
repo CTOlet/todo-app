@@ -1,7 +1,7 @@
 import { Controller, UseFormReturn } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Title, Text, Input, Textarea } from '../../../components';
-import { isRequired } from '../../../core/validation';
+import { isRequired } from '../../../validation';
 
 type TodoFormFields = {
   title: string;

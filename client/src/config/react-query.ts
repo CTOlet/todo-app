@@ -1,7 +1,6 @@
 import { QueryClient, QueryCache, MutationCache } from 'react-query';
 import { toast } from 'react-hot-toast';
 import { t } from 'i18next';
-import { Error } from '../types';
 import { AxiosError } from 'axios';
 
 const errorHandler = (error: unknown) => {

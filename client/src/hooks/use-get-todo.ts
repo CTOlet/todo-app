@@ -1,6 +1,6 @@
 import { useQuery, UseQueryOptions } from 'react-query';
 import { QueryKey } from '../constants';
-import { getTodo } from '../core/api';
+import { getTodo } from '../adapters';
 import { ResponseError, ResponseSuccess, Todo } from '../types';
 
 const useGetTodo = (

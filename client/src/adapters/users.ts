@@ -1,8 +1,8 @@
 import axios, { AxiosResponse } from 'axios';
 import { IO } from 'moneo-ts';
 import urlcat from 'urlcat';
-import { store } from '../../services';
-import { ResponseError, ResponseSuccess, User } from '../../types';
+import { store } from '../services';
+import { ResponseError, ResponseSuccess, User } from '../types';
 
 const signUp = IO.async(async (user: Pick<User, 'username' | 'password'>) => {
   const url = urlcat(import.meta.env.VITE_API_BASE_URL, '/users/signup');
