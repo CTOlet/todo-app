@@ -31,7 +31,7 @@ const getUserFromDB = async ({
     ]);
     return user;
   } else {
-    return {} as User;
+    return undefined;
   }
 };
 

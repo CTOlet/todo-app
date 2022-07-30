@@ -10,12 +10,7 @@ const configureAxios = () => {
     const signInCache = cache.find<{ accessToken?: string }>({
       mutationKey: MutationKey.SIGN_IN,
     });
-    const refreshCache = cache.find<{ accessToken?: string }>({
-      mutationKey: MutationKey.REFRESH,
-    });
-    const accessToken =
-      signInCache?.state.data?.accessToken ||
-      refreshCache?.state.data?.accessToken;
+    const accessToken = signInCache?.state.data?.accessToken;
 
     config.withCredentials = true;
     config.headers = {
