@@ -127,8 +127,7 @@ const Todos = () => {
       <div className='flex items-center justify-between'>
         <Title size={1}>{t('page.todos.title')}</Title>
         <a
-          href='#'
-          className='text-indigo-500'
+          className='cursor-pointer text-indigo-500'
           onClick={() => openAddTodoDialog()}
         >
           {t('action.new_todo')}
