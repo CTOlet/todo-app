@@ -44,9 +44,6 @@ const AuthContext = createContext<{
   refresh?: ReturnType<typeof _useRefresh>;
   accessToken?: string;
   user?: AccessTokenPayload;
-  isLoading?: boolean;
-  isError?: boolean;
-  isSuccess?: boolean;
 }>({});
 
 export { AuthContext, AuthProvider };

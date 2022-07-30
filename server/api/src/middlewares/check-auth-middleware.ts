@@ -13,10 +13,10 @@ const checkAuth = async (
     if (isAccessTokenValid) {
       next();
     } else {
-      error({ message: request.t('TODO') });
+      error({ message: request.t('error_message.authentication_failed') });
     }
   } catch (e) {
-    error({ message: request.t('TODO') });
+    error({ message: request.t('error_message.authentication_failed') });
   }
 };
 

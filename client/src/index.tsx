@@ -9,7 +9,7 @@ import { configureI18n } from './config/i18n';
 import { toastOptions } from './config/react-hot-toast';
 import { queryClient } from './config/react-query';
 import { Error, NotFound, Todos } from './pages';
-import { Container, Dialog, withAuth } from './components';
+import { withAuth, Container, Dialog } from './components';
 import {
   BrowserRouter as Router,
   Route,
