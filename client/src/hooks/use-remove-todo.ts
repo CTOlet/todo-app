@@ -27,10 +27,10 @@ const useRemoveTodo = (
       queryClient.setQueryData<ResponseSuccess<Todo[]>>(
         QueryKey.GET_TODOS,
         (state) => {
+          const todos = state?.data;
           return {
             ...state,
-            data:
-              state?.data?.filter((todo) => todo.id !== removeTodo.id) ?? [],
+            data: todos?.filter((todo) => todo.id !== removeTodo.id) ?? [],
           } as ResponseSuccess<Todo[]>;
         },
       );

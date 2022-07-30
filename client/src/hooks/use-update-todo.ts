@@ -12,7 +12,7 @@ const useUpdateTodo = (
     ResponseSuccess,
     ResponseError,
     Todo,
-    { previousTodos?: Todo[] }
+    { previousState?: ResponseSuccess<Todo[]> }
   >({
     ...options,
     mutationKey: [MutationKey.UPDATE_TODO],
@@ -22,18 +22,25 @@ const useUpdateTodo = (
     onMutate: async (newTodo) => {
       options?.onMutate?.(newTodo);
       await queryClient.cancelQueries(QueryKey.GET_TODOS);
-      const previousTodos = queryClient.getQueryData<Todo[]>(
+      const previousState = queryClient.getQueryData<ResponseSuccess<Todo[]>>(
         QueryKey.GET_TODOS,
       );
-      queryClient.setQueryData<Todo[]>(QueryKey.GET_TODOS, (todos) => {
-        const index = todos?.findIndex((todo) => todo.id === newTodo.id);
-        return replaceAt(todos!, index!, newTodo);
-      });
-      return { previousTodos };
+      queryClient.setQueryData<ResponseSuccess<Todo[]>>(
+        QueryKey.GET_TODOS,
+        (state) => {
+          const todos = state?.data;
+          const index = todos?.findIndex((todo) => todo.id === newTodo.id);
+          return {
+            ...state,
+            data: replaceAt(todos!, index!, newTodo),
+          } as ResponseSuccess<Todo[]>;
+        },
+      );
+      return { previousState };
     },
     onError: (error, newTodo, context) => {
       options?.onError?.(error, newTodo, context);
-      queryClient.setQueryData(QueryKey.GET_TODOS, context?.previousTodos);
+      queryClient.setQueryData(QueryKey.GET_TODOS, context?.previousState);
     },
     onSettled: (...args) => {
       options?.onSettled?.(...args);
