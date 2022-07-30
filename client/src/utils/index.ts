@@ -27,10 +27,13 @@ const replaceAt = <T>(array: T[], index: number, value: T) => {
   }
 };
 
-const decodeJWT = <T extends Record<string, any>>(token: string): T => {
-  var [, base64Url] = token.split('.');
-  var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  var jsonPayload = decodeURIComponent(
+const decodeJWT = <T extends Record<string, any>>(
+  token: string,
+): Partial<T> => {
+  if (!token) return {} as Partial<T>;
+  const [, base64Url] = token.split('.');
+  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  const jsonPayload = decodeURIComponent(
     window
       .atob(base64)
       .split('')
@@ -38,19 +41,7 @@ const decodeJWT = <T extends Record<string, any>>(token: string): T => {
       .join(''),
   );
 
-  return JSON.parse(jsonPayload) as T;
+  return JSON.parse(jsonPayload) as Partial<T>;
 };
 
-const ioToPromise = <R, A>(io: IOAsync<R, A>, payload: R) => {
-  return io
-    .either()
-    .map((either) =>
-      either.fold(
-        (data) => Promise.resolve(data),
-        (error) => Promise.reject(error),
-      ),
-    )
-    .run(payload);
-};
-
-export { isNil, isString, replaceAt, decodeJWT, ioToPromise };
+export { isNil, isString, replaceAt, decodeJWT };

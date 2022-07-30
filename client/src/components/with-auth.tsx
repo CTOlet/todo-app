@@ -1,6 +1,6 @@
 import { ReactNode, useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
 import { useAuth } from '../hooks/use-auth';
-import { SignIn } from '../pages';
 import { Spinner } from './spinner';
 
 const Auth = (props: { children: ReactNode }) => {
@@ -15,7 +15,7 @@ const Auth = (props: { children: ReactNode }) => {
       <Spinner />
     </div>
   ) : signIn?.isError ? (
-    <SignIn />
+    <Navigate to='/signin' />
   ) : signIn?.isSuccess ? (
     <>{props.children}</>
   ) : null;

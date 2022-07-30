@@ -82,6 +82,7 @@ const SignIn = () => {
               <Button
                 color='blue'
                 isFullWidth={true}
+                isLoading={signIn?.isLoading}
                 onClick={() =>
                   signInForm.handleSubmit((signInForm) => {
                     queryClient.getMutationCache().clear();

@@ -84,8 +84,8 @@ const SignUp = () => {
                 isLoading={signUp?.isLoading}
                 onClick={() =>
                   signUpForm.handleSubmit((signUpForm) => {
-                    signUp?.mutateAsync(signUpForm).then((r) => {
-                      if (r.message) toast.success(r.message);
+                    signUp?.mutateAsync(signUpForm).then(({ message }) => {
+                      if (message) toast.success(message);
                       navigate('/signin');
                     });
                   })()

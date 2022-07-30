@@ -17,10 +17,13 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   const refresh = _useRefresh();
 
   const accessToken = signIn.data?.data?.accessToken;
+  const { id, username } = decodeJWT<AccessTokenPayload>(accessToken!);
 
-  const user = accessToken
-    ? decodeJWT<AccessTokenPayload>(accessToken)
-    : undefined;
+  const user = {
+    id,
+    username,
+    accessToken,
+  };
 
   return (
     <AuthContext.Provider
@@ -29,7 +32,6 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         signIn,
         signOut,
         refresh,
-        accessToken,
         user,
       }}
     >
@@ -42,8 +44,7 @@ const AuthContext = createContext<{
   signIn?: ReturnType<typeof _useSignIn>;
   signOut?: ReturnType<typeof _useSignOut>;
   refresh?: ReturnType<typeof _useRefresh>;
-  accessToken?: string;
-  user?: AccessTokenPayload;
+  user?: { id?: string; username?: string; accessToken?: string };
 }>({});
 
 export { AuthContext, AuthProvider };
