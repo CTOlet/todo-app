@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import {
   createTodoInDB,
   getTodoFromDB,
-  getTodosFromDB,
+  getTodosByUserFromDB,
   removeTodoFromDB,
   updateTodoInDB,
 } from '../core/database';
@@ -23,7 +23,7 @@ const getTodos = async (request: Request, response: Response) => {
   const { t } = request;
   const { error, success } = response;
   try {
-    const todos = await getTodosFromDB();
+    const todos = await getTodosByUserFromDB({ id: request.user?.id! });
     success({ data: todos });
   } catch (e) {
     error({ message: t('error_message.could_not_get_todo') });

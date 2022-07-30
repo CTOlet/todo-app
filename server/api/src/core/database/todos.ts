@@ -1,5 +1,5 @@
 import { database as db } from '../../services';
-import { Todo } from '../../types';
+import { Todo, User } from '../../types';
 
 const createTodoInDB = async ({
   userId,
@@ -30,6 +30,26 @@ const getTodosFromDB = async () => {
       FROM todos
       ORDER BY created_at DESC
     `,
+  );
+  return todos;
+};
+
+const getTodosByUserFromDB = async ({ id }: Pick<User, 'id'>) => {
+  const { rows: todos } = await db.query<Todo>(
+    `
+      SELECT
+        id,
+        user_id AS "userId",
+        created_at AS "createdAt",
+        updated_at AS "updatedAt",
+        status,
+        title,
+        description
+      FROM todos
+      WHERE user_id=$1
+      ORDER BY created_at DESC
+    `,
+    [id],
   );
   return todos;
 };
@@ -84,6 +104,7 @@ const removeTodoFromDB = async ({ id }: Pick<Todo, 'id'>) => {
 export {
   createTodoInDB,
   getTodosFromDB,
+  getTodosByUserFromDB,
   getTodoFromDB,
   updateTodoInDB,
   removeTodoFromDB,

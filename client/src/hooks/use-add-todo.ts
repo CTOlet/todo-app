@@ -14,8 +14,8 @@ const useAddTodo = (
   const mutation = useMutation<
     ResponseSuccess,
     ResponseError,
-    Omit<Todo, 'id' | 'createdAt' | 'updatedAt'>,
-    { previousTodos?: Todo[] }
+    Omit<Todo, 'id' | 'createdAt' | 'updatedAt'>
+    // { previousTodos?: Todo[] }
   >({
     ...options,
     mutationKey: [MutationKey.ADD_TODO],

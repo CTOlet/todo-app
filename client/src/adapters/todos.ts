@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import urlcat from 'urlcat';
 import { IO } from 'moneo-ts';
-import { ResponseError, ResponseSuccess, Todo } from '../types';
+import { ResponseError, ResponseSuccess, Todo, User } from '../types';
 
 /**
  * Add todo to server.

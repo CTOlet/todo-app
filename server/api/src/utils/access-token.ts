@@ -16,7 +16,11 @@ const generateAccessToken = ({
 };
 
 const verifyAccessToken = (token: string) => {
-  return jwt.verify(token, process.env.JWT_SECRET!);
+  return !!jwt.verify(token, process.env.JWT_SECRET!);
 };
 
-export { generateAccessToken, verifyAccessToken };
+const decodeAccessToken = (token: string) => {
+  return jwt.decode(token);
+};
+
+export { generateAccessToken, verifyAccessToken, decodeAccessToken };

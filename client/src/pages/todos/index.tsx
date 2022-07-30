@@ -2,6 +2,7 @@ import { Button, Checkbox, Spinner, Text, Title } from '../../components';
 import { useForm } from 'react-hook-form';
 import {
   useAddTodo,
+  useAuth,
   useGetTodos,
   useRemoveTodo,
   useUpdateTodo,
@@ -20,6 +21,7 @@ const Todos = () => {
   const updateTodo = useUpdateTodo();
   const removeTodo = useRemoveTodo();
   const todoForm = useForm<TodoFormFields>();
+  const { user } = useAuth();
 
   const openAddTodoDialog = () => {
     todoForm.reset({});
@@ -40,8 +42,7 @@ const Todos = () => {
               addTodo
                 .mutateAsync({
                   ...todoForm,
-                  // TODO: set correct userId
-                  userId: '',
+                  userId: user?.id!,
                   status: TodoStatus.OPEN,
                 })
                 .then(() => {
