@@ -4,7 +4,6 @@ import { store } from '../services';
 import { queryClient } from './react-query';
 
 const configureAxios = () => {
-  // request interceptors
   axios.interceptors.request.use((config) => {
     const cache = queryClient.getMutationCache();
     const signInCache = cache.find<{ data?: { accessToken?: string } }>({
@@ -12,14 +11,16 @@ const configureAxios = () => {
     });
     const accessToken = signInCache?.state?.data?.data?.accessToken;
 
-    config.withCredentials = true;
-    config.headers = {
-      ...config.headers,
-      ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+    return {
+      ...config,
+      withCredentials: true,
+      headers: {
+        ...config.headers,
+        ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+      },
     };
-    return config;
   });
-  // response interceptors
+
   axios.interceptors.response.use((config) => {
     return config;
   });
