@@ -11,7 +11,7 @@ const refreshTokenCookieOptions = {
   // FIXME: only allow https
   // secure: true,
   sameSite: 'strict',
-  maxAge: Duration.ONE_DAY,
+  maxAge: Duration.ONE_DAY * 1000,
 } as CookieOptions;
 
 export { refreshTokenOptions, refreshTokenCookieOptions };
