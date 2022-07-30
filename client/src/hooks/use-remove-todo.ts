@@ -11,7 +11,7 @@ const useRemoveTodo = (
     ResponseSuccess,
     ResponseError,
     Todo,
-    { previousTodos?: Todo[] }
+    { previousState?: ResponseSuccess<Todo[]> }
   >({
     ...options,
     mutationKey: [MutationKey.REMOVE_TODO],
@@ -21,17 +21,24 @@ const useRemoveTodo = (
     onMutate: async (removeTodo) => {
       options?.onMutate?.(removeTodo);
       await queryClient.cancelQueries(QueryKey.GET_TODOS);
-      const previousTodos = queryClient.getQueryData<Todo[]>(
+      const previousState = queryClient.getQueryData<ResponseSuccess<Todo[]>>(
         QueryKey.GET_TODOS,
       );
-      queryClient.setQueryData<Todo[]>(QueryKey.GET_TODOS, (todos) => {
-        return todos?.filter((todo) => todo.id !== removeTodo.id) ?? [];
-      });
-      return { previousTodos };
+      queryClient.setQueryData<ResponseSuccess<Todo[]>>(
+        QueryKey.GET_TODOS,
+        (state) => {
+          return {
+            ...state,
+            data:
+              state?.data?.filter((todo) => todo.id !== removeTodo.id) ?? [],
+          } as ResponseSuccess<Todo[]>;
+        },
+      );
+      return { previousState };
     },
     onError: (error, newTodo, context) => {
       options?.onError?.(error, newTodo, context);
-      queryClient.setQueryData(QueryKey.GET_TODOS, context?.previousTodos);
+      queryClient.setQueryData(QueryKey.GET_TODOS, context?.previousState);
     },
     onSettled: (...args) => {
       options?.onSettled?.(...args);
