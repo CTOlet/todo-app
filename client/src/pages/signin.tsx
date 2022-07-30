@@ -4,6 +4,8 @@ import { Button, Input, Link, Text, Title } from '../components';
 import { isRequired } from '../validation';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/use-auth/use-auth';
+import { queryClient } from '../config/react-query';
+import { MutationKey } from '../constants';
 
 type SignInFormFields = {
   username: string;
@@ -82,6 +84,7 @@ const SignIn = () => {
                 isFullWidth={true}
                 onClick={() =>
                   signInForm.handleSubmit((signInForm) => {
+                    queryClient.getMutationCache().clear();
                     signIn?.mutateAsync(signInForm).then(() => {
                       navigate('/todos');
                     });
