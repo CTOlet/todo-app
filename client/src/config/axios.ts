@@ -7,10 +7,10 @@ const configureAxios = () => {
   // request interceptors
   axios.interceptors.request.use((config) => {
     const cache = queryClient.getMutationCache();
-    const signInCache = cache.find<{ accessToken?: string }>({
+    const signInCache = cache.find<{ data?: { accessToken?: string } }>({
       mutationKey: MutationKey.SIGN_IN,
     });
-    const accessToken = signInCache?.state.data?.accessToken;
+    const accessToken = signInCache?.state.data?.data?.accessToken;
 
     config.withCredentials = true;
     config.headers = {
