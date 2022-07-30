@@ -1,133 +1,346 @@
 {
-  "info": {
-    "_postman_id": "e7a7871c-d09b-4804-9db3-d833ad2d0451",
-    "name": "todo-app",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-  },
-  "item": [
-    {
-      "name": "Add todo",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"title\": \"Title 4\",\n    \"description\": \"Description 4\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{host}}/api/todo",
-          "host": ["{{host}}"],
-          "path": ["api", "todo"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Get todos",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{host}}/api/todos",
-          "host": ["{{host}}"],
-          "path": ["api", "todos"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Get todo",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{host}}/api/todo/:id",
-          "host": ["{{host}}"],
-          "path": ["api", "todo", ":id"],
-          "variable": [
-            {
-              "key": "id",
-              "value": "3bed689e-85bd-4639-b4c3-29236a746d05"
-            }
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Update todo",
-      "request": {
-        "method": "PUT",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"title\": \"New Title\",\n    \"description\": \"New Description\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{host}}/api/todo/:id",
-          "host": ["{{host}}"],
-          "path": ["api", "todo", ":id"],
-          "variable": [
-            {
-              "key": "id",
-              "value": "3bed689e-85bd-4639-b4c3-29236a746d05"
-            }
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Remove todo",
-      "request": {
-        "method": "DELETE",
-        "header": [],
-        "url": {
-          "raw": "{{host}}/api/todo/:id",
-          "host": ["{{host}}"],
-          "path": ["api", "todo", ":id"],
-          "variable": [
-            {
-              "key": "id",
-              "value": "3bed689e-85bd-4639-b4c3-29236a746d05"
-            }
-          ]
-        }
-      },
-      "response": []
-    }
-  ],
-  "event": [
-    {
-      "listen": "prerequest",
-      "script": {
-        "type": "text/javascript",
-        "exec": [""]
-      }
-    },
-    {
-      "listen": "test",
-      "script": {
-        "type": "text/javascript",
-        "exec": [""]
-      }
-    }
-  ],
-  "variable": [
-    {
-      "key": "host",
-      "value": "localhost",
-      "type": "default"
-    }
-  ]
+	"info": {
+		"_postman_id": "e7a7871c-d09b-4804-9db3-d833ad2d0451",
+		"name": "todo-app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add todo",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImUxYmIyNzYyLTU5OWYtNGViYS04ZGZjLTE2ZjY1YjYzZjMyYiIsInVzZXJuYW1lIjoiMTIzIiwiaWF0IjoxNjU5MjE1ODkxLCJleHAiOjE2NTkyMTcwOTV9.9hOs6MaA_gdeoQ0saJfOKl2HJNo_8LSvfJkEbxyfsXo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userId\": \"e1bb2762-599f-4eba-8dfc-16f65b63f32b\",\n    \"title\": \"title\",\n    \"description\": \"description\",\n    \"status\": \"open\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/todos",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get todos",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImIyZjU5ZGI3LWUzMzUtNDNkMC1iZjlmLTY3MmJlMzg4YjBjMSIsInVzZXJuYW1lIjoidGVzdHRlc3QiLCJpYXQiOjE2NTg4NjgwMzIsImV4cCI6MzMxNzczNjczNn0.flpcT1AevuMQ3wgKnkA6WBCOth1nD2b0_ss4vJrc7Eg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userId\": \"e1bb2762-599f-4eba-8dfc-16f65b63f32b\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/todos",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get todo",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImIyZjU5ZGI3LWUzMzUtNDNkMC1iZjlmLTY3MmJlMzg4YjBjMSIsInVzZXJuYW1lIjoidGVzdHRlc3QiLCJpYXQiOjE2NTg4NjgwMzIsImV4cCI6MzMxNzczNjczNn0.flpcT1AevuMQ3wgKnkA6WBCOth1nD2b0_ss4vJrc7Eg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/todos/:id",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"todos",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "6dc31187-1f4d-4d3b-98e9-858f7d1d14c8"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update todo",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImIyZjU5ZGI3LWUzMzUtNDNkMC1iZjlmLTY3MmJlMzg4YjBjMSIsInVzZXJuYW1lIjoidGVzdHRlc3QiLCJpYXQiOjE2NTg4NjgwMzIsImV4cCI6MzMxNzczNjczNn0.flpcT1AevuMQ3wgKnkA6WBCOth1nD2b0_ss4vJrc7Eg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"New Title\",\n    \"details\": \"New Details\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/todos/:id",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"todos",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "6dc31187-1f4d-4d3b-98e9-858f7d1d14c8"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove todo",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/todo/:id",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"todo",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "3bed689e-85bd-4639-b4c3-29236a746d05"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Signup user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"123\",\n    \"password\": \"123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/users/signup",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Signin user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"testtes\",\n    \"password\": \"test123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/users/signin",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Refresh user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/users/refresh",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Signout user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/users/refresh",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "localhost",
+			"type": "default"
+		}
+	]
 }
