@@ -7,4 +7,9 @@ const parseCookies = (cookies?: string): Record<any, any> => {
     : {};
 };
 
-export { parseCookies };
+const parseAuthHeader = (header?: string) => {
+  const [type, value] = header ? header.split(' ') : [undefined, undefined];
+  return { type, value };
+};
+
+export { parseCookies, parseAuthHeader };
