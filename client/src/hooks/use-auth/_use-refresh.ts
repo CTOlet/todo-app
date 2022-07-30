@@ -26,6 +26,10 @@ const _useRefresh = (
           // TODO: set timeout depending on access token expiration to refresh the tokens
         })
         .run(),
+
+    onSuccess: () => {
+      // TODO: signin again silently to get access token into signin hook
+    },
   });
 
   return mutation;

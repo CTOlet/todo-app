@@ -9,16 +9,16 @@ const signUp = IO.async(async (user: Pick<User, 'username' | 'password'>) => {
   return axios.post<
     never,
     AxiosResponse<ResponseSuccess, ResponseError>,
-    Pick<User, 'username' | 'password'>
+    typeof user
   >(url, user);
 });
 
-const signIn = IO.async(async (user: Pick<User, 'username' | 'password'>) => {
+const signIn = IO.async(async (user?: Pick<User, 'username' | 'password'>) => {
   const url = urlcat(import.meta.env.VITE_API_BASE_URL, '/users/signin');
   return axios.post<
     never,
     AxiosResponse<ResponseSuccess<{ accessToken: string }>, ResponseError>,
-    Pick<User, 'username' | 'password'>
+    typeof user
   >(url, user);
 });
 

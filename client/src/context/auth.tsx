@@ -12,26 +12,15 @@ import { decodeJWT } from '../utils';
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const signUp = _useSignUp();
-  const signIn = _useSignIn({
-    onMutate: () => {
-      refresh.reset();
-    },
-  });
+  const signIn = _useSignIn();
   const signOut = _useSignOut();
   const refresh = _useRefresh();
 
-  const accessToken =
-    signIn.data?.data?.accessToken || refresh.data?.data?.accessToken;
+  const accessToken = signIn.data?.data?.accessToken;
 
   const user = accessToken
     ? decodeJWT<AccessTokenPayload>(accessToken)
     : undefined;
-
-  const isLoading = signIn.isLoading || refresh.isLoading;
-  const isError = signIn.isError || refresh.isError;
-  const isSuccess = signIn.isSuccess || refresh.isSuccess;
-
-  console.log(isLoading, isError, isSuccess);
 
   return (
     <AuthContext.Provider
@@ -42,9 +31,6 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         refresh,
         accessToken,
         user,
-        isLoading,
-        isError,
-        isSuccess,
       }}
     >
       {children}

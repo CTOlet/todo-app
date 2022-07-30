@@ -7,17 +7,20 @@ const _useSignIn = (
   options?: UseMutationOptions<
     ResponseSuccess<{ accessToken: string }>,
     ResponseError,
-    Pick<User, 'username' | 'password'>
+    Pick<User, 'username' | 'password'> | undefined
   >,
 ) => {
   const mutation = useMutation<
     ResponseSuccess<{ accessToken: string }>,
     ResponseError,
-    Pick<User, 'username' | 'password'>
+    Pick<User, 'username' | 'password'> | undefined
   >({
     ...options,
     mutationKey: [MutationKey.SIGN_IN],
     mutationFn: (user) => signIn.map((r) => r.data).run(user),
+    onSuccess: () => {
+      // TODO: set timeout for token refresh using refresh hook
+    },
   });
 
   return mutation;

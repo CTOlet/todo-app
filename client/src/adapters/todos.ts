@@ -15,7 +15,7 @@ const addTodo = IO.async(
     return axios.post<
       never,
       AxiosResponse<ResponseSuccess, ResponseError>,
-      Omit<Todo, 'id' | 'createdAt' | 'updatedAt'>
+      typeof todo
     >(url, todo);
   },
 );

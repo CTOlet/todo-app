@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import { QueryClientProvider } from 'react-query';
@@ -17,19 +17,12 @@ import {
   Navigate,
 } from 'react-router-dom';
 import { SignIn, SignUp } from './pages';
-import { useAuth } from './hooks/use-auth/use-auth';
 import { AuthProvider } from './context';
 
 configureAxios();
 configureI18n();
 
 const App = () => {
-  const { refresh } = useAuth();
-
-  useEffect(() => {
-    refresh?.mutate();
-  }, []);
-
   return (
     <ErrorBoundary FallbackComponent={Error}>
       <Toaster toastOptions={toastOptions} />

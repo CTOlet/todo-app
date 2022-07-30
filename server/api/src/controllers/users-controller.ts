@@ -48,7 +48,28 @@ const signIn = async (request: Request, response: Response) => {
 
     const user = await getUserFromDB({ username });
     if (!user) {
-      error({ message: t('error_message.user_not_found') });
+      const { refreshToken: currentRefreshTokenClient } = parseCookies(
+        request.headers.cookie,
+      );
+      const currentRefreshTokenServer = await getTokenFromDB({
+        token: currentRefreshTokenClient,
+      });
+
+      const isValidRefreshToken = verifyRefreshToken({
+        token: currentRefreshTokenClient,
+        tokenFromDB: currentRefreshTokenServer,
+      });
+      if (!isValidRefreshToken) {
+        error({ message: t('error_message.authentication_failed') });
+        return;
+      }
+      const user = await getUserFromDB({
+        id: currentRefreshTokenServer.userId,
+      });
+      const accessToken = generateAccessToken({
+        payload: { id: user.id, username },
+      });
+      success({ data: { accessToken } });
       return;
     }
 
