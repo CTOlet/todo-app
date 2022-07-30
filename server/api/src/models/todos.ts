@@ -1,4 +1,4 @@
-import { database as db } from '../services';
+import { database as db } from '../database';
 import { Todo, User } from '../types';
 
 const createTodoInDB = async ({

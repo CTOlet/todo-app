@@ -1,5 +1,5 @@
 import { refreshTokenOptions } from '../config';
-import { database as db } from '../services';
+import { database as db } from '../database';
 import { Token } from '../types';
 
 const createTokenInDB = async ({

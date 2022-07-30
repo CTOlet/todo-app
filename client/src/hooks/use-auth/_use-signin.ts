@@ -1,5 +1,5 @@
 import { useMutation, UseMutationOptions } from 'react-query';
-import { signIn } from '../../services/http';
+import { signIn } from '../../api';
 import { MutationKey } from '../../constants';
 import { ResponseSuccess, ResponseError, User } from '../../types';
 

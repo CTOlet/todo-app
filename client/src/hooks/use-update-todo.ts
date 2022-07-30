@@ -2,7 +2,7 @@ import { useMutation, UseMutationOptions } from 'react-query';
 import { replaceAt } from '../utils';
 import { queryClient } from '../config/react-query';
 import { MutationKey, QueryKey } from '../constants';
-import { updateTodo } from '../services/http';
+import { updateTodo } from '../api';
 import { ResponseSuccess, ResponseError, Todo } from '../types';
 
 const useUpdateTodo = (

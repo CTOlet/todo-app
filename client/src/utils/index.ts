@@ -1,5 +1,3 @@
-import { IOAsync } from 'moneo-ts';
-
 /**
  * Returns true if given value is null or undefined otherwise false.
  *

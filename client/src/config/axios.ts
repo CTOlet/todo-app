@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { MutationKey } from '../constants';
-import { store } from '../services';
 import { queryClient } from './react-query';
 
 const configureAxios = () => {

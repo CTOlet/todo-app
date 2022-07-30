@@ -1,5 +1,5 @@
 import { useMutation, UseMutationOptions } from 'react-query';
-import { refresh } from '../../services/http';
+import { refresh } from '../../api';
 import { MutationKey } from '../../constants';
 import { ResponseSuccess, ResponseError } from '../../types';
 import { AccessTokenPayload } from '../../types/access-token';

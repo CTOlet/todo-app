@@ -1,7 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { IO } from 'moneo-ts';
 import urlcat from 'urlcat';
-import { store } from '../services';
 import { ResponseError, ResponseSuccess, User } from '../types';
 
 const signUp = IO.async(async (user: Pick<User, 'username' | 'password'>) => {
