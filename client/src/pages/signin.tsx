@@ -82,7 +82,9 @@ const SignIn = () => {
                 isFullWidth={true}
                 onClick={() =>
                   signInForm.handleSubmit((signInForm) => {
-                    signIn?.mutate(signInForm);
+                    signIn?.mutateAsync(signInForm).then(() => {
+                      navigate('/todos');
+                    });
                   })()
                 }
               >
