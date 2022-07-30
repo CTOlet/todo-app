@@ -1,5 +1,5 @@
-import { database as db } from '../../services';
-import { User } from '../../types';
+import { database as db } from '../services';
+import { User } from '../types';
 
 const createUserInDB = async ({
   username,

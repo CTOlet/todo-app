@@ -1,5 +1,5 @@
 import { useMutation, UseMutationOptions } from 'react-query';
-import { signOut } from '../../adapters';
+import { signOut } from '../../services/http';
 import { MutationKey } from '../../constants';
 import { ResponseSuccess, ResponseError } from '../../types';
 

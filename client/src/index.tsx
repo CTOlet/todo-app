@@ -4,10 +4,12 @@ import './index.css';
 import { QueryClientProvider } from 'react-query';
 import { Toaster } from 'react-hot-toast';
 import { ErrorBoundary } from 'react-error-boundary';
-import { configureAxios } from './config/axios';
-import { configureI18n } from './config/i18n';
-import { toastOptions } from './config/react-hot-toast';
-import { queryClient } from './config/react-query';
+import {
+  configureAxios,
+  configureI18n,
+  toastOptions,
+  queryClient,
+} from './config';
 import { Error, NotFound, Todos } from './pages';
 import { withAuth, Container, Dialog } from './components';
 import {

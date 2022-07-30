@@ -1,7 +1,7 @@
 import { useMutation, UseMutationOptions } from 'react-query';
 import { queryClient } from '../config/react-query';
 import { MutationKey, QueryKey } from '../constants';
-import { addTodo } from '../adapters';
+import { addTodo } from '../services/http';
 import { ResponseError, ResponseSuccess, Todo } from '../types';
 
 const useAddTodo = (

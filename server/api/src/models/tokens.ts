@@ -1,6 +1,6 @@
-import { refreshTokenOptions } from '../../config';
-import { database as db } from '../../services';
-import { Token } from '../../types';
+import { refreshTokenOptions } from '../config';
+import { database as db } from '../services';
+import { Token } from '../types';
 
 const createTokenInDB = async ({
   userId,

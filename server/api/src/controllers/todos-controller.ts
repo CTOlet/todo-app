@@ -5,7 +5,7 @@ import {
   getTodosByUserFromDB,
   removeTodoFromDB,
   updateTodoInDB,
-} from '../core/database';
+} from '../models';
 
 const postTodo = async (request: Request, response: Response) => {
   const { t } = request;

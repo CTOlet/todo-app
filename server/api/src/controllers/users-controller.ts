@@ -6,8 +6,6 @@ import {
   generateRefreshToken,
   parseCookies,
   verifyRefreshToken,
-  parseAuthHeader,
-  verifyAccessToken,
 } from '../utils';
 import {
   createTokenInDB,
@@ -16,7 +14,7 @@ import {
   getUserFromDB,
   removeTokenFromDB,
   updateTokenInDB,
-} from '../core/database';
+} from '../models';
 import { refreshTokenCookieOptions } from '../config';
 
 const signUp = async (request: Request, response: Response) => {

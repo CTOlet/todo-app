@@ -1,5 +1,5 @@
-import { database as db } from '../../services';
-import { Todo, User } from '../../types';
+import { database as db } from '../services';
+import { Todo, User } from '../types';
 
 const createTodoInDB = async ({
   userId,

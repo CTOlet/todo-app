@@ -8,8 +8,7 @@ import {
 import { AccessTokenPayload } from '../types/access-token';
 import { decodeJWT } from '../utils';
 
-// auth provider for useMutation hooks to share state between components
-
+// provider for react-query useMutation hooks to share state between components
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const signUp = _useSignUp();
   const signIn = _useSignIn();

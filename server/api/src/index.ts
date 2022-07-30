@@ -3,7 +3,7 @@ import helmet from 'helmet';
 import cors from 'cors';
 import middleware from 'i18next-http-middleware';
 import i18next from 'i18next';
-import { configureI18n } from './config/i18n';
+import { configureI18n } from './config';
 import { todosRoutes, usersRoutes } from './routes';
 import dotenv from 'dotenv';
 import { responseMessage } from './middlewares';
