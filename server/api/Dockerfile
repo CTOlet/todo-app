@@ -4,10 +4,10 @@ COPY . .
 RUN npm install
 
 # RUN npm run build
-CMD npm run start
+# CMD npm run start
 
-# initialize db using prisma schema
-ENTRYPOINT npm run prisma:init
+# initialize db using prisma init migration
+ENTRYPOINT npm run prisma:deploy && npm run start
 
 
 # production multi stage

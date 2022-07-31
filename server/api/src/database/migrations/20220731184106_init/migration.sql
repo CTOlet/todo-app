@@ -20,11 +20,25 @@ CREATE TABLE "Todo" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "status" BOOLEAN NOT NULL DEFAULT false,
-    "title" VARCHAR(255) NOT NULL,
-    "description" VARCHAR(255) NOT NULL,
+    "title" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
     "userId" INTEGER NOT NULL,
 
     CONSTRAINT "Todo_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Token" (
+    "id" SERIAL NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "accessToken" TEXT NOT NULL,
+    "accessTokenExpiresOn" TIMESTAMP(3) NOT NULL,
+    "refreshToken" TEXT NOT NULL,
+    "refreshTokenExpiresOn" TIMESTAMP(3) NOT NULL,
+    "userId" INTEGER NOT NULL,
+
+    CONSTRAINT "Token_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -35,3 +49,6 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- AddForeignKey
 ALTER TABLE "Todo" ADD CONSTRAINT "Todo_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Token" ADD CONSTRAINT "Token_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

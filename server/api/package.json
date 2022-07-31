@@ -27,9 +27,11 @@
   "scripts": {
     "build": "tsc",
     "start": "nodemon ./src/index.ts localhost 3001",
+    "prisma:format": "prisma format --schema ./src/database/schema.prisma",
     "prisma:generate": "prisma generate --schema ./src/database/schema.prisma",
     "prisma:init": "prisma migrate dev --schema ./src/database/schema.prisma --name init",
     "prisma:migrate": "prisma migrate dev --schema ./src/database/schema.prisma",
+    "prisma:deploy": "prisma migrate deploy --schema ./src/database/schema.prisma",
     "postinstall": "npm run prisma:generate"
   }
 }
