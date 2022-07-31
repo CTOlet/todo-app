@@ -1,4 +1,7 @@
+import { PrismaClient } from '@prisma/client';
 import { Pool } from 'pg';
+
+const prisma = new PrismaClient();
 
 const database = new Pool({
   user: 'admin',
@@ -8,4 +11,4 @@ const database = new Pool({
   database: 'postgres',
 });
 
-export { database };
+export { prisma, database };
