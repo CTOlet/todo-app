@@ -1,20 +1,26 @@
-import { Token } from '../types';
+import { Token } from '@prisma/client';
 import crypto from 'crypto';
 import { getTimeInSeconds } from './timestamp';
+import { refreshTokenCookieOptions, refreshTokenOptions } from '../config';
 
 const generateRefreshToken = () => {
-  return crypto.randomBytes(48).toString('base64url');
+  return {
+    value: crypto.randomBytes(48).toString('base64url'),
+    expiresOn: refreshTokenOptions.expiresOn,
+    cookieOptions: refreshTokenCookieOptions,
+  };
 };
 
 const verifyRefreshToken = ({
-  token,
-  tokenFromDB,
+  tokenClient,
+  tokenServer,
 }: {
-  token: string;
-  tokenFromDB: Token;
+  tokenClient: string;
+  tokenServer?: Token | null;
 }) => {
-  const isSameToken = token === tokenFromDB.token;
-  const isNotExpired = tokenFromDB.expiresOn > getTimeInSeconds();
+  const isSameToken = tokenClient === tokenServer?.refreshToken;
+  const isNotExpired =
+    (tokenServer?.refreshTokenExpiresOn?.getTime() ?? 0) > Date.now();
   return isSameToken && isNotExpired;
 };
 

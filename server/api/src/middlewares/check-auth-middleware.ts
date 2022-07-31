@@ -11,13 +11,13 @@ const checkAuth = async (
   response: Response,
   next: NextFunction,
 ) => {
-  const { error, success } = response;
+  const { error } = response;
   try {
     const { value: accessToken } = parseAuthHeader(
       request.headers.authorization,
     );
-    const isValieAccessToken = verifyAccessToken(accessToken!);
-    if (isValieAccessToken) {
+    const isValidAccessToken = verifyAccessToken(accessToken!);
+    if (isValidAccessToken) {
       const { id, username } = decodeAccessToken(accessToken!) as JwtPayload;
       request.user = {
         id,

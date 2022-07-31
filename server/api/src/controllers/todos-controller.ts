@@ -1,18 +1,14 @@
+import { prisma } from '../database';
 import { Request, Response } from 'express';
-import {
-  createTodoInDB,
-  getTodoFromDB,
-  getTodosByUserFromDB,
-  removeTodoFromDB,
-  updateTodoInDB,
-} from '../models';
 
 const postTodo = async (request: Request, response: Response) => {
   const { t } = request;
   const { error, success } = response;
   try {
     const { userId, status, title, description } = request.body;
-    await createTodoInDB({ userId, status, title, description });
+    await prisma.todo.create({
+      data: { user: { connect: { id: userId } }, status, title, description },
+    });
     success();
   } catch (e) {
     error({ message: t('error_message.could_not_add_todo') });
@@ -23,8 +19,13 @@ const getTodos = async (request: Request, response: Response) => {
   const { t } = request;
   const { error, success } = response;
   try {
-    const todos = await getTodosByUserFromDB({ id: request.user?.id! });
+    const userId = request.user?.id;
+    const todos = await prisma.todo.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'desc' },
+    });
     success({ data: todos });
+    return;
   } catch (e) {
     error({ message: t('error_message.could_not_get_todo') });
   }
@@ -34,8 +35,11 @@ const getTodo = async (request: Request, response: Response) => {
   const { t } = request;
   const { error, success } = response;
   try {
-    const id = request.params.id;
-    const todo = await getTodoFromDB({ id });
+    const userId = request.user?.id;
+    const todoId = request.params.id;
+    const todo = await prisma.todo.findFirst({
+      where: { userId, AND: { id: parseInt(todoId) } },
+    });
     success({ data: todo });
   } catch (e) {
     error({ message: t('error_message.could_not_get_todo') });
@@ -46,9 +50,16 @@ const putTodo = async (request: Request, response: Response) => {
   const { t } = request;
   const { error, success } = response;
   try {
-    const id = request.params.id;
+    const userId = request.user?.id;
+    const todoId = request.params.id;
     const { status, title, description } = request.body;
-    await updateTodoInDB({ id, status, title, description });
+    const todo = await prisma.todo.findFirst({
+      where: { userId, AND: { id: parseInt(todoId) } },
+    });
+    await prisma.todo.update({
+      where: { id: todo?.id },
+      data: { status, title, description },
+    });
     success();
   } catch (e) {
     error({ message: t('error_message.could_not_update_todo') });
@@ -59,8 +70,14 @@ const deleteTodo = async (request: Request, response: Response) => {
   const { t } = request;
   const { error, success } = response;
   try {
-    const id = request.params.id;
-    await removeTodoFromDB({ id });
+    const userId = request.user?.id;
+    const todoId = request.params.id;
+    const todo = await prisma.todo.findFirst({
+      where: { userId, AND: { id: parseInt(todoId) } },
+    });
+    await prisma.todo.delete({
+      where: { id: todo?.id },
+    });
     success();
   } catch (e) {
     error({ message: t('error_message.could_not_remove_todo') });

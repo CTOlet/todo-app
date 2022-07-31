@@ -7,30 +7,22 @@ import {
   parseCookies,
   verifyRefreshToken,
 } from '../utils';
-import {
-  createTokenInDB,
-  createUserInDB,
-  getTokenFromDB,
-  getUserFromDB,
-  removeTokenFromDB,
-  updateTokenInDB,
-} from '../models';
-import { refreshTokenCookieOptions } from '../config';
+import { prisma } from '../database';
 
 const signUp = async (request: Request, response: Response) => {
   const { t } = request;
   const { error, success } = response;
   try {
     const { username, password } = request.body;
+    const user = await prisma.user.findUnique({ where: { username } });
 
-    const user = await getUserFromDB({ username });
     if (user) {
       error({ message: t('error_message.username_already_taken') });
       return;
     }
 
     const passwordHash = await generatePasswordHash(password);
-    await createUserInDB({ username, password: passwordHash });
+    await prisma.user.create({ data: { username, password: passwordHash } });
 
     success({ message: t('success_message.sign_up_completed') });
   } catch (e) {
@@ -42,38 +34,75 @@ const signIn = async (request: Request, response: Response) => {
   const { t } = request;
   const { error, success } = response;
   try {
+    const { refreshToken } = parseCookies(request.headers.cookie);
     const { username, password } = request.body;
 
-    const user = await getUserFromDB({ username });
-    if (!user) {
-      const { refreshToken } = parseCookies(request.headers.cookie);
-      if (refreshToken) {
-        refresh(request, response);
+    const isWithCredentials = !!username && !!password;
+    const isWithToken = !!refreshToken;
+
+    if (isWithCredentials && isWithToken) {
+      refresh(request, response);
+      return;
+    } else if (isWithCredentials) {
+      const user = await prisma.user.findUnique({ where: { username } });
+
+      if (user) {
+        const isValidPassword = await verifyPasswordHash({
+          password,
+          passwordHash: user.password,
+        });
+
+        if (isValidPassword) {
+          const accessToken = generateAccessToken({
+            payload: { id: user.id, username },
+          });
+          const refreshToken = generateRefreshToken();
+
+          await prisma.token.create({
+            data: {
+              user: { connect: { id: user.id } },
+              accessToken: accessToken.value,
+              accessTokenExpiresOn: new Date(accessToken.expiresOn),
+              refreshToken: refreshToken.value,
+              refreshTokenExpiresOn: new Date(refreshToken.expiresOn),
+            },
+          });
+
+          response.cookie(
+            'refreshToken',
+            refreshToken.value,
+            refreshToken.cookieOptions,
+          );
+          success({ data: { accessToken: accessToken.value } });
+          return;
+        } else {
+          error({ message: t('error_message.wrong_credentials') });
+          return;
+        }
+      } else {
+        error({ message: t('error_message.user_not_found') });
         return;
       }
+    } else if (isWithToken) {
+      const token = await prisma.token.findFirst({
+        where: { refreshToken },
+      });
+      const isValidRefreshToken = verifyRefreshToken({
+        tokenClient: refreshToken,
+        tokenServer: token,
+      });
 
+      if (isValidRefreshToken) {
+        success({ data: { accessToken: token?.accessToken } });
+        return;
+      } else {
+        error({ message: t('error_message.token_expired') });
+        return;
+      }
+    } else {
       error({ message: t('error_message.authentication_failed') });
       return;
     }
-
-    const passwordHash = user.password;
-    const isValidPassword = await verifyPasswordHash({
-      password,
-      passwordHash,
-    });
-    if (!isValidPassword) {
-      error({ message: t('error_message.wrong_credentials') });
-      return;
-    }
-
-    const accessToken = generateAccessToken({
-      payload: { id: user.id, username },
-    });
-    const refreshToken = generateRefreshToken();
-    await createTokenInDB({ userId: user.id, token: refreshToken });
-
-    response.cookie('refreshToken', refreshToken, refreshTokenCookieOptions);
-    success({ data: { accessToken } });
   } catch (e) {
     error({ message: t('error_message.could_not_sign_in') });
   }
@@ -83,52 +112,60 @@ const refresh = async (request: Request, response: Response) => {
   const { t } = request;
   const { error, success } = response;
   try {
-    const { refreshToken: currentRefreshTokenClient } = parseCookies(
-      request.headers.cookie,
-    );
-    const currentRefreshTokenServer = await getTokenFromDB({
-      token: currentRefreshTokenClient,
-    });
+    const { refreshToken } = parseCookies(request.headers.cookie);
+    const token = await prisma.token.findFirst({ where: { refreshToken } });
 
     const isValidRefreshToken = verifyRefreshToken({
-      token: currentRefreshTokenClient,
-      tokenFromDB: currentRefreshTokenServer,
+      tokenClient: refreshToken,
+      tokenServer: token,
     });
-    if (!isValidRefreshToken) {
+
+    if (isValidRefreshToken) {
+      const user = await prisma.user.findUnique({
+        where: { id: token?.userId },
+      });
+      if (user) {
+        const accessToken = generateAccessToken({
+          payload: { id: user.id, username: user.username },
+        });
+        const refreshToken = generateRefreshToken();
+
+        await prisma.token.update({
+          where: { id: token?.id },
+          data: {
+            user: { connect: { id: user.id } },
+            accessToken: accessToken.value,
+            accessTokenExpiresOn: new Date(accessToken.expiresOn),
+            refreshToken: refreshToken.value,
+            refreshTokenExpiresOn: new Date(refreshToken.expiresOn),
+          },
+        });
+
+        response.cookie(
+          'refreshToken',
+          refreshToken,
+          refreshToken.cookieOptions,
+        );
+        success({ data: { accessToken: accessToken.value } });
+      } else {
+        error({ message: t('error_message.user_not_found') });
+        return;
+      }
+    } else {
       error({ message: t('error_message.token_expired') });
       return;
     }
-
-    const user = await getUserFromDB({ id: currentRefreshTokenServer.userId });
-    if (!user) {
-      error({ message: t('error_message.user_not_found') });
-      return;
-    }
-
-    const newAccessToken = generateAccessToken({
-      payload: { id: user.id, username: user.username },
-    });
-    const newRefreshToken = generateRefreshToken();
-    await updateTokenInDB({
-      token: currentRefreshTokenServer.token,
-      newToken: newRefreshToken,
-    });
-
-    response.cookie('refreshToken', newRefreshToken, refreshTokenCookieOptions);
-    success({ data: { accessToken: newAccessToken } });
   } catch (e) {
     error({ message: t('error_message.authentication_failed') });
   }
 };
 
 const signOut = async (request: Request, response: Response) => {
-  const { t } = request;
   const { error, success } = response;
   try {
     const { refreshToken } = parseCookies(request.headers.cookie);
-
-    await removeTokenFromDB({ token: refreshToken });
-
+    const token = await prisma.token.findFirst({ where: { refreshToken } });
+    await prisma.token.delete({ where: { id: token?.id } });
     response.cookie('refreshToken', null, { maxAge: 0 });
     success();
   } catch {

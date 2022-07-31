@@ -7,7 +7,6 @@ import { configureI18n } from './config';
 import { todosRoutes, usersRoutes } from './routes';
 import dotenv from 'dotenv';
 import { responseMessage } from './middlewares';
-import { prisma } from './services';
 
 dotenv.config();
 configureI18n();
