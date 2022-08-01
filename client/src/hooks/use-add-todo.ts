@@ -8,13 +8,13 @@ const useAddTodo = (
   options?: UseMutationOptions<
     ResponseSuccess,
     ResponseError,
-    Omit<Todo, 'id' | 'createdAt' | 'updatedAt'>
+    Omit<Todo, 'id' | 'userId' | 'createdAt' | 'updatedAt'>
   >,
 ) => {
   const mutation = useMutation<
     ResponseSuccess,
     ResponseError,
-    Omit<Todo, 'id' | 'createdAt' | 'updatedAt'>,
+    Omit<Todo, 'id' | 'userId' | 'createdAt' | 'updatedAt'>,
     { previousState?: ResponseSuccess<Todo[]> }
   >({
     ...options,

@@ -10,7 +10,7 @@ import { ResponseError, ResponseSuccess, Todo } from '../types';
  * @returns async io either axios response or throwable
  */
 const addTodo = IO.async(
-  async (todo: Omit<Todo, 'id' | 'createdAt' | 'updatedAt'>) => {
+  async (todo: Omit<Todo, 'id' | 'userId' | 'createdAt' | 'updatedAt'>) => {
     const url = urlcat(import.meta.env.VITE_API_BASE_URL, '/todos');
     return axios.post<
       never,

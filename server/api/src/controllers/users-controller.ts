@@ -10,10 +10,12 @@ import {
 import { prisma } from '../database';
 
 const signUp = async (request: Request, response: Response) => {
-  const { t } = request;
+  const {
+    t,
+    body: { username, password },
+  } = request;
   const { error, success } = response;
   try {
-    const { username, password } = request.body;
     const user = await prisma.user.findUnique({ where: { username } });
 
     if (user) {
@@ -31,11 +33,13 @@ const signUp = async (request: Request, response: Response) => {
 };
 
 const signIn = async (request: Request, response: Response) => {
-  const { t } = request;
+  const {
+    t,
+    body: { username, password },
+  } = request;
   const { error, success } = response;
   try {
     const { refreshToken } = parseCookies(request.headers.cookie);
-    const { username, password } = request.body;
 
     const isWithCredentials = !!username && !!password;
     const isWithToken = !!refreshToken;

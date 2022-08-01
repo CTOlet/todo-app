@@ -42,7 +42,6 @@ const Todos = () => {
               addTodo
                 .mutateAsync({
                   ...todoForm,
-                  userId: user?.id!,
                   status: TodoStatus.OPEN,
                 })
                 .then(() => {

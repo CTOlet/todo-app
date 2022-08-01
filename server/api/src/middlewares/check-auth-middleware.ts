@@ -5,6 +5,7 @@ import {
 } from '../utils';
 import { Request, Response, NextFunction } from 'express';
 import { JwtPayload } from 'jsonwebtoken';
+import { prisma } from '../database';
 
 const checkAuth = async (
   request: Request,
@@ -19,10 +20,8 @@ const checkAuth = async (
     const isValidAccessToken = verifyAccessToken(accessToken!);
     if (isValidAccessToken) {
       const { id, username } = decodeAccessToken(accessToken!) as JwtPayload;
-      request.user = {
-        id,
-        username,
-      };
+      const user = await prisma.user.findUnique({ where: { id } });
+      request.user = user ? user : undefined;
       next();
     } else {
       error({ message: request.t('error_message.authentication_failed') });

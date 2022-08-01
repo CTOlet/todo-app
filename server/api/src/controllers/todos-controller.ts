@@ -2,12 +2,15 @@ import { prisma } from '../database';
 import { Request, Response } from 'express';
 
 const postTodo = async (request: Request, response: Response) => {
-  const { t } = request;
+  const {
+    t,
+    user,
+    body: { status, title, description },
+  } = request;
   const { error, success } = response;
   try {
-    const { userId, status, title, description } = request.body;
     await prisma.todo.create({
-      data: { user: { connect: { id: userId } }, status, title, description },
+      data: { user: { connect: { id: user?.id } }, status, title, description },
     });
     success();
   } catch (e) {
@@ -16,12 +19,11 @@ const postTodo = async (request: Request, response: Response) => {
 };
 
 const getTodos = async (request: Request, response: Response) => {
-  const { t } = request;
+  const { t, user } = request;
   const { error, success } = response;
   try {
-    const userId = request.user?.id;
     const todos = await prisma.todo.findMany({
-      where: { userId },
+      where: { userId: user?.id },
       orderBy: { createdAt: 'desc' },
     });
     success({ data: todos });
@@ -32,13 +34,15 @@ const getTodos = async (request: Request, response: Response) => {
 };
 
 const getTodo = async (request: Request, response: Response) => {
-  const { t } = request;
+  const {
+    t,
+    user,
+    params: { id: todoId },
+  } = request;
   const { error, success } = response;
   try {
-    const userId = request.user?.id;
-    const todoId = request.params.id;
     const todo = await prisma.todo.findFirst({
-      where: { userId, AND: { id: parseInt(todoId) } },
+      where: { userId: user?.id, AND: { id: parseInt(todoId) } },
     });
     success({ data: todo });
   } catch (e) {
@@ -47,14 +51,16 @@ const getTodo = async (request: Request, response: Response) => {
 };
 
 const putTodo = async (request: Request, response: Response) => {
-  const { t } = request;
+  const {
+    t,
+    user,
+    params: { id: todoId },
+    body: { status, title, description },
+  } = request;
   const { error, success } = response;
   try {
-    const userId = request.user?.id;
-    const todoId = request.params.id;
-    const { status, title, description } = request.body;
     const todo = await prisma.todo.findFirst({
-      where: { userId, AND: { id: parseInt(todoId) } },
+      where: { userId: user?.id, AND: { id: parseInt(todoId) } },
     });
     await prisma.todo.update({
       where: { id: todo?.id },
@@ -67,13 +73,15 @@ const putTodo = async (request: Request, response: Response) => {
 };
 
 const deleteTodo = async (request: Request, response: Response) => {
-  const { t } = request;
+  const {
+    t,
+    user,
+    params: { id: todoId },
+  } = request;
   const { error, success } = response;
   try {
-    const userId = request.user?.id;
-    const todoId = request.params.id;
     const todo = await prisma.todo.findFirst({
-      where: { userId, AND: { id: parseInt(todoId) } },
+      where: { userId: user?.id, AND: { id: parseInt(todoId) } },
     });
     await prisma.todo.delete({
       where: { id: todo?.id },
