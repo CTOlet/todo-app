@@ -7,11 +7,9 @@ import { CookieOptions, Response } from 'express';
 
 type AuthorizationOptions = {
   accessToken: {
-    name: string;
     expiresOn: number;
   };
   refreshToken: {
-    name: string;
     expiresOn: number;
   };
 };
@@ -19,9 +17,8 @@ type AuthorizationOptions = {
 const createAuthorization = (options: AuthorizationOptions) => {
   const api = {
     accessToken: {
-      genererate: ({ payload }: { payload: Pick<User, 'id' | 'username'> }) => {
+      generate: ({ payload }: { payload: Pick<User, 'id' | 'username'> }) => {
         return {
-          name: options.accessToken.name,
           value: jwt.sign(payload, process.env.JWT_SECRET!, {
             // library expects seconds instead of milliseconds
             expiresIn: Math.round(
@@ -42,9 +39,8 @@ const createAuthorization = (options: AuthorizationOptions) => {
     },
 
     refreshToken: {
-      genererate: () => {
+      generate: () => {
         return {
-          name: options.refreshToken.name,
           value: crypto.randomBytes(48).toString('base64url'),
           expiresOn: options.refreshToken.expiresOn,
           cookie: {
@@ -86,16 +82,14 @@ const createAuthorization = (options: AuthorizationOptions) => {
         return await bcrypt.compare(password, passwordHash);
       },
     },
-
-    getOptions: () => options,
   };
 
   return api;
 };
 
 const Authorization = createAuthorization({
-  accessToken: { name: 'accessToken', expiresOn: Duration.ONE_HOUR },
-  refreshToken: { name: 'refreshToken', expiresOn: Duration.ONE_DAY },
+  accessToken: { expiresOn: Duration.ONE_HOUR },
+  refreshToken: { expiresOn: Duration.ONE_DAY },
 });
 
 export { Authorization };
