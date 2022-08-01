@@ -6,7 +6,7 @@ const responseMessage = (
   response: Response,
   next: NextFunction,
 ) => {
-  response.error = (options?: { code?: number; message?: string }) => {
+  response.error = (options) => {
     response.status(500).send({
       code: options?.code ?? 500,
       message: options?.message ?? t('error_message.default'),
@@ -14,11 +14,7 @@ const responseMessage = (
     return;
   };
 
-  response.success = <T>(options?: {
-    code?: number;
-    message?: string;
-    data?: T;
-  }) => {
+  response.success = (options) => {
     response.status(200).send({
       code: options?.code ?? 200,
       message: options?.message ?? t('success_message.default'),

@@ -1,8 +1,7 @@
 import { Duration } from '../constants';
-import { getTimeInSeconds } from '../utils';
 
 const accessTokenOptions = {
-  expiresOn: getTimeInSeconds() + Duration.SECONDS.ONE_HOUR,
+  expiresOn: Date.now() + Duration.ONE_HOUR,
 };
 
 export { accessTokenOptions };

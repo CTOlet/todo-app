@@ -1,9 +1,8 @@
 import { CookieOptions } from 'express';
 import { Duration } from '../constants';
-import { getTimeInSeconds } from '../utils';
 
 const refreshTokenOptions = {
-  expiresOn: getTimeInSeconds() + Duration.SECONDS.ONE_DAY,
+  expiresOn: Date.now() + Duration.ONE_DAY,
 };
 
 const refreshTokenCookieOptions = {
@@ -11,7 +10,7 @@ const refreshTokenCookieOptions = {
   // FIXME: only allow https
   // secure: true,
   sameSite: 'strict',
-  maxAge: Duration.SECONDS.ONE_DAY * 1000,
+  maxAge: Date.now() + Duration.ONE_DAY,
 } as CookieOptions;
 
 export { refreshTokenOptions, refreshTokenCookieOptions };

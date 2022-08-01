@@ -1,8 +1,6 @@
 const Duration = {
-  SECONDS: {
-    ONE_HOUR: 60 * 60,
-    ONE_DAY: 60 * 60 * 24,
-  },
+  ONE_HOUR: 60 * 60 * 1000,
+  ONE_DAY: 60 * 60 * 24 * 1000,
 };
 
 export { Duration };

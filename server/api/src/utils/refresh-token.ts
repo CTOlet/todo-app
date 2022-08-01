@@ -1,6 +1,5 @@
 import { Token } from '@prisma/client';
 import crypto from 'crypto';
-import { getTimeInSeconds } from './timestamp';
 import { refreshTokenCookieOptions, refreshTokenOptions } from '../config';
 
 const generateRefreshToken = () => {

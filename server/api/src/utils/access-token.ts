@@ -1,11 +1,15 @@
+import { User } from '@prisma/client';
 import jwt from 'jsonwebtoken';
 import { accessTokenOptions } from '../config';
-import { getTimeInSeconds } from './timestamp';
 
-const generateAccessToken = ({ payload }: { payload: Record<string, any> }) => {
+const generateAccessToken = ({
+  payload,
+}: {
+  payload: Pick<User, 'id' | 'username'>;
+}) => {
   return {
     value: jwt.sign(payload, process.env.JWT_SECRET!, {
-      expiresIn: accessTokenOptions.expiresOn - getTimeInSeconds(),
+      expiresIn: accessTokenOptions.expiresOn / 1000 - Date.now() / 1000,
     }),
     expiresOn: accessTokenOptions.expiresOn,
   };
