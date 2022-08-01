@@ -5,7 +5,7 @@ import crypto from 'crypto';
 import bcrypt from 'bcrypt';
 import { CookieOptions, Response } from 'express';
 
-type AuthorizationServiceOptions = {
+type AuthorizationOptions = {
   accessToken: {
     name: string;
     expiresOn: number;
@@ -16,7 +16,7 @@ type AuthorizationServiceOptions = {
   };
 };
 
-const createAuthorizationService = (options: AuthorizationServiceOptions) => {
+const createAuthorization = (options: AuthorizationOptions) => {
   const api = {
     accessToken: {
       genererate: ({ payload }: { payload: Pick<User, 'id' | 'username'> }) => {
@@ -93,10 +93,10 @@ const createAuthorizationService = (options: AuthorizationServiceOptions) => {
   return api;
 };
 
-const AuthorizationService = createAuthorizationService({
+const Authorization = createAuthorization({
   accessToken: { name: 'accessToken', expiresOn: Duration.ONE_HOUR },
   refreshToken: { name: 'refreshToken', expiresOn: Duration.ONE_DAY },
 });
 
-export { AuthorizationService };
-export type { AuthorizationServiceOptions };
+export { Authorization };
+export type { AuthorizationOptions };
