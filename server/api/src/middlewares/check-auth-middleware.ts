@@ -1,11 +1,8 @@
-import {
-  decodeAccessToken,
-  parseAuthHeader,
-  verifyAccessToken,
-} from '../utils';
+import { parseAuthHeader } from '../utils';
 import { Request, Response, NextFunction } from 'express';
 import { JwtPayload } from 'jsonwebtoken';
 import { prisma } from '../database';
+import { AuthorizationService } from '../services';
 
 const checkAuth = async (
   request: Request,
@@ -17,9 +14,13 @@ const checkAuth = async (
     const { value: accessToken } = parseAuthHeader(
       request.headers.authorization,
     );
-    const isValidAccessToken = verifyAccessToken(accessToken!);
+    const isValidAccessToken = AuthorizationService.accessToken.verify(
+      accessToken!,
+    );
     if (isValidAccessToken) {
-      const { id, username } = decodeAccessToken(accessToken!) as JwtPayload;
+      const { id, username } = AuthorizationService.accessToken.decode(
+        accessToken!,
+      ) as JwtPayload;
       const user = await prisma.user.findUnique({ where: { id } });
       request.user = user ? user : undefined;
       next();

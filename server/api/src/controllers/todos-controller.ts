@@ -79,6 +79,7 @@ const deleteTodo = async (request: Request, response: Response) => {
     params: { id: todoId },
   } = request;
   const { error, success } = response;
+
   try {
     const todo = await prisma.todo.findFirst({
       where: { userId: user?.id, AND: { id: parseInt(todoId) } },

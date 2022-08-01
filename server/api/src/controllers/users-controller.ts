@@ -1,13 +1,7 @@
 import { Request, Response } from 'express';
-import {
-  verifyPasswordHash,
-  generateAccessToken,
-  generatePasswordHash,
-  generateRefreshToken,
-  parseCookies,
-  verifyRefreshToken,
-} from '../utils';
+import { parseCookies } from '../utils';
 import { prisma } from '../database';
+import { AuthorizationService } from '../services';
 
 const signUp = async (request: Request, response: Response) => {
   const {
@@ -23,7 +17,7 @@ const signUp = async (request: Request, response: Response) => {
       return;
     }
 
-    const passwordHash = await generatePasswordHash(password);
+    const passwordHash = await AuthorizationService.password.hash(password);
     await prisma.user.create({ data: { username, password: passwordHash } });
 
     success({ message: t('success_message.sign_up_completed') });
@@ -51,16 +45,16 @@ const signIn = async (request: Request, response: Response) => {
       const user = await prisma.user.findUnique({ where: { username } });
 
       if (user) {
-        const isValidPassword = await verifyPasswordHash({
+        const isValidPassword = await AuthorizationService.password.verify({
           password,
           passwordHash: user.password,
         });
 
         if (isValidPassword) {
-          const accessToken = generateAccessToken({
+          const accessToken = AuthorizationService.accessToken.genererate({
             payload: { id: user.id, username },
           });
-          const refreshToken = generateRefreshToken();
+          const refreshToken = AuthorizationService.refreshToken.genererate();
 
           await prisma.token.create({
             data: {
@@ -73,9 +67,9 @@ const signIn = async (request: Request, response: Response) => {
           });
 
           response.cookie(
-            'refreshToken',
+            refreshToken.name,
             refreshToken.value,
-            refreshToken.cookieOptions,
+            refreshToken.cookie,
           );
           success({ data: { accessToken: accessToken.value } });
           return;
@@ -91,9 +85,10 @@ const signIn = async (request: Request, response: Response) => {
       const token = await prisma.token.findFirst({
         where: { refreshToken },
       });
-      const isValidRefreshToken = verifyRefreshToken({
-        tokenClient: refreshToken,
-        tokenServer: token,
+
+      const isValidRefreshToken = AuthorizationService.refreshToken.verify({
+        token: refreshToken,
+        tokenModel: token,
       });
 
       if (isValidRefreshToken) {
@@ -119,9 +114,9 @@ const refresh = async (request: Request, response: Response) => {
     const { refreshToken } = parseCookies(request.headers.cookie);
     const token = await prisma.token.findFirst({ where: { refreshToken } });
 
-    const isValidRefreshToken = verifyRefreshToken({
-      tokenClient: refreshToken,
-      tokenServer: token,
+    const isValidRefreshToken = AuthorizationService.refreshToken.verify({
+      token: refreshToken,
+      tokenModel: token,
     });
 
     if (isValidRefreshToken) {
@@ -129,10 +124,10 @@ const refresh = async (request: Request, response: Response) => {
         where: { id: token?.userId },
       });
       if (user) {
-        const accessToken = generateAccessToken({
+        const accessToken = AuthorizationService.accessToken.genererate({
           payload: { id: user.id, username: user.username },
         });
-        const refreshToken = generateRefreshToken();
+        const refreshToken = AuthorizationService.refreshToken.genererate();
 
         await prisma.token.update({
           where: { id: token?.id },
@@ -146,9 +141,9 @@ const refresh = async (request: Request, response: Response) => {
         });
 
         response.cookie(
-          'refreshToken',
-          refreshToken,
-          refreshToken.cookieOptions,
+          refreshToken.name,
+          refreshToken.value,
+          refreshToken.cookie,
         );
         success({ data: { accessToken: accessToken.value } });
       } else {
@@ -170,7 +165,9 @@ const signOut = async (request: Request, response: Response) => {
     const { refreshToken } = parseCookies(request.headers.cookie);
     const token = await prisma.token.findFirst({ where: { refreshToken } });
     await prisma.token.delete({ where: { id: token?.id } });
-    response.cookie('refreshToken', null, { maxAge: 0 });
+    const refreshTokenCookieName =
+      AuthorizationService.getOptions().refreshToken.name;
+    response.cookie(refreshTokenCookieName, null, { maxAge: 0 });
     success();
   } catch {
     error();
