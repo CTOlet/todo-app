@@ -3,7 +3,7 @@ import { Duration } from '../constants';
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import bcrypt from 'bcrypt';
-import { CookieOptions, Response } from 'express';
+import { CookieOptions } from 'express';
 
 type AuthorizationOptions = {
   accessToken: {
@@ -48,7 +48,7 @@ const createAuthorization = (options: AuthorizationOptions) => {
             // secure: true,
             httpOnly: true,
             sameSite: 'strict',
-            maxAge: options.refreshToken.expiresOn + Date.now(),
+            maxAge: options.refreshToken.expiresOn - Date.now(),
           } as CookieOptions,
         };
       },
@@ -88,8 +88,8 @@ const createAuthorization = (options: AuthorizationOptions) => {
 };
 
 const Authorization = createAuthorization({
-  accessToken: { expiresOn: Duration.ONE_HOUR },
-  refreshToken: { expiresOn: Duration.ONE_DAY },
+  accessToken: { expiresOn: Date.now() + Duration.ONE_HOUR },
+  refreshToken: { expiresOn: Date.now() + Duration.ONE_DAY },
 });
 
 export { Authorization };

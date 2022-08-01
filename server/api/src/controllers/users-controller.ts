@@ -34,7 +34,9 @@ const signIn = async (request: Request, response: Response) => {
   const { error, success } = response;
   try {
     const { refreshToken } = parseCookies(request.headers.cookie);
-    const user = await prisma.user.findUnique({ where: { username } });
+    const user = username
+      ? await prisma.user.findUnique({ where: { username } })
+      : null;
 
     if (user && refreshToken) {
       error({ message: t('error_message.already_signed_in') });
@@ -159,8 +161,10 @@ const signOut = async (request: Request, response: Response) => {
   try {
     const { refreshToken } = parseCookies(request.headers.cookie);
 
-    const token = await prisma.token.findFirst({ where: { refreshToken } });
-    await prisma.token.delete({ where: { id: token?.id } });
+    if (refreshToken) {
+      const token = await prisma.token.findFirst({ where: { refreshToken } });
+      await prisma.token.delete({ where: { id: token?.id } });
+    }
 
     response.cookie('refreshToken', null, { maxAge: 0 });
     success();
