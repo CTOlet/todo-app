@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { t } from 'i18next';
 
-const responseMessage = async (
+const responseMessage = (
   request: Request,
   response: Response,
   next: NextFunction,
@@ -19,13 +19,11 @@ const responseMessage = async (
     message?: string;
     data?: T;
   }) => {
-    response
-      .status(200)
-      .send({
-        code: options?.code ?? 200,
-        message: options?.message ?? t('success_message.default'),
-        data: options?.data ?? undefined,
-      });
+    response.status(200).send({
+      code: options?.code ?? 200,
+      message: options?.message ?? t('success_message.default'),
+      data: options?.data ?? undefined,
+    });
     return;
   };
   next();
