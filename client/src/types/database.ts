@@ -1,22 +1,21 @@
-import { TodoStatus } from '../constants';
-import { ValueOf } from './helper';
-
 type Todo = {
-  id: string;
-  userId: string;
-  createdAt: number;
-  updatedAt: number;
-  status: ValueOf<typeof TodoStatus>;
+  id: number;
+  createdAt: string;
+  updatedAt: string;
+  status: boolean;
   title: string;
   description: string;
+  userId: number;
 };
 
 type User = {
-  id: string;
-  createdAt: number;
-  updatedAt: number;
+  id: number;
+  createdAt: string;
+  updatedAt: string;
   username: string;
   password: string;
+  email?: string;
+  role: 'USER' | 'ADMIN';
 };
 
 export type { Todo, User };

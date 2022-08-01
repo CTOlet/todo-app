@@ -12,7 +12,6 @@ import { TrashIcon } from '@heroicons/react/outline';
 import { dialog } from '../../services';
 import { TodoForm, TodoFormFields } from './components';
 import { Todo } from '../../types';
-import { TodoStatus } from '../../constants';
 
 const Todos = () => {
   const { t } = useTranslation();
@@ -42,7 +41,7 @@ const Todos = () => {
               addTodo
                 .mutateAsync({
                   ...todoForm,
-                  status: TodoStatus.OPEN,
+                  status: false,
                 })
                 .then(() => {
                   dialog.close();
@@ -116,8 +115,7 @@ const Todos = () => {
   const toggleTodoStatus = (todo: Todo) => {
     updateTodo.mutate({
       ...todo,
-      status:
-        todo.status === TodoStatus.CLOSED ? TodoStatus.OPEN : TodoStatus.CLOSED,
+      status: !todo.status,
     });
   };
 
@@ -149,7 +147,7 @@ const Todos = () => {
                 <div className='flex px-6 py-4 sm:px-6'>
                   <div className='flex items-center p-2'>
                     <Checkbox
-                      isChecked={todo.status === TodoStatus.CLOSED}
+                      isChecked={todo.status}
                       onChange={() => toggleTodoStatus(todo)}
                     />
                   </div>
