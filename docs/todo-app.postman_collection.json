@@ -13,7 +13,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImUxYmIyNzYyLTU5OWYtNGViYS04ZGZjLTE2ZjY1YjYzZjMyYiIsInVzZXJuYW1lIjoiMTIzIiwiaWF0IjoxNjU5MjE1ODkxLCJleHAiOjE2NTkyMTcwOTV9.9hOs6MaA_gdeoQ0saJfOKl2HJNo_8LSvfJkEbxyfsXo",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwidXNlcm5hbWUiOiJyciIsImlhdCI6MTY1OTM4ODU3MiwiZXhwIjoxNjU5MzkxOTkzfQ.eGb3ElWrCerplihv965YsCS0f08HqnmnafaWee05hoY",
 							"type": "string"
 						}
 					]
@@ -22,7 +22,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"userId\": \"e1bb2762-599f-4eba-8dfc-16f65b63f32b\",\n    \"title\": \"title\",\n    \"description\": \"description\",\n    \"status\": \"open\"\n}",
+					"raw": "{\n    \"userId\": 4,\n    \"title\": \"title\",\n    \"description\": \"description\",\n    \"status\": true\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -190,7 +190,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"username\": \"123\",\n    \"password\": \"123\"\n}",
+					"raw": "{\n    \"username\": \"user\",\n    \"password\": \"user\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -218,7 +218,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"username\": \"testtes\",\n    \"password\": \"test123\"\n}",
+					"raw": "{\n    \"username\": \"user\",\n    \"password\": \"user\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
