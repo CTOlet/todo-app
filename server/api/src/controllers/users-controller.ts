@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { parseCookies } from '../utils';
 import { prisma } from '../database';
-import { Authorization } from '../services';
+import { Credential, Session } from '../services';
 
 const signUp = async (request: Request, response: Response) => {
   const {
@@ -17,7 +17,7 @@ const signUp = async (request: Request, response: Response) => {
       return;
     }
 
-    const passwordHash = await Authorization.password.hash(password);
+    const passwordHash = await Credential.hash(password);
     await prisma.user.create({ data: { username, password: passwordHash } });
 
     success({ message: t('success_message.sign_up_completed') });
@@ -44,16 +44,16 @@ const signIn = async (request: Request, response: Response) => {
     }
 
     if (user) {
-      const isValidPassword = await Authorization.password.verify({
+      const isValidPassword = await Credential.compare({
         password,
         passwordHash: user.password,
       });
 
       if (isValidPassword) {
-        const accessToken = Authorization.accessToken.generate({
+        const accessToken = Session.generateAccessToken({
           payload: { id: user.id, username },
         });
-        const refreshToken = Authorization.refreshToken.generate();
+        const refreshToken = Session.generateRefreshToken();
 
         await prisma.token.create({
           data: {
@@ -83,7 +83,7 @@ const signIn = async (request: Request, response: Response) => {
         where: { refreshToken },
       });
 
-      const isValidRefreshToken = Authorization.refreshToken.verify({
+      const isValidRefreshToken = Session.compareRefreshToken({
         token: refreshToken,
         tokenModel: token,
       });
@@ -111,7 +111,7 @@ const refresh = async (request: Request, response: Response) => {
     const { refreshToken } = parseCookies(request.headers.cookie);
     const token = await prisma.token.findFirst({ where: { refreshToken } });
 
-    const isValidRefreshToken = Authorization.refreshToken.verify({
+    const isValidRefreshToken = Session.compareRefreshToken({
       token: refreshToken,
       tokenModel: token,
     });
@@ -121,10 +121,10 @@ const refresh = async (request: Request, response: Response) => {
         where: { id: token?.userId },
       });
       if (user) {
-        const accessToken = Authorization.accessToken.generate({
+        const accessToken = Session.generateAccessToken({
           payload: { id: user.id, username: user.username },
         });
-        const refreshToken = Authorization.refreshToken.generate();
+        const refreshToken = Session.generateRefreshToken();
 
         await prisma.token.update({
           where: { id: token?.id },
