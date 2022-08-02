@@ -19,7 +19,7 @@ import {
   Navigate,
 } from 'react-router-dom';
 import { SignIn, SignUp } from './pages';
-import { AuthProvider } from './context';
+import { AuthenticationProvider } from './context';
 
 configureAxios();
 configureI18n();
@@ -47,9 +47,9 @@ const App = () => {
 ReactDOM.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
+      <AuthenticationProvider>
         <App />
-      </AuthProvider>
+      </AuthenticationProvider>
     </QueryClientProvider>
   </React.StrictMode>,
   document.getElementById('root'),

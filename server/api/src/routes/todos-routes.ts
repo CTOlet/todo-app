@@ -6,14 +6,14 @@ import {
   postTodo,
   putTodo,
 } from '../controllers';
-import { checkAuth } from '../middlewares';
+import { verifyAuthentication } from '../middlewares';
 
 const router = express.Router();
 
-router.post('/', checkAuth, postTodo);
-router.get('/', checkAuth, getTodos);
-router.get('/:id', checkAuth, getTodo);
-router.put('/:id', checkAuth, putTodo);
-router.delete('/:id', checkAuth, deleteTodo);
+router.post('/', verifyAuthentication, postTodo);
+router.get('/', verifyAuthentication, getTodos);
+router.get('/:id', verifyAuthentication, getTodo);
+router.put('/:id', verifyAuthentication, putTodo);
+router.delete('/:id', verifyAuthentication, deleteTodo);
 
 export { router as todosRoutes };

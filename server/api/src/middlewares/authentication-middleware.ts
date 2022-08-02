@@ -4,7 +4,7 @@ import { JwtPayload } from 'jsonwebtoken';
 import { prisma } from '../database';
 import { Session } from '../services';
 
-const checkAuth = async (
+const verifyAuthentication = async (
   request: Request,
   response: Response,
   next: NextFunction,
@@ -16,9 +16,7 @@ const checkAuth = async (
     );
     const isValidAccessToken = Session.verifyAccessToken(accessToken!);
     if (isValidAccessToken) {
-      const { id, username } = Session.decodeAccessToken(
-        accessToken!,
-      ) as JwtPayload;
+      const { id } = Session.decodeAccessToken(accessToken!) as JwtPayload;
       const user = await prisma.user.findUnique({ where: { id } });
       request.user = user ? user : undefined;
       next();
@@ -30,4 +28,4 @@ const checkAuth = async (
   }
 };
 
-export { checkAuth };
+export { verifyAuthentication };

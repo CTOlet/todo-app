@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import urlcat from 'urlcat';
 import { IO } from 'moneo-ts';
-import { ResponseError, ResponseSuccess, Todo } from '../types';
+import { ErrorResponse, SuccessResponse, Todo } from '../types';
 
 /**
  * Add todo to server.
@@ -14,7 +14,7 @@ const addTodo = IO.async(
     const url = urlcat(import.meta.env.VITE_API_BASE_URL, '/todos');
     return axios.post<
       never,
-      AxiosResponse<ResponseSuccess, ResponseError>,
+      AxiosResponse<SuccessResponse, ErrorResponse>,
       typeof todo
     >(url, todo);
   },
@@ -28,7 +28,7 @@ const addTodo = IO.async(
  */
 const getTodo = IO.async(async (id: string) => {
   const url = urlcat(import.meta.env.VITE_API_BASE_URL, `/todos/${id}`);
-  return axios.get<never, AxiosResponse<ResponseSuccess<Todo>, ResponseError>>(
+  return axios.get<never, AxiosResponse<SuccessResponse<Todo>, ErrorResponse>>(
     url,
   );
 });
@@ -42,7 +42,7 @@ const getTodos = IO.async(async () => {
   const url = urlcat(import.meta.env.VITE_API_BASE_URL, '/todos');
   return axios.get<
     never,
-    AxiosResponse<ResponseSuccess<Todo[]>, ResponseError>
+    AxiosResponse<SuccessResponse<Todo[]>, ErrorResponse>
   >(url);
 });
 
@@ -54,7 +54,7 @@ const getTodos = IO.async(async () => {
  */
 const removeTodo = IO.async(async ({ id }: Todo) => {
   const url = urlcat(import.meta.env.VITE_API_BASE_URL, `/todos/${id}`);
-  return axios.delete<never, AxiosResponse<ResponseSuccess, ResponseError>>(
+  return axios.delete<never, AxiosResponse<SuccessResponse, ErrorResponse>>(
     url,
   );
 });
@@ -67,7 +67,7 @@ const removeTodo = IO.async(async ({ id }: Todo) => {
  */
 const updateTodo = IO.async(async (todo: Todo) => {
   const url = urlcat(import.meta.env.VITE_API_BASE_URL, `/todos/${todo.id}`);
-  return axios.put<never, AxiosResponse<ResponseSuccess, ResponseError>, Todo>(
+  return axios.put<never, AxiosResponse<SuccessResponse, ErrorResponse>, Todo>(
     url,
     todo,
   );

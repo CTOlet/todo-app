@@ -1,2 +1,2 @@
-export * from './check-auth-middleware';
-export * from './response-message-middleware';
+export * from './authentication-middleware';
+export * from './response-middleware';

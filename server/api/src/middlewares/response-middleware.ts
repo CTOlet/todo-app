@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { t } from 'i18next';
 
-const responseMessage = (
+const responseStatus = (
   request: Request,
   response: Response,
   next: NextFunction,
@@ -25,4 +25,4 @@ const responseMessage = (
   next();
 };
 
-export { responseMessage };
+export { responseStatus };

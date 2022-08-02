@@ -2,16 +2,16 @@ import { useMutation, UseMutationOptions } from 'react-query';
 import { queryClient } from '../config/react-query';
 import { MutationKey, QueryKey } from '../constants';
 import { removeTodo } from '../api';
-import { ResponseSuccess, ResponseError, Todo } from '../types';
+import { SuccessResponse, ErrorResponse, Todo } from '../types';
 
 const useRemoveTodo = (
-  options?: UseMutationOptions<ResponseSuccess, ResponseError, Todo>,
+  options?: UseMutationOptions<SuccessResponse, ErrorResponse, Todo>,
 ) => {
   const mutation = useMutation<
-    ResponseSuccess,
-    ResponseError,
+    SuccessResponse,
+    ErrorResponse,
     Todo,
-    { previousState?: ResponseSuccess<Todo[]> }
+    { previousState?: SuccessResponse<Todo[]> }
   >({
     ...options,
     mutationKey: [MutationKey.REMOVE_TODO],
@@ -21,17 +21,17 @@ const useRemoveTodo = (
     onMutate: async (removeTodo) => {
       options?.onMutate?.(removeTodo);
       await queryClient.cancelQueries(QueryKey.GET_TODOS);
-      const previousState = queryClient.getQueryData<ResponseSuccess<Todo[]>>(
+      const previousState = queryClient.getQueryData<SuccessResponse<Todo[]>>(
         QueryKey.GET_TODOS,
       );
-      queryClient.setQueryData<ResponseSuccess<Todo[]>>(
+      queryClient.setQueryData<SuccessResponse<Todo[]>>(
         QueryKey.GET_TODOS,
         (state) => {
           const todos = state?.data;
           return {
             ...state,
             data: todos?.filter((todo) => todo.id !== removeTodo.id) ?? [],
-          } as ResponseSuccess<Todo[]>;
+          } as SuccessResponse<Todo[]>;
         },
       );
       return { previousState };

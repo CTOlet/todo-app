@@ -3,16 +3,16 @@ import { replaceAt } from '../utils';
 import { queryClient } from '../config/react-query';
 import { MutationKey, QueryKey } from '../constants';
 import { updateTodo } from '../api';
-import { ResponseSuccess, ResponseError, Todo } from '../types';
+import { SuccessResponse, ErrorResponse, Todo } from '../types';
 
 const useUpdateTodo = (
-  options?: UseMutationOptions<ResponseSuccess, ResponseError, Todo>,
+  options?: UseMutationOptions<SuccessResponse, ErrorResponse, Todo>,
 ) => {
   const mutation = useMutation<
-    ResponseSuccess,
-    ResponseError,
+    SuccessResponse,
+    ErrorResponse,
     Todo,
-    { previousState?: ResponseSuccess<Todo[]> }
+    { previousState?: SuccessResponse<Todo[]> }
   >({
     ...options,
     mutationKey: [MutationKey.UPDATE_TODO],
@@ -22,10 +22,10 @@ const useUpdateTodo = (
     onMutate: async (newTodo) => {
       options?.onMutate?.(newTodo);
       await queryClient.cancelQueries(QueryKey.GET_TODOS);
-      const previousState = queryClient.getQueryData<ResponseSuccess<Todo[]>>(
+      const previousState = queryClient.getQueryData<SuccessResponse<Todo[]>>(
         QueryKey.GET_TODOS,
       );
-      queryClient.setQueryData<ResponseSuccess<Todo[]>>(
+      queryClient.setQueryData<SuccessResponse<Todo[]>>(
         QueryKey.GET_TODOS,
         (state) => {
           const todos = state?.data;
@@ -33,7 +33,7 @@ const useUpdateTodo = (
           return {
             ...state,
             data: replaceAt(todos!, index!, newTodo),
-          } as ResponseSuccess<Todo[]>;
+          } as SuccessResponse<Todo[]>;
         },
       );
       return { previousState };

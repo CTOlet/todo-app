@@ -1,19 +1,17 @@
 import { useMutation, UseMutationOptions } from 'react-query';
 import { refresh } from '../../api';
 import { MutationKey } from '../../constants';
-import { ResponseSuccess, ResponseError } from '../../types';
-import { AccessTokenPayload } from '../../types/access-token';
-import { decodeJWT } from '../../utils';
+import { SuccessResponse, ErrorResponse } from '../../types';
 
 const _useRefresh = (
   options?: UseMutationOptions<
-    ResponseSuccess<{ accessToken: string }>,
-    ResponseError
+    SuccessResponse<{ accessToken: string }>,
+    ErrorResponse
   >,
 ) => {
   const mutation = useMutation<
-    ResponseSuccess<{ accessToken: string }>,
-    ResponseError
+    SuccessResponse<{ accessToken: string }>,
+    ErrorResponse
   >({
     ...options,
     mutationKey: [MutationKey.REFRESH],

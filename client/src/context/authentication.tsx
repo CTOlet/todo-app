@@ -5,11 +5,11 @@ import {
   _useSignOut,
   _useSignUp,
 } from '../hooks/use-auth';
-import { AccessTokenPayload } from '../types/access-token';
+import { AccessTokenPayload } from '../types/session';
 import { decodeJWT } from '../utils';
 
 // provider for react-query useMutation hooks to share state between components
-const AuthProvider = ({ children }: { children: ReactNode }) => {
+const AuthenticationProvider = ({ children }: { children: ReactNode }) => {
   const [timeoutId, setTimeoutId] = useState<number>();
 
   const signUp = _useSignUp();
@@ -48,7 +48,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider
+    <AuthenticationContext.Provider
       value={{
         signUp,
         signIn,
@@ -58,10 +58,10 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       }}
     >
       {children}
-    </AuthContext.Provider>
+    </AuthenticationContext.Provider>
   );
 };
-const AuthContext = createContext<{
+const AuthenticationContext = createContext<{
   signUp?: ReturnType<typeof _useSignUp>;
   signIn?: ReturnType<typeof _useSignIn>;
   signOut?: ReturnType<typeof _useSignOut>;
@@ -69,4 +69,4 @@ const AuthContext = createContext<{
   user?: { id?: string; username?: string; accessToken?: string };
 }>({});
 
-export { AuthContext, AuthProvider };
+export { AuthenticationContext, AuthenticationProvider };

@@ -1,13 +1,13 @@
 import axios, { AxiosResponse } from 'axios';
 import { IO } from 'moneo-ts';
 import urlcat from 'urlcat';
-import { ResponseError, ResponseSuccess, User } from '../types';
+import { ErrorResponse, SuccessResponse, User } from '../types';
 
 const signUp = IO.async(async (user: Pick<User, 'username' | 'password'>) => {
   const url = urlcat(import.meta.env.VITE_API_BASE_URL, '/users/signup');
   return axios.post<
     never,
-    AxiosResponse<ResponseSuccess, ResponseError>,
+    AxiosResponse<SuccessResponse, ErrorResponse>,
     typeof user
   >(url, user);
 });
@@ -16,7 +16,7 @@ const signIn = IO.async(async (user?: Pick<User, 'username' | 'password'>) => {
   const url = urlcat(import.meta.env.VITE_API_BASE_URL, '/users/signin');
   return axios.post<
     never,
-    AxiosResponse<ResponseSuccess<{ accessToken: string }>, ResponseError>,
+    AxiosResponse<SuccessResponse<{ accessToken: string }>, ErrorResponse>,
     typeof user
   >(url, user);
 });
@@ -25,13 +25,13 @@ const refresh = IO.async(async () => {
   const url = urlcat(import.meta.env.VITE_API_BASE_URL, '/users/refresh');
   return axios.post<
     never,
-    AxiosResponse<ResponseSuccess<{ accessToken: string }>, ResponseError>
+    AxiosResponse<SuccessResponse<{ accessToken: string }>, ErrorResponse>
   >(url);
 });
 
 const signOut = IO.async(async () => {
   const url = urlcat(import.meta.env.VITE_API_BASE_URL, '/users/signout');
-  return axios.post<never, AxiosResponse<ResponseSuccess, ResponseError>>(url);
+  return axios.post<never, AxiosResponse<SuccessResponse, ErrorResponse>>(url);
 });
 
 export { signUp, signIn, refresh, signOut };
