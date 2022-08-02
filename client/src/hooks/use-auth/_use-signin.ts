@@ -18,9 +18,6 @@ const _useSignIn = (
     ...options,
     mutationKey: [MutationKey.SIGN_IN],
     mutationFn: (user) => signIn.map((r) => r.data).run(user),
-    onSuccess: () => {
-      // TODO: set timeout for token refresh using refresh hook
-    },
   });
 
   return mutation;

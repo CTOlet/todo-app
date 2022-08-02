@@ -17,19 +17,7 @@ const _useRefresh = (
   >({
     ...options,
     mutationKey: [MutationKey.REFRESH],
-    mutationFn: () =>
-      refresh
-        .map((r) => r.data)
-        .forEach((r) => {
-          const payload = decodeJWT<AccessTokenPayload>(r.data?.accessToken!);
-          console.log(payload);
-          // TODO: set timeout depending on access token expiration to refresh the tokens
-        })
-        .run(),
-
-    onSuccess: () => {
-      // TODO: signin again silently to get access token into signin hook
-    },
+    mutationFn: () => refresh.map((r) => r.data).run(),
   });
 
   return mutation;
