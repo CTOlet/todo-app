@@ -23,6 +23,8 @@ import { Error, NotFound, SignIn, SignUp, Todos } from './pages';
 configureAxios();
 configureI18n();
 
+// TODO: unit tests in general (e.g. jest)
+// TODO: accessiblity in general (e.g. react-aria)
 const App = () => {
   return (
     <ErrorBoundary FallbackComponent={Error}>
