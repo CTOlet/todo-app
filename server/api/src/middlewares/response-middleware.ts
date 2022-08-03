@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { t } from 'i18next';
 
 /**
- * Add helpers for error and success messages to the response object.
+ * Add helpers for error and success status messages to the response object.
  *
  * @param request
  * @param response
