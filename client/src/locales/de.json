@@ -10,8 +10,7 @@
     },
     "error": {
       "title": "Fehler",
-      "text": "Es ist ein unerwarteter Fehler aufgetreten.",
-      "reload": "Seite neuladen"
+      "text": "Es ist ein unerwarteter Fehler aufgetreten."
     },
     "sign_in": {
       "title": "Anmelden",
@@ -27,10 +26,8 @@
     "add": "Hinzufügen",
     "confirm": "Bestätigen",
     "cancel": "Abbrechen",
-    "close": "Schließen",
     "new_todo": "Neues Todo",
     "remove": "Entfernen",
-    "save": "Speichern",
     "update": "Aktualisieren",
     "reload_page": "Seite neuladen",
     "sign_in": "Anmelden",

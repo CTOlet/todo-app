@@ -10,8 +10,7 @@
     },
     "error": {
       "title": "Error",
-      "text": "An unknown error occurred.",
-      "reload": "Reload page"
+      "text": "An unknown error occurred."
     },
     "sign_in": {
       "title": "Sign in",
@@ -27,10 +26,8 @@
     "add": "Add",
     "confirm": "Confirm",
     "cancel": "Cancel",
-    "close": "Close",
     "new_todo": "New todo",
     "remove": "Remove",
-    "save": "Save",
     "update": "Update",
     "reload_page": "Reload page",
     "sign_in": "Sign in",
