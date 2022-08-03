@@ -18,6 +18,11 @@ const createCredentialService = () => {
   };
 };
 
+/**
+ * Credential service for hashing and comparing passwords.
+ *
+ * @returns credential service api
+ */
 const Credential = createCredentialService();
 
 export { Credential };

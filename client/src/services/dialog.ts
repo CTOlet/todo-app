@@ -17,6 +17,13 @@ type DialogElement = {
   autoCloseAfterAction?: boolean;
 };
 
+/**
+ * Global dialog manager which can be used to
+ * create custom app messages. It includes a
+ * queue and subscription handling.
+ *
+ * @returns dialog api
+ */
 const Dialog = () => {
   let dialogs: DialogElement[] = [];
   let subscriptions: ((dialogs: DialogElement[]) => void)[] = [];

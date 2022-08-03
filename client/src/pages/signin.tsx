@@ -108,3 +108,4 @@ const SignIn = () => {
 };
 
 export { SignIn };
+export type { SignInFormFields };

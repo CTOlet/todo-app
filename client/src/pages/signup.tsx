@@ -102,3 +102,4 @@ const SignUp = () => {
 };
 
 export { SignUp };
+export type { SignUpFormFields };

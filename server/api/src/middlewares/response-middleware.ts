@@ -1,6 +1,14 @@
 import { Request, Response, NextFunction } from 'express';
 import { t } from 'i18next';
 
+/**
+ * Add helpers for error and success messages to the response object.
+ *
+ * @param request
+ * @param response
+ * @param next
+ * @returns promise void
+ */
 const responseStatus = (
   request: Request,
   response: Response,

@@ -3,6 +3,12 @@ import { refresh } from '../../api';
 import { MutationKey } from '../../constants';
 import { SuccessResponse, ErrorResponse } from '../../types';
 
+/**
+ * Private implementation. Do not use directly.
+ * Use useAuth hook instead.
+ *
+ * @private
+ */
 const _useRefresh = (
   options?: UseMutationOptions<
     SuccessResponse<{ accessToken: string }>,

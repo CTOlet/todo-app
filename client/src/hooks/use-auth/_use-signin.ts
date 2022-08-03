@@ -3,6 +3,12 @@ import { signIn } from '../../api';
 import { MutationKey } from '../../constants';
 import { SuccessResponse, ErrorResponse, User } from '../../types';
 
+/**
+ * Private implementation. Do not use directly.
+ * Use useAuth hook instead.
+ *
+ * @private
+ */
 const _useSignIn = (
   options?: UseMutationOptions<
     SuccessResponse<{ accessToken: string }>,

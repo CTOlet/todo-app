@@ -68,6 +68,12 @@ const createSessionService = (options: SessionServiceOptions) => {
   };
 };
 
+/**
+ * Session service for generating and verifying refresh tokens
+ * as well as access tokens.
+ *
+ * @returns session service api
+ */
 const Session = createSessionService({
   accessToken: { expiresOn: Date.now() + Duration.ONE_HOUR },
   refreshToken: { expiresOn: Date.now() + Duration.ONE_DAY },

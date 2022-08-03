@@ -3,6 +3,13 @@ import { parseCookies } from '../utils';
 import { prisma } from '../database';
 import { Credential, Session } from '../services';
 
+/**
+ * Sign up and create user if not existing.
+ *
+ * @param request
+ * @param response
+ * @returns promise void
+ */
 const signUp = async (request: Request, response: Response) => {
   const {
     t,
@@ -26,6 +33,14 @@ const signUp = async (request: Request, response: Response) => {
   }
 };
 
+/**
+ * Sign in user if not already signed in and send corresponding
+ * access and refresh tokens.
+ *
+ * @param request
+ * @param response
+ * @returns promise void
+ */
 const signIn = async (request: Request, response: Response) => {
   const {
     t,
@@ -104,6 +119,13 @@ const signIn = async (request: Request, response: Response) => {
   }
 };
 
+/**
+ * Refresh both tokens and send them back.
+ *
+ * @param request
+ * @param response
+ * @returns promise void
+ */
 const refresh = async (request: Request, response: Response) => {
   const { t } = request;
   const { error, success } = response;
@@ -156,6 +178,13 @@ const refresh = async (request: Request, response: Response) => {
   }
 };
 
+/**
+ * Sign out user and remove all tokens.
+ *
+ * @param request
+ * @param response
+ * @returns promise void
+ */
 const signOut = async (request: Request, response: Response) => {
   const { error, success } = response;
   try {

@@ -4,6 +4,15 @@ import { JwtPayload } from 'jsonwebtoken';
 import { prisma } from '../database';
 import { Session } from '../services';
 
+/**
+ * Verify authentication with help of the access token
+ * and hydrate the user on the request object.
+ *
+ * @param request
+ * @param response
+ * @param next
+ * @returns promise void
+ */
 const verifyAuthentication = async (
   request: Request,
   response: Response,

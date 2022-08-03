@@ -4,6 +4,9 @@ type State = {
   version: string;
 };
 
+/**
+ * Store to handle global app state.
+ */
 const store = new Store<State>({
   version: '1.0.0',
 });

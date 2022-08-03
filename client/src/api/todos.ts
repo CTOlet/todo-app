@@ -6,8 +6,8 @@ import { ErrorResponse, SuccessResponse, Todo } from '../types';
 /**
  * Add todo to server.
  *
- * @param todo
- * @returns async io either axios response or throwable
+ * @param todo partial
+ * @returns async io of axios response
  */
 const addTodo = IO.async(
   async (todo: Omit<Todo, 'id' | 'userId' | 'createdAt' | 'updatedAt'>) => {
@@ -23,8 +23,8 @@ const addTodo = IO.async(
 /**
  * Get todo from server.
  *
- * @param id
- * @returns async io either axios response or throwable
+ * @param todo id
+ * @returns async io of axios response including a todo item
  */
 const getTodo = IO.async(async (id: string) => {
   const url = urlcat(import.meta.env.VITE_API_BASE_URL, `/todos/${id}`);
@@ -36,7 +36,7 @@ const getTodo = IO.async(async (id: string) => {
 /**
  * Get all todos from server.
  *
- * @returns async io either axios response or throwable
+ * @returns async io of axios response including a todo list
  */
 const getTodos = IO.async(async () => {
   const url = urlcat(import.meta.env.VITE_API_BASE_URL, '/todos');
@@ -50,7 +50,7 @@ const getTodos = IO.async(async () => {
  * Remove todo from server.
  *
  * @param todo
- * @returns async io either axios response or throwable
+ * @returns async io of axios response
  */
 const removeTodo = IO.async(async ({ id }: Todo) => {
   const url = urlcat(import.meta.env.VITE_API_BASE_URL, `/todos/${id}`);
@@ -63,7 +63,7 @@ const removeTodo = IO.async(async ({ id }: Todo) => {
  * Update todo on server.
  *
  * @param todo
- * @returns async io either axios response or throwable
+ * @returns async io of axios response
  */
 const updateTodo = IO.async(async (todo: Todo) => {
   const url = urlcat(import.meta.env.VITE_API_BASE_URL, `/todos/${todo.id}`);

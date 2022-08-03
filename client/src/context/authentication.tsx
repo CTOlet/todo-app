@@ -8,7 +8,12 @@ import {
 import { AccessTokenPayload } from '../types/session';
 import { decodeJWT } from '../utils';
 
-// provider for react-query useMutation hooks to share state between components
+/**
+ * Provider for react-query useMutation hooks to share state between components.
+ *
+ * @params react children
+ * @returns context provider
+ */
 const AuthenticationProvider = ({ children }: { children: ReactNode }) => {
   const [timeoutId, setTimeoutId] = useState<number>();
 

@@ -8,6 +8,14 @@ const isNil = <T>(value: T | undefined | null): value is undefined | null => {
   return value === undefined || value === null;
 };
 
+/**
+ * Replaces a value at given array position.
+ *
+ * @param array
+ * @param index
+ * @param value new value which will replace the current
+ * @returns new array
+ */
 const replaceAt = <T>(array: T[], index: number, value: T) => {
   if (isNil(array) || (isNil(index) && index !== -1) || isNil(value)) {
     return array;
@@ -16,6 +24,12 @@ const replaceAt = <T>(array: T[], index: number, value: T) => {
   }
 };
 
+/**
+ * Decodes a json web token to get the payload.
+ *
+ * @param token
+ * @returns token payload
+ */
 const decodeJWT = <T extends Record<string, any>>(
   token: string,
 ): Partial<T> => {

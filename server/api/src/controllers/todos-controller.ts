@@ -1,6 +1,13 @@
 import { prisma } from '../database';
 import { Request, Response } from 'express';
 
+/**
+ * Create todo for current user in database.
+ *
+ * @param request
+ * @param response
+ * @returns promise void
+ */
 const postTodo = async (request: Request, response: Response) => {
   const {
     t,
@@ -18,6 +25,13 @@ const postTodo = async (request: Request, response: Response) => {
   }
 };
 
+/**
+ * Get todo list of current user from database.
+ *
+ * @param request
+ * @param response
+ * @returns promise void
+ */
 const getTodos = async (request: Request, response: Response) => {
   const { t, user } = request;
   const { error, success } = response;
@@ -33,6 +47,13 @@ const getTodos = async (request: Request, response: Response) => {
   }
 };
 
+/**
+ * Get todo of current user by id from database.
+ *
+ * @param request
+ * @param response
+ * @returns promise void
+ */
 const getTodo = async (request: Request, response: Response) => {
   const {
     t,
@@ -50,6 +71,13 @@ const getTodo = async (request: Request, response: Response) => {
   }
 };
 
+/**
+ * Update todo of current user in database.
+ *
+ * @param request
+ * @param response
+ * @returns promise void
+ */
 const putTodo = async (request: Request, response: Response) => {
   const {
     t,
@@ -72,6 +100,13 @@ const putTodo = async (request: Request, response: Response) => {
   }
 };
 
+/**
+ * Remove todo of current user from database.
+ *
+ * @param request
+ * @param response
+ * @returns promise void
+ */
 const deleteTodo = async (request: Request, response: Response) => {
   const {
     t,
