@@ -40,7 +40,7 @@ const AuthenticationProvider = ({ children }: { children: ReactNode }) => {
   });
   const refresh = _useRefresh({
     onError: () => clearTimeout(timeoutId),
-    onSuccess: () => signIn.mutate(),
+    onSuccess: () => signIn?.mutate(undefined),
   });
 
   const accessToken = signIn.data?.data?.accessToken;

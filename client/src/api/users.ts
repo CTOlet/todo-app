@@ -24,14 +24,16 @@ const signUp = IO.async(async (user: Pick<User, 'username' | 'password'>) => {
  * @param user credentials (optional)
  * @returns async io of axios response including an access token
  */
-const signIn = IO.async(async (user?: Pick<User, 'username' | 'password'>) => {
-  const url = urlcat(import.meta.env.VITE_API_BASE_URL, '/users/signin');
-  return axios.post<
-    never,
-    AxiosResponse<SuccessResponse<{ accessToken: string }>, ErrorResponse>,
-    typeof user
-  >(url, user);
-});
+const signIn = IO.async(
+  async (user?: Pick<User, 'username' | 'password'> | undefined) => {
+    const url = urlcat(import.meta.env.VITE_API_BASE_URL, '/users/signin');
+    return axios.post<
+      never,
+      AxiosResponse<SuccessResponse<{ accessToken: string }>, ErrorResponse>,
+      typeof user
+    >(url, user);
+  },
+);
 
 /**
  * Refresh user session.

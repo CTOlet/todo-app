@@ -7,7 +7,7 @@ const Auth = (props: { children: ReactNode }) => {
   const { signIn } = useAuth();
 
   useEffect(() => {
-    signIn?.mutate();
+    signIn?.mutate(undefined);
   }, []);
 
   return signIn?.isLoading ? (
