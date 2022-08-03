@@ -1,7 +1,12 @@
 # todo-app
 
-Example Todo App using React / Vite and Docker Microservices. 👨‍💻
+Dockerized todo app with authentication. 👨‍💻
+
+- React frontend
+- Express backend
+- Postgres database
+- Nginx reverse proxy
 
 ## Getting started
 
-Run `docker-compose up`
+Run `docker-compose up` and open `localhost:80` in your browser.
