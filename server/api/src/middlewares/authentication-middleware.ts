@@ -1,8 +1,8 @@
-import { parseAuthHeader } from '../utils';
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { JwtPayload } from 'jsonwebtoken';
 import { prisma } from '../database';
 import { Session } from '../services';
+import { parseAuthHeader } from '../utils';
 
 /**
  * Verify authentication with help of the access token

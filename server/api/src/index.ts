@@ -1,12 +1,12 @@
+import cors from 'cors';
+import dotenv from 'dotenv';
 import express from 'express';
 import helmet from 'helmet';
-import cors from 'cors';
-import middleware from 'i18next-http-middleware';
 import i18next from 'i18next';
+import middleware from 'i18next-http-middleware';
 import { configureI18n } from './config';
-import { todosRoutes, usersRoutes } from './routes';
-import dotenv from 'dotenv';
 import { responseStatus } from './middlewares';
+import { todosRoutes, usersRoutes } from './routes';
 
 dotenv.config();
 configureI18n();

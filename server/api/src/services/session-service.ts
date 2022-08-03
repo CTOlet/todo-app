@@ -1,8 +1,8 @@
 import { Token, User } from '@prisma/client';
-import { Duration } from '../constants';
-import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import { CookieOptions } from 'express';
+import jwt from 'jsonwebtoken';
+import { Duration } from '../constants';
 
 type SessionServiceOptions = {
   accessToken: {

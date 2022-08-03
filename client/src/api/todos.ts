@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
-import urlcat from 'urlcat';
 import { IO } from 'moneo-ts';
+import urlcat from 'urlcat';
 import { ErrorResponse, SuccessResponse, Todo } from '../types';
 
 /**

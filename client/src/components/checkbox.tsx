@@ -1,5 +1,4 @@
 import { CheckIcon } from '@heroicons/react/solid';
-import { useState } from 'react';
 
 type CheckboxProps = {
   label?: string;

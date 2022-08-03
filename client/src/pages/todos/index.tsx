@@ -1,5 +1,7 @@
-import { Checkbox, Spinner, Text, Title } from '../../components';
+import { TrashIcon } from '@heroicons/react/outline';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import { Checkbox, Spinner, Text, Title } from '../../components';
 import {
   useAddTodo,
   useAuth,
@@ -7,11 +9,9 @@ import {
   useRemoveTodo,
   useUpdateTodo,
 } from '../../hooks';
-import { useTranslation } from 'react-i18next';
-import { TrashIcon } from '@heroicons/react/outline';
 import { dialog } from '../../services';
-import { TodoForm, TodoFormFields } from './components';
 import { Todo } from '../../types';
+import { TodoForm, TodoFormFields } from './components';
 
 const Todos = () => {
   const { t } = useTranslation();

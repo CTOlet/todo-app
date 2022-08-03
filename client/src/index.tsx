@@ -1,25 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import { QueryClientProvider } from 'react-query';
-import { Toaster } from 'react-hot-toast';
 import { ErrorBoundary } from 'react-error-boundary';
+import { Toaster } from 'react-hot-toast';
+import { QueryClientProvider } from 'react-query';
+import {
+  BrowserRouter as Router,
+  Navigate,
+  Route,
+  Routes,
+} from 'react-router-dom';
+import { Container, Dialog, withAuth } from './components';
 import {
   configureAxios,
   configureI18n,
-  toastOptions,
   queryClient,
+  toastOptions,
 } from './config';
-import { Error, NotFound, Todos } from './pages';
-import { withAuth, Container, Dialog } from './components';
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-} from 'react-router-dom';
-import { SignIn, SignUp } from './pages';
 import { AuthenticationProvider } from './context';
+import './index.css';
+import { Error, NotFound, SignIn, SignUp, Todos } from './pages';
 
 configureAxios();
 configureI18n();

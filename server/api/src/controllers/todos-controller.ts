@@ -1,5 +1,5 @@
-import { prisma } from '../database';
 import { Request, Response } from 'express';
+import { prisma } from '../database';
 
 /**
  * Create todo for current user in database.

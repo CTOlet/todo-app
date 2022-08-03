@@ -1,7 +1,7 @@
-import { UseMutationOptions, useMutation } from 'react-query';
+import { useMutation, UseMutationOptions } from 'react-query';
 import { signUp } from '../../api';
 import { MutationKey } from '../../constants';
-import { SuccessResponse, ErrorResponse, User } from '../../types';
+import { ErrorResponse, SuccessResponse, User } from '../../types';
 
 /**
  * Private implementation. Do not use directly.

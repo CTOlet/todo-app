@@ -1,7 +1,7 @@
-import { QueryClient, QueryCache, MutationCache } from 'react-query';
-import { toast } from 'react-hot-toast';
-import { t } from 'i18next';
 import { AxiosError } from 'axios';
+import { t } from 'i18next';
+import { toast } from 'react-hot-toast';
+import { MutationCache, QueryCache, QueryClient } from 'react-query';
 
 const errorHandler = (error: unknown) => {
   const customError = (error as AxiosError).response?.data as Error | undefined;

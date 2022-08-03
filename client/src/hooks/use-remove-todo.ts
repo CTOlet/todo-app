@@ -1,8 +1,8 @@
 import { useMutation, UseMutationOptions } from 'react-query';
+import { removeTodo } from '../api';
 import { queryClient } from '../config/react-query';
 import { MutationKey, QueryKey } from '../constants';
-import { removeTodo } from '../api';
-import { SuccessResponse, ErrorResponse, Todo } from '../types';
+import { ErrorResponse, SuccessResponse, Todo } from '../types';
 
 const useRemoveTodo = (
   options?: UseMutationOptions<SuccessResponse, ErrorResponse, Todo>,

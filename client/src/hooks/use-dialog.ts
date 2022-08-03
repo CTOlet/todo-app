@@ -1,4 +1,4 @@
-import { useReducer, useEffect } from 'react';
+import { useEffect, useReducer } from 'react';
 import { dialog } from '../services';
 
 const useDialog = () => {

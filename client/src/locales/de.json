@@ -1,64 +1,64 @@
 {
-  "page": {
-    "todos": {
-      "title": "Todos",
-      "empty": "Keine Todos"
-    },
-    "not_found": {
-      "title": "404",
-      "text": "Seite nicht gefunden."
-    },
-    "error": {
-      "title": "Fehler",
-      "text": "Es ist ein unerwarteter Fehler aufgetreten."
-    },
-    "sign_in": {
-      "title": "Anmelden",
-      "text": "Melden Sie sich an, um fortzufahren.",
-      "sign_up_question": "Sie haben noch keinen Account?"
-    },
-    "sign_up": {
-      "title": "Registrieren",
-      "text": "Registrieren Sie sich, um fortzufahren."
-    }
-  },
   "action": {
     "add": "Hinzufügen",
-    "confirm": "Bestätigen",
     "cancel": "Abbrechen",
+    "confirm": "Bestätigen",
     "new_todo": "Neues Todo",
-    "remove": "Entfernen",
-    "update": "Aktualisieren",
     "reload_page": "Seite neuladen",
+    "remove": "Entfernen",
     "sign_in": "Anmelden",
-    "sign_up": "Registrieren"
+    "sign_up": "Registrieren",
+    "update": "Aktualisieren"
+  },
+  "dialog": {
+    "add_todo": {
+      "text": "Fügen Sie ein neues Todo hinzu.",
+      "title": "Todo hinzufügen"
+    },
+    "remove_todo": {
+      "text": "Dies kann nicht rückgängig gemacht werden.",
+      "title": "Todo entfernen?"
+    },
+    "update_todo": {
+      "text": "Aktualisieren Sie ein vorhandenes Todo.",
+      "title": "Todo aktualisieren"
+    }
   },
   "error_message": {
     "unknown_error": "Es ist ein unerwarteter Fehler aufgetreten."
   },
   "form": {
     "label": {
-      "title": "Titel",
       "description": "Beschreibung",
-      "username": "Benutzername",
-      "password": "Passwort"
+      "password": "Passwort",
+      "title": "Titel",
+      "username": "Benutzername"
     },
     "validation": {
       "required": "Das ist ein Pflichtfeld."
     }
   },
-  "dialog": {
-    "add_todo": {
-      "title": "Todo hinzufügen",
-      "text": "Fügen Sie ein neues Todo hinzu."
+  "page": {
+    "error": {
+      "text": "Es ist ein unerwarteter Fehler aufgetreten.",
+      "title": "Fehler"
     },
-    "update_todo": {
-      "title": "Todo aktualisieren",
-      "text": "Aktualisieren Sie ein vorhandenes Todo."
+    "not_found": {
+      "text": "Seite nicht gefunden.",
+      "title": "404"
     },
-    "remove_todo": {
-      "title": "Todo entfernen?",
-      "text": "Dies kann nicht rückgängig gemacht werden."
+    "sign_in": {
+      "sign_up_question": "Sie haben noch keinen Account?",
+      "text": "Melden Sie sich an, um fortzufahren.",
+      "title": "Anmelden"
+    },
+    "sign_up": {
+      "text": "Registrieren Sie sich, um fortzufahren.",
+      "title": "Registrieren"
+    },
+    "todos": {
+      "empty": "Keine Todos",
+      "title": "Todos"
     }
   }
 }

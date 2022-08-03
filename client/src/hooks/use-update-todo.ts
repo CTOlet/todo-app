@@ -1,9 +1,9 @@
 import { useMutation, UseMutationOptions } from 'react-query';
-import { replaceAt } from '../utils';
+import { updateTodo } from '../api';
 import { queryClient } from '../config/react-query';
 import { MutationKey, QueryKey } from '../constants';
-import { updateTodo } from '../api';
-import { SuccessResponse, ErrorResponse, Todo } from '../types';
+import { ErrorResponse, SuccessResponse, Todo } from '../types';
+import { replaceAt } from '../utils';
 
 const useUpdateTodo = (
   options?: UseMutationOptions<SuccessResponse, ErrorResponse, Todo>,

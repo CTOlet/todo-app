@@ -1,10 +1,10 @@
-import { useNavigate } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { Button, Input, Text, Title } from '../components';
-import { isRequired } from '../validation';
 import { useAuth } from '../hooks';
+import { isRequired } from '../validation';
 
 type SignUpFormFields = {
   username: string;

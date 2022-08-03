@@ -1,18 +1,18 @@
 {
   "error_message": {
+    "already_signed_in": "Bereits angemeldet.",
+    "authentication_failed": "Authentifizierung fehlgeschlagen",
+    "could_not_add_todo": "Todo konnte nicht hinzugefügt werden.",
+    "could_not_get_todo": "Todo konnte nicht geladen werden.",
+    "could_not_remove_todo": "Todo konnte nicht entfernt werden.",
+    "could_not_sign_in": "Einloggen fehlgeschlagen.",
+    "could_not_sign_up": "Registrierung fehlgeschlagen.",
+    "could_not_update_todo": "Todo konnte nicht aktualisiert werden.",
     "default": "Es ist ein unerwarteter Fehler aufgetreten.",
     "token_expired": "Token ist abgelaufen.",
-    "authentication_failed": "Authentifizierung fehlgeschlagen",
-    "wrong_credentials": "Zugangsdaten ungültig.",
-    "username_already_taken": "Benutzername bereits vergeben.",
     "user_not_found": "Benutzer konnte nicht gefunden werden.",
-    "already_signed_in": "Bereits angemeldet.",
-    "could_not_sign_up": "Registrierung fehlgeschlagen.",
-    "could_not_sign_in": "Einloggen fehlgeschlagen.",
-    "could_not_get_todo": "Todo konnte nicht geladen werden.",
-    "could_not_add_todo": "Todo konnte nicht hinzugefügt werden.",
-    "could_not_update_todo": "Todo konnte nicht aktualisiert werden.",
-    "could_not_remove_todo": "Todo konnte nicht entfernt werden."
+    "username_already_taken": "Benutzername bereits vergeben.",
+    "wrong_credentials": "Zugangsdaten ungültig."
   },
   "success_message": {
     "default": "Anfrage erfolgreich.",

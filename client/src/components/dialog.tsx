@@ -1,8 +1,8 @@
-import { Button } from './button';
-import { useTransition, animated, easings } from 'react-spring';
 import { useTranslation } from 'react-i18next';
+import { animated, easings, useTransition } from 'react-spring';
 import { DialogType } from '../constants';
 import { useDialog } from '../hooks/use-dialog';
+import { Button } from './button';
 
 const Dialog = () => {
   const { t } = useTranslation();

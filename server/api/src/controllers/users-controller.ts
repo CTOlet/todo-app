@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { parseCookies } from '../utils';
 import { prisma } from '../database';
 import { Credential, Session } from '../services';
+import { parseCookies } from '../utils';
 
 /**
  * Sign up and create user if not existing.
