@@ -44,7 +44,7 @@ const createSessionService = (options: SessionServiceOptions) => {
         value: crypto.randomBytes(48).toString('base64url'),
         expiresOn: options.refreshToken.expiresOn,
         cookie: {
-          // FIXME: only allow https
+          // TODO: only allow https
           // secure: true,
           httpOnly: true,
           sameSite: 'strict',
