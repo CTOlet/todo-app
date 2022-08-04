@@ -9,10 +9,10 @@ Dockerized todo app with authentication. 👨‍💻
 
 ## Images
 <p align="center">
-<img width="400" alt="Bildschirmfoto 2022-08-03 um 21 25 42" src="https://user-images.githubusercontent.com/67900846/182692565-3c5dd463-2661-4d32-bf3f-da35d9eaef1c.png">
-<img width="400" alt="Bildschirmfoto 2022-08-03 um 21 24 27" src="https://user-images.githubusercontent.com/67900846/182692583-92538925-e0cc-4b22-9e62-1f2fc48e06d7.png">
-<img width="400" alt="Bildschirmfoto 2022-08-03 um 21 24 52" src="https://user-images.githubusercontent.com/67900846/182692595-a67ffea8-c846-4b3b-8a20-b9f20d82734a.png">
-<img width="400" alt="Bildschirmfoto 2022-08-03 um 21 25 10" src="https://user-images.githubusercontent.com/67900846/182692604-cdcc27af-aebc-4d29-a6bd-a65e15b8de5f.png">
+<img width="400" alt="Bildschirmfoto 2022-08-04 um 07 39 46" src="https://user-images.githubusercontent.com/67900846/182771243-0155f1de-0b01-4e4e-9bed-291e0819dc10.png">
+<img width="400" alt="Bildschirmfoto 2022-08-04 um 07 38 42" src="https://user-images.githubusercontent.com/67900846/182771254-2e3ef70a-0560-4e5f-8ead-88ac4f510820.png">
+<img width="400" alt="Bildschirmfoto 2022-08-04 um 07 39 04" src="https://user-images.githubusercontent.com/67900846/182771266-2f5a357b-7cbf-4735-b5e6-be347cfe8968.png">
+<img width="400" alt="Bildschirmfoto 2022-08-04 um 07 39 25" src="https://user-images.githubusercontent.com/67900846/182771275-f33811ff-bec3-4c4b-8c6a-9fbd38f7f977.png">
 </p>
 
 
