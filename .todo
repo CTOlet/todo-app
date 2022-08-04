@@ -1,0 +1,4 @@
+- [ ] multi-stage dockerfile for dev and prod
+- [ ] unit tests with jest
+- [ ] accessibility with react-aria
+- [ ] refresh token cookie should be secure (https) only
