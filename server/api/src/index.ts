@@ -15,7 +15,7 @@ const app = express();
 const port = 3001;
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({ credentials: true, origin: ['http://localhost:3000'] }));
 app.use(helmet());
 app.use(middleware.handle(i18next));
 app.use(responseStatus);
